@@ -1,0 +1,1093 @@
+#+TITLE: Brett Witty's Emacs configuration
+#+OPTIONS: toc:4 h:4
+#+OPTIONS: tags:nil
+#+STARTUP: overview
+#+PROPERTY: tangle yes
+#+EXCLUDE_TAGS: noexport
+
+* Configuration
+
+This is inspired by Sacha Chua's configuration file.
+
+To load this, run =(org-babel-load-file "~/bew_config.org")=.
+
+* About me
+
+** Personal information
+
+#+begin_src emacs-lisp
+  (setq user-full-name "Brett Witty"
+        user-mail-address "brettwitty@brettwitty.net")
+#+end_src
+
+* Startup                                                           :startup:
+
+** Add my emacs directories
+
+These are my standard add-on library paths
+
+#+begin_src emacs-lisp
+  (add-to-list 'load-path (expand-file-name "~/"))
+  (add-to-list 'load-path (expand-file-name "~/libraries/"))
+  (add-to-list 'load-path "~/elisp")
+  (add-to-list 'load-path "~/libraries/")
+  (require 'color-theme)
+#+end_src
+
+** Start up configuration
+
+Get rid of the startup screen.
+
+#+begin_src emacs-lisp
+  (setq inhibit-startup-screen t)
+#+end_src
+
+** Emacs customize
+
+It's better to just chuck everything into this file, but sometimes Customize is too easy to use.
+
+#+begin_src emacs-lisp
+  (setq custom-file "~/bew_custom.el")
+  (load-file custom-file)
+#+end_src
+
+* Global configuration
+** BrettW custom settings
+
+#+begin_src emacs-lisp
+  (defvar brettw/default-screen-width 120)
+  (defvar brettw/default-screen-height 70)
+#+end_src
+
+** Global mode
+
+We like these global modes.
+
+#+begin_src emacs-lisp
+(global-font-lock-mode t)
+(delete-selection-mode t)
+(auto-compression-mode t)
+(display-time-mode t)
+(line-number-mode t)
+(show-paren-mode t)
+(transient-mark-mode t)
+(recentf-mode t)
+(global-ede-mode t)
+(ido-mode t)
+#+end_src
+
+YASnippet needs some of its own customization.
+#+begin_src emacs-lisp
+  (require 'yasnippet)
+  (setq yas/snippet-dirs '("~/snippets" "~/libraries/yasnippet/snippets/" ))
+  (yas/global-mode 1)
+#+end_src
+
+** Packages
+
+#+begin_src emacs-lisp
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+#+end_src
+
+** Coding systems
+
+We only like UTF-8 because the alternatives are rubbish.
+#+begin_src emacs-lisp
+  (prefer-coding-system 'utf-8)
+  (setq coding-system-for-read 'utf-8
+        coding-system-for-write 'utf-8)
+#+end_src
+
+** Display options
+*** Color theme
+
+Use my custom color theme.
+
+#+begin_src emacs-lisp
+  (load-theme 'ample t)
+#+end_src
+
+*** Window decorations
+
+Set the window up how we like it.
+#+begin_src emacs-lisp
+  (setq-default cursor-type 'bar)
+  
+  (setq scroll-bar-mode 'right
+        use-dialog-box nil
+          use-file-dialog nil
+          cursor-type 'bar
+    )
+#+end_src
+
+*** Snappier updates
+
+This hack apparently makes things snappier.
+#+begin_src emacs-lisp
+(setq redisplay-dont-pause 1)
+#+end_src
+
+** Input
+
+*** Clipboard
+
+Let Emacs play with the clipboard.
+
+#+begin_src emacs-lisp
+(setq x-select-enable-clipboard t)
+#+end_src
+
+*** Parentheses
+
+Use the shiny autopair module.
+#+begin_src emacs-lisp
+(require 'autopair)
+(autopair-global-mode 1)
+#+end_src
+
+*** Keyboard settings
+
+I'd like these Windows keys to work, but they don't.
+
+#+begin_src emacs-lisp
+(w32-register-hot-key [A-tab])
+(w32-register-hot-key [s-o])
+#+end_src
+
+*** Mouse settings
+
+Get the right amount of mouse scrolling.
+
+#+begin_src emacs-lisp
+  (setq mouse-wheel-scroll-amount '(1)
+        mouse-wheel-scroll-progressive-speed nil)
+#+end_src
+
+** Backups
+
+We want to control and minimize Emacs backups.
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist `(("." . "~/backup/")))
+  (setq backup-by-copying t
+        delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t)
+#+end_src
+
+** Recent files
+
+Set up the recent files.
+
+#+begin_src emacs-lisp
+(setq recentf-menu-path nil
+      recentf-menu-title "Recent files"
+      recentf-max-saved-items 100)
+
+(add-to-list 'recentf-exclude "\\.ido\\.last\\'")
+(add-to-list 'recentf-exclude ".*\\.el\\'")
+(add-to-list 'recentf-exclude "archive-contents\\'")
+(add-to-list 'recentf-exclude "checksums\\.dat\\'")
+#+end_src
+
+** Help
+
+We customize help just a tad.
+#+begin_src emacs-lisp
+  (setq apropos-compact-layout t
+        apropos-do-all t
+        help-window-select t)
+#+end_src
+
+** General completion
+
+#+begin_src emacs-lisp
+  (add-hook 'minibuffer-exit-hook
+            '(lambda ()
+               (let ((buffer "*Completions*"))
+                 (and (get-buffer buffer)
+                      (kill-buffer buffer)))
+  ))
+#+end_src
+
+** Filename completion
+
+*** Ignored extensions
+
+Ignore these files because we're unlikely to open them in Emacs.
+
+#+begin_src emacs-lisp
+  (setq completion-ignored-extensions
+        '(".o" ".elc" "~" ".bin" ".dvi" ".toc" ".aux" ".ps" ".blg" ".bbl" ".idx"))
+#+end_src
+
+** Miscellaneous editing options
+*** Disabled warnings
+
+#+begin_src emacs-lisp
+(put 'downcase-region 'disabled nil)
+#+end_src
+
+*** Don't kill scratch
+
+#+begin_src emacs-lisp
+  (defadvice kill-buffer (around kill-buffer-around-advice activate)
+    (let ((buffer-to-kill (ad-get-arg 0)))
+      (if (equal buffer-to-kill "*scratch*")
+          (bury-buffer)
+        ad-do-it))
+  )
+#+end_src
+
+*** Default directory
+
+#+begin_src emacs-lisp
+(setq default-directory "~/")
+#+end_src
+
+*** Change "yes or no" to "y or n"
+
+#+begin_src emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+*** Feedback
+
+Don't flash at me.
+
+#+begin_src emacs-lisp
+(setq visible-bell nil)
+#+end_src
+
+Don't truncate lines in the message log.
+
+#+begin_src emacs-lisp
+(setq message-log-max t)
+#+end_src
+
+** Keys
+
+*** Unbindings
+
+Out of the box, I find these distasteful.
+
+#+begin_src emacs-lisp
+(global-unset-key (kbd "C-x C-n"))
+(global-unset-key (kbd "C-_"))
+(global-unset-key (kbd "<C-next>"))
+(global-unset-key (kbd "<C-previous>"))
+(global-unset-key (kbd "C-z"))
+#+end_src
+
+*** Bindings
+
+These are globally useful things.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x C-M-f") 'find-file-at-point)
+
+(global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
+(global-set-key (kbd "<C-kp-subtract>") 'text-scale-decrease)
+
+(global-set-key (kbd "C-`") 'brettw/widescreen)
+(global-set-key (kbd "C-c d") 'brettw/duplicate-line-or-region)
+
+(global-set-key (kbd "<home>") 'smart-beginning-of-line)
+#+end_src
+
+I use these on Linux systems, but can't on Windows.
+#+begin_src emacs-lisp
+(global-set-key (kbd "<s-up>") 'windmove-up)
+(global-set-key (kbd "<s-down>") 'windmove-down)
+(global-set-key (kbd "<s-left>") 'windmove-left)
+(global-set-key (kbd "<s-right>") 'windmove-right)
+#+end_src
+
+
+Run an eshell from anywhere.
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-M-s") 'eshell)
+#+end_src
+
+* Helper functions
+
+Here's a bunch of minimal, globally-useful functions.
+
+** Byte-compile emacs-lisp files to speed up Emacs loading
+
+#+begin_src emacs-lisp
+  (defun brettw/byte-recompile ()
+    (interactive)
+    (byte-recompile-directory "~/emacs" 0)
+  )
+#+end_src
+
+** =insert-current-timestamp=
+
+Insert the current timestamp in Year-month-day format.
+
+#+begin_src emacs-lisp
+  (defun insert-current-timestamp ()
+    "Spit out the current time in Y-m-d format."
+    (interactive)
+    (insert (format-time-string "%Y-%m-%d"))
+  )
+#+end_src
+
+** =insert-signature=
+
+Insert a textual signature into a file.
+
+#+begin_src emacs-lisp
+  (defun insert-signature ()
+    "Spit out my name, email and current time."
+    (interactive)
+    (insert "-- " user-full-name " (" user-mail-address ")  ")
+    (insert-current-timestamp)
+  )
+#+end_src
+
+** =insert-file-name=
+
+Ask/browse for a filename and insert it into the buffer at the point.
+
+#+begin_src emacs-lisp
+  (defun insert-file-name (file &optional relativep)
+    "Read file name and insert it at point.
+  With a prefix argument, insert only the non-directory part."
+    (interactive "fFile: \nP")
+    (when relativep (setq file (file-name-nondirectory file)))
+    (insert file))
+#+end_src
+
+** =insert-current-directory-name=
+
+Insert the name of the current directory.
+
+#+begin_src emacs-lisp
+  (defun insert-current-directory-name ()
+    "Insert the name of the current directory."
+    (interactive)
+    (insert (file-name-directory (buffer-file-name)))
+  )
+#+end_src
+
+** =rename-file-and-buffer=
+
+I've stolen this from Steve Yegge. It renames the current file and buffer.
+
+#+begin_src emacs-lisp
+  (defun rename-file-and-buffer (new-name)
+    "Rename both current buffer and file it's visiting to NEW-NAME."
+    (interactive "sNew name: ")
+    (let ((name (buffer-name))
+          (filename (buffer-file-name)))
+      (if (not filename)
+          (message "Buffer '%s' is not visiting a file!" name)
+        (if (get-buffer new-name)
+            (message "A buffer named '%s' already exists!" new-name)
+          (progn
+            (rename-file name new-name 1)
+            (rename-buffer new-name)
+            (set-visited-file-name new-name)
+            (set-buffer-modifier-p nil)
+            ))))
+  )
+#+end_src
+
+** =reload-buffer=
+
+This reverts a buffer without confirmation.
+#+begin_src emacs-lisp
+  (defun reload-buffer ()
+    "revert-buffer without confirmation."
+    (interactive)
+    (revert-buffer t t))
+#+end_src
+
+** =string-strip-chars=
+
+Take a string and strip out all the characters from a second string.
+
+#+begin_src emacs-lisp
+  (defun string-strip-chars (string strip)
+    "Take STRING and remove characters in STRIP."
+    (while (> (length strip) 0)
+      (let ((pos 0))
+        (setq pos (string-match (substring strip 0 1) string pos))
+        (while (not (eq pos nil))
+          (setq string (concat (substring string 0 pos)
+                               (substring string (+ pos 1))))
+          (setq pos (string-match (substring strip 0 1) string pos)))
+        (setq strip (substring strip 1))))
+    string)
+#+end_src
+** =brettw/resize-window=
+
+This resizes the current window to the "correct" size.
+
+#+begin_src emacs-lisp
+  (defun brettw/resize-window ()
+    "Resize the frame to defaults."
+    (interactive)
+    (if (window-system)
+        (set-frame-size (selected-frame) brettw/default-screen-width brettw/default-screen-height)
+      )
+    )
+#+end_src
+
+** =brettw/widescreen=
+
+Resize the current window to double the normal width.
+
+#+begin_src emacs-lisp
+  (defun brettw/widescreen ()
+    "Resize the frame to defaults."
+    (interactive)
+    (if (= (frame-width) brettw/default-screen-width)
+        (progn
+          (set-frame-size (selected-frame) (* 2 brettw/default-screen-width) brettw/default-screen-height)
+          (split-window-horizontally)
+          )
+      (progn 
+        (set-frame-size (selected-frame) brettw/default-screen-width brettw/default-screen-height)
+        (delete-other-windows)
+        )
+      )
+    )
+#+end_src
+
+
+*** Startup                                                         :startup:
+
+We typically want this during startup, so let's call it now.
+
+#+begin_src emacs-lisp
+(brettw/resize-window)
+#+end_src
+
+** =count-words=
+
+#+begin_src emacs-lisp
+(defun count-words ()
+  (interactive)
+  (message "%d words"
+           (if (use-region-p)
+               (how-many "\\<\\w*\\>" (region-beginning) (region-end))
+             (how-many "\\<\\w*\\>" (buffer-end -1) (buffer-end 1))
+             )
+           )
+)
+#+end_src
+
+** =duplicate-line-or-region=
+
+#+begin_src emacs-lisp
+  (defun brettw/duplicate-line-or-region (&optional n)
+    "Duplicate current line, or region if active.
+  With argument N, make N copies.
+  With negative N, comment out original line and use the absolute value."
+    (interactive "*p")
+    (let ((use-region (use-region-p)))
+      (save-excursion
+        (let ((text (if use-region
+                        (buffer-substring (region-beginning) (region-end))
+                      (prog1 (thing-at-point 'line)
+                        (end-of-line)
+                        (if (< 0 (forward-line 1))
+                            (newline))))))
+          (dotimes (i (abs (or n 1)))
+            (insert text))))
+      (if use-region nil
+        (let ((pos (- (point) (line-beginning-position))))
+          (if (> 0 n)
+              (comment-region (line-beginning-position) (line-end-position)))
+          (forward-line 1)
+          (forward-char pos)))))
+#+end_src
+
+** =smart-beginning-of-line=
+
+I stole this from http://stackoverflow.com/a/145359
+
+#+begin_src emacs-lisp
+(defun smart-beginning-of-line ()
+  "Move point to first non-whitespace character or beginning-of-line.
+
+Move point to the first non-whitespace character on this line.
+If point was already at that position, move point to beginning of line."
+  (interactive "^")
+  (let ((oldpos (point)))
+    (back-to-indentation)
+    (and (= oldpos (point))
+         (beginning-of-line))))
+#+end_src
+
+
+* Text editing
+** General options
+
+Sentences should only have a single space at the end.
+
+#+BEGIN_SRC emacs-lisp
+  (setq sentence-end-double-space nil)
+#+END_SRC
+
+* Diary and calendar
+
+** Diary
+
+My diary is at =~/diary/main.txt=, and anything in the =/diary/= directory is also diary-related.
+
+#+BEGIN_SRC emacs-lisp
+  (setq diary-file "~/diary/main.txt")
+  (add-to-list 'auto-mode-alist `(,(expand-file-name "~/org/diary/") . diary-mode))
+#+END_SRC
+
+** General settings
+
+#+begin_src emacs-lisp
+(setq calendar-date-style 'european)
+
+(add-hook 'diary-list-entries-hook 'diary-sort-entries t)
+(add-hook 'diary-list-entries-hook 'diary-include-other-diary-files)
+(add-hook 'diary-mark-entries-hook 'diary-mark-included-diary-files)
+#+end_src
+
+* Org
+
+** Modules
+
+#+BEGIN_SRC emacs-lisp
+(setq org-modules '(
+                    org-bibtex
+                    org-e-beamer
+                    org-expiry
+                    org-habit
+                    org-info
+                    org-interactive-query
+                    org-mouse
+                    org-toc
+                    )
+      )
+#+END_SRC
+
+We require the mighty org-babel module.
+
+#+begin_src emacs-lisp
+(require 'ob)
+#+end_src
+
+** General settings
+
+These are a few miscellaneous settings to make things work how I like them.
+
+#+begin_src emacs-lisp
+  (setq org-log-into-drawer t
+        org-log-states-order-reversed nil
+        org-support-shift-select t
+        org-tags-sort-function (quote string<)
+        org-yank-adjusted-subtrees t
+        org-startup-with-inline-images nil
+  
+        org-refile 'time
+        org-log-reschedule 'time
+  
+        org-use-speed-commands t
+  )
+#+end_src
+
+*** Comments
+
+#+begin_src emacs-lisp
+  (add-to-list 'org-structure-template-alist '("C" "#+BEGIN_COMMENT\n\n#+END_COMMENT" "<!--\n\n-->"))
+#+end_src
+
+
+*** Faces
+
+#+begin_src emacs-lisp
+(eval-after-load 'org-faces
+ '(progn
+    (defcustom org-todo-keyword-faces nil
+      "Faces for specific TODO keywords.
+This is a list of cons cells, with TODO keywords in the car and
+faces in the cdr.  The face can be a symbol, a color, or a
+property list of attributes, like (:foreground \"blue\" :weight
+bold :underline t)."
+      :group 'org-faces
+      :group 'org-todo
+      :type '(repeat
+              (cons
+               (string :tag "Keyword")
+               (choice color (sexp :tag "Face")))))))
+
+(eval-after-load 'org
+ '(progn
+    (defun org-get-todo-face-from-color (color)
+      "Returns a specification for a face that inherits from org-todo
+ face and has the given color as foreground. Returns nil if
+ color is nil."
+      (when color
+        `(:inherit org-warning :foreground ,color)))
+
+    (defun org-get-todo-face (kwd)
+      "Get the right face for a TODO keyword KWD.
+If KWD is a number, get the corresponding match group."
+      (if (numberp kwd) (setq kwd (match-string kwd)))
+      (or (let ((face (cdr (assoc kwd org-todo-keyword-faces))))
+            (if (stringp face)
+                (org-get-todo-face-from-color face)
+              face))
+          (and (member kwd org-done-keywords) 'org-done)
+          'org-todo))))
+#+end_src
+
+Now the actual settings:
+
+#+begin_src emacs-lisp
+  (setq org-todo-keyword-faces
+        '(("STARTED" . "dark orange")
+          ("WAITING" . "red4")
+          ("CANCELLED" . "saddle brown"))
+  )
+#+end_src
+
+** Functions
+
+Many of these functions are taken from [[http://orgmode.org/worg/index.html][Worg]].
+
+*** Fix broken schedule/deadline markup
+
+This will repair broken SCHEDULED and DEADLINE markup.
+
+#+BEGIN_SRC emacs-lisp
+(defun org-check-misformatted-subtree ()
+  "Check misformatted entries in the current buffer."
+  (interactive)
+  (show-all)
+  (org-map-entries
+   (lambda ()
+     (when (and (move-beginning-of-line 2)
+                (not (looking-at org-heading-regexp)))
+       (if (or (and (org-get-scheduled-time (point))
+                    (not (looking-at (concat "^.*" org-scheduled-regexp))))
+               (and (org-get-deadline-time (point))
+                    (not (looking-at (concat "^.*" org-deadline-regexp)))))
+           (when (y-or-n-p "Fix this subtree? ")
+             (message "Call the function again when you're done fixing this subtree.")
+             (recursive-edit))
+         (message "All subtrees checked."))))))
+#+END_SRC
+
+*** Mark a headline done when all its checkboxes are checked
+
+#+begin_src emacs-lisp
+(eval-after-load 'org-list
+  '(add-hook 'org-checkbox-statistics-hook (function brettw/checkbox-list-complete)))
+
+(defun brettw/checkbox-list-complete ()
+  (save-excursion
+    (org-back-to-heading t)
+    (let ((beg (point)) end)
+      (end-of-line)
+      (setq end (point))
+      (goto-char beg)
+      (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]" end t)
+            (if (match-end 1)
+                (if (equal (match-string 1) "100%")
+                    ;; all done - do the state change
+                    (org-todo 'done)
+                  (org-todo 'todo))
+              (if (and (> (match-end 2) (match-beginning 2))
+                       (equal (match-string 2) (match-string 3)))
+                  (org-todo 'done)
+                (org-todo 'todo)))))))
+#+end_src
+
+*** Jump to journal
+
+#+begin_src emacs-lisp
+  (defun brettw/jump-to-journal ()
+    (interactive)
+    (find-file brettw/org-journal-file)
+  )
+#+end_src
+
+*** Evaluate time range
+
+#+begin_src emacs-lisp
+  (defun brettw/org-evaluate-time-range (&optional to-buffer)
+    (interactive)
+    (if (org-at-date-range-p t)
+        (org-evaluate-time-range to-buffer)
+      (let ((headline (buffer-substring (point-at-bol) (point-at-eol))))
+        (with-temp-buffer
+          (insert headline)
+          (goto-char (point-at-bol))
+          (re-search-forward org-ts-regexp (point-at-eol) t)
+          (if (not (org-at-timestamp-p t))
+              (error "No timestamp here"))
+          (goto-char (match-beginning 0))
+          (org-insert-time-stamp (current-time) nil nil)
+          (insert "--")
+          (org-evaluate-time-range to-buffer)))))
+#+end_src
+
+** Files and directories
+
+We typically work out of the =~/org/= directory for the universal stuff.
+
+#+begin_src emacs-lisp
+  (setq org-directory "~/org")
+  (setq brettw/org-journal-file "~/org/journal.org")
+  (setq org-agenda-files (list "~/org/" "~/"))
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+#+end_src
+
+** Global keyboard shortcuts
+
+So ~org-mode~ can be accessed from anywhere!
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "\C-c l") 'org-store-link)
+  (global-set-key (kbd "\C-c a") 'org-agenda)
+  (global-set-key (kbd "\C-c b") 'org-iswitchb)
+  (global-set-key (kbd "\C-c c") 'org-capture)
+  (global-set-key (kbd "C-M-j") 'brettw/jump-to-journal)
+#+end_src
+
+** Babel
+
+*** Languages
+
+We'll usually only work on my favourite languages.
+
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (C . t)
+     (dot . t)
+     (emacs-lisp . t)
+     (latex . t)
+     (python . t)
+     )
+  )
+#+end_src
+
+*** Settings
+
+I'd prefer zero indentation.
+
+#+begin_src emacs-lisp
+  (setq org-edit-src-content-indentation 0)
+#+end_src
+
+** Hyperlinks
+
+*** Settings
+
+#+begin_src emacs-lisp
+  (setq org-return-follows-link t
+        org-tab-follows-link t)
+  
+  (setq org-link-frame-setup '((vm . vm-visit-folder-other-frame)
+                               (vm-imap . vm-visit-imap-folder-other-frame)
+                               (gnus . org-gnus-no-new-news)
+                               (file . find-file)
+                               (wl . wl-other-frame))
+  )
+#+end_src
+
+*** Quicklinks
+    :PROPERTIES:
+    :ID:       23a1353e-326a-49d3-93d3-8f2a127d5871
+    :END:
+
+#+begin_src emacs-lisp
+  (setq org-link-abbrev-alist
+        '(
+          ("wikipedia" . "http://en.wikipedia.org/index.php?search=%h")
+          ("contact" . "file:~/org/contacts.org::%s")
+          )
+  )
+#+end_src
+
+** Contacts
+
+#+begin_src emacs-lisp
+;  (require 'org-contacts)
+;  (add-to-list 'org-contacts-files (expand-file-name "~/org/contacts.org"))
+#+end_src
+
+** Agenda
+
+*** Settings
+
+#+begin_src emacs-lisp
+  (setq org-agenda-skip-unavailable-files t
+        org-include-diary t
+        org-agenda-align-tags-to-column -100
+        org-agenda-skip-additional-timestamps-same-entry nil
+        org-agenda-skip-scheduled-if-done t
+  )
+#+end_src
+
+*** On load up
+
+Show the agenda straight after Emacs initialization.
+
+#+begin_src emacs-lisp
+(add-hook 'after-init-hook 'org-agenda-to-appt)
+(add-hook 'after-init-hook 'org-agenda-list)
+#+end_src
+
+** To-do
+
+*** Settings
+
+#+begin_src emacs-lisp
+  (setq org-enforce-todo-checkbox-dependencies t
+        org-enforce-todo-dependencies t
+        org-log-done t)
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq org-todo-keywords (list "TODO(t)" "STARTED(s)" "WAITING(w!)" "|" "DONE(d)" "CANCELLED(c@)"))
+#+end_src
+
+** Capture
+
+I capture bugs, todo and dev journal entries for my main project.
+
+#+begin_src emacs-lisp
+  (setq org-capture-templates
+        '(
+          ("t" "To-Do" entry (file "~/org/todo.org")
+           "* TODO %?%i %^g\nDEADLINE: %^t\n%t \n\n" :empty-lines 1)
+          ("T" "TDA To-Do" entry (file "e:/Projects/theDayAfter/doc/org/todo.org")
+           "* TODO %i%? :tda:\n%t\n" :empty-lines 1)
+          ("B" "TDA Bug" entry (file "e:/Projects/theDayAfter/doc/org/bugs.org")
+           "* TODO %i%? :tda:bug:\n%t\n\n" :empty-lines 1)
+          ("J" "TDA Dev Journal" entry (file+datetree "e:/Projects/thedayafter/doc/org/devjournal.org")
+           "* %i%? :tda:\n%t\n" :empty-lines 1)
+          ("m" "Meeting" entry (file+datetree+prompt "~/org/meetings.org")
+           "* %?\n %^T\n" :empty-lines 1)
+          ("s" "Spark" entry (file "~/org/spark.org")
+           "* %? %^g\n%u %i\n\n")
+          )
+  )
+#+end_src
+
+** Hooks
+
+Global org hooks
+
+#+begin_src emacs-lisp
+  (defun brettw/my-org-mode-hook ()
+    (local-set-key (kbd "\M-n") 'outline-next-visible-heading)
+    (local-set-key (kbd "\M-p") 'outline-previous-visible-heading)
+    (visual-line-mode)
+  )
+
+(add-hook 'org-mode-hook 'brettw/my-org-mode-hook)
+#+end_src
+
+Specific org-list hooks:
+
+#+begin_src emacs-lisp
+  (eval-after-load 'org-list
+    '(add-hook 'org-checkbox-statistics-hook (function brettw/checkbox-list-complete)))
+#+end_src
+
+* Programming
+
+** General options
+
+*** CEDET
+
+Basic CEDET setup (based on the new 23.2+ merged CEDET/Emacs setup).
+
+#+begin_src emacs-lisp
+(require 'cedet)
+(require 'semantic/sb)
+(semantic-mode 1)
+#+end_src
+
+*** Tabs and indents
+
+Tab width is always, always, always 4, and indents are only spaces.
+
+#+begin_src emacs-lisp
+  (setq tab-width 4)
+  (set-default 'indent-tabs-mode nil)
+#+end_src
+
+*** Compilation
+
+When a compile finishes correctly, we automatically close the compilation window.
+
+#+begin_src emacs-lisp
+  (defun compilation-exit-autoclose (status code msg)
+    ;; If M-x compile exists with a 0
+    (when (and (eq status 'exit) (zerop code))
+      (bury-buffer)
+      (delete-window (get-buffer-window (get-buffer "*compilation*"))))
+    (cons msg code))
+  
+  (setq compilation-exit-message-function 'compilation-exit-autoclose)
+  
+  (setq compilation-scroll-output t)
+#+end_src
+
+*** Keys
+
+#+begin_src emacs-lisp
+(add-hook 'c-mode-common-hook '( lambda ()
+                                 (local-set-key (kbd "<S-f5>") 'compile)
+                                 (local-set-key (kbd "<f5>") 'recompile)
+                                 (local-set-key (kbd "RET") 'reindent-then-newline-and-indent)
+                                 (local-set-key (kbd "C-M-o") 'ff-find-other-file)
+                                 (local-set-key (kbd "<C-return>") 'complete-symbol)
+))
+
+(add-hook 'python-mode-hook '( lambda ()
+                                 (local-set-key (kbd "<S-f5>") 'compile)
+                                 (local-set-key (kbd "<f5>") 'recompile)
+                                 (local-set-key (kbd "RET") 'reindent-then-newline-and-indent)
+                                 (local-set-key (kbd "s-o") 'ff-find-other-file)
+                                 (local-set-key (kbd "<C-return>") 'complete-symbol)
+))
+#+end_src
+
+** Lisp
+** HTML
+
+#+begin_src emacs-lisp
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php?\\'" . web-mode))
+(defun brettw/web-mode-hook () 
+  (local-set-key (kbd "RET") 'newline-and-indent)
+)
+
+(add-hook 'web-mode-hook 'brettw/web-mode-hook)
+#+end_src
+
+** Python
+
+*** Filenames
+
+Use python mode for SCons files.
+
+#+begin_src emacs-lisp
+  (setq auto-mode-alist (cons '("SConstruct" . python-mode) auto-mode-alist))
+  (setq auto-mode-alist (cons '("SConscript" . python-mode) auto-mode-alist))
+#+end_src
+
+*** Hook
+
+When we "compile" in Python, we typically mean to invoke SCons (because we are usually editing SCons files!)
+
+#+begin_src emacs-lisp
+(defun brettw/my-python-hook ()
+  (setq compile-command "scons.py -D")
+)
+
+(add-hook 'python-mode-hook 'brettw/my-python-hook)
+#+end_src
+
+** C++
+
+*** Filenames
+
+CUDA is C++, so make Emacs aware of it.
+
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
+#+end_src
+
+*** Style
+
+This is my C/C++ style.
+
+#+begin_src emacs-lisp
+  (setq c-basic-offset 4
+        c-doc-comment-style (quote javadoc))
+  
+  (defconst brettw/my-c-style
+    '((c-tab-always-indent         . t)
+      (c-hanging-braces-alist      . ((substatement-open after)
+                                      (brace-list-open)))
+      (c-hanging-colons-alist      . ((member-init-intro before)
+                                      (inher-intro)
+                                      (case-label after)
+                                      (label after)
+                                      (access-label after)))
+      (c-cleanu-list               . (scope-operator
+                                      empty-defun-braces
+                                      defun-close-semi))
+      (c-offsets-alist             . ((arglist-close . c-lineup-arglist)
+                                      (substatement-open . 0)
+                                      (case-label        . +)
+                                      (block-open        . 0)
+                                      (access-label      . -)
+                                      (knr-argdecl-intro . -)))
+      )
+    "BEW C Programming Style")
+  
+  (c-add-style "brettw" brettw/my-c-style)
+#+end_src
+
+*** Hooks
+
+Set a bunch of my defaults.
+
+#+begin_src emacs-lisp
+  (defun brettw/my-c-mode-common-hook ()
+    (global-set-key (kbd "<M-return>") 'semantic-ia-complete-symbol)
+    (c-set-style "brettw")
+    (setq compile-command "scons.py -D")
+    )
+  
+  (add-hook 'c-mode-common-hook 'brettw/my-c-mode-common-hook)
+  (add-hook 'c++-mode-hook 'brettw/my-c-mode-common-hook)
+#+end_src
+
+** Projects
+
+I put project-specific settings here (especially =semantic-add-system-include= settings)
+
+* Utilities
+
+** Webjump
+
+Webjump is neat and gives us very quick access to search.
+
+#+begin_src emacs-lisp
+(require 'webjump)
+
+(global-set-key '[f2] 'webjump)
+(setq webjump-sites '(
+                      ("Urban Dictionary" .
+                       [simple-query "www.urbandictionary.com"
+                                     "http://www.urbandictionary.com/define.php?term=" ""])
+                      ("Reddit Search" .
+                       [simple-query "www.reddit.com"
+                                     "http://www.reddit.com/search?q=" ""])
+                      ("Google Image Search" .
+                       [simple-query "images.google.com" "images.google.com/images?hl=en&q=" ""])
+                      ("Google" .
+                       [simple-query "google.com" "www.google.com.au/search?q=" ""])
+                      ("StackOverflow" .
+                       [simple-query "stackoverflow.com" "stackoverflow.com/search?q=" ""])
+
+                      )
+
+)
+#+end_src
