@@ -10,6 +10,7 @@
 This is inspired by Sacha Chua's configuration file.
 
 To load this, run =(org-babel-load-file "~/bew_config.org")=.
+
 * About me
 
 ** Personal information
@@ -18,6 +19,7 @@ To load this, run =(org-babel-load-file "~/bew_config.org")=.
 (setq user-full-name "Brett Witty"
       user-mail-address "brettwitty@brettwitty.net")
 #+END_SRC
+
 * Startup
 
 ** Add my emacs directories
@@ -31,6 +33,7 @@ These are my standard add-on library paths
 (add-to-list 'load-path "~/libraries/")
 (require 'color-theme)
 #+END_SRC
+
 ** Start up configuration
 
 Get rid of the startup screen.
@@ -38,6 +41,7 @@ Get rid of the startup screen.
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-screen t)
 #+END_SRC
+
 ** Emacs customize
 
 It's better to just chuck everything into this file, but sometimes Customize is too easy to use.
@@ -46,6 +50,7 @@ It's better to just chuck everything into this file, but sometimes Customize is 
 (setq custom-file "~/bew_custom.el")
 (load-file custom-file)
 #+END_SRC
+
 * Global configuration
 ** BrettW custom settings
 
@@ -53,6 +58,7 @@ It's better to just chuck everything into this file, but sometimes Customize is 
 (defvar brettw/default-screen-width 120)
 (defvar brettw/default-screen-height 70)
 #+END_SRC
+
 ** Global mode
 
 We like these global modes.
@@ -67,21 +73,24 @@ We like these global modes.
 (transient-mark-mode t)
 (recentf-mode t)
 (global-ede-mode t)
+(hl-line-mode t)
 (ido-mode t)
 #+END_SRC
 
 YASnippet needs some of its own customization.
 #+BEGIN_SRC emacs-lisp
 (require 'yasnippet)
-(setq yas/snippet-dirs '("~/snippets" "~/libraries/yasnippet/snippets/" ))
+;(setq yas/snippet-dirs '("~/snippets" "~/libraries/yasnippet/snippets/" ))
 (yas/global-mode 1)
 #+END_SRC
+
 ** Packages
 
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'package-archives
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
 #+END_SRC
+
 ** Coding systems
 
 We only like UTF-8 because the alternatives are rubbish.
@@ -90,14 +99,17 @@ We only like UTF-8 because the alternatives are rubbish.
 (setq coding-system-for-read 'utf-8
       coding-system-for-write 'utf-8)
 #+END_SRC
+
 ** Display options
 *** Color theme
 
 Use my custom color theme.
 
 #+BEGIN_SRC emacs-lisp
-(load-theme 'ample t)
+;;(load-theme 'tangotango t)
+(load-theme 'leuven t)
 #+END_SRC
+
 *** Window decorations
 
 Set the window up how we like it.
@@ -110,12 +122,14 @@ Set the window up how we like it.
         cursor-type 'bar
   )
 #+END_SRC
+
 *** Snappier updates
 
 This hack apparently makes things snappier.
 #+BEGIN_SRC emacs-lisp
 (setq redisplay-dont-pause 1)
 #+END_SRC
+
 ** Input
 
 *** Clipboard
@@ -125,6 +139,7 @@ Let Emacs play with the clipboard.
 #+BEGIN_SRC emacs-lisp
 (setq x-select-enable-clipboard t)
 #+END_SRC
+
 *** Parentheses
 
 Use the shiny autopair module.
@@ -132,6 +147,7 @@ Use the shiny autopair module.
 (require 'autopair)
 (autopair-global-mode 1)
 #+END_SRC
+
 *** Keyboard settings
 
 I'd like these Windows keys to work, but they don't.
@@ -140,6 +156,7 @@ I'd like these Windows keys to work, but they don't.
 (w32-register-hot-key [A-tab])
 (w32-register-hot-key [s-o])
 #+END_SRC
+
 *** Mouse settings
 
 Get the right amount of mouse scrolling.
@@ -148,6 +165,7 @@ Get the right amount of mouse scrolling.
 (setq mouse-wheel-scroll-amount '(1)
       mouse-wheel-scroll-progressive-speed nil)
 #+END_SRC
+
 ** Backups
 
 We want to control and minimize Emacs backups.
@@ -160,6 +178,7 @@ We want to control and minimize Emacs backups.
       kept-old-versions 2
       version-control t)
 #+END_SRC
+
 ** Recent files
 
 Set up the recent files.
@@ -174,6 +193,7 @@ Set up the recent files.
 (add-to-list 'recentf-exclude "archive-contents\\'")
 (add-to-list 'recentf-exclude "checksums\\.dat\\'")
 #+END_SRC
+
 ** Help
 
 We customize help just a tad.
@@ -182,6 +202,7 @@ We customize help just a tad.
       apropos-do-all t
       help-window-select t)
 #+END_SRC
+
 ** General completion
 
 #+BEGIN_SRC emacs-lisp
@@ -192,6 +213,7 @@ We customize help just a tad.
                     (kill-buffer buffer)))
 ))
 #+END_SRC
+
 ** Filename completion
 
 *** Ignored extensions
@@ -200,14 +222,16 @@ Ignore these files because we're unlikely to open them in Emacs.
 
 #+BEGIN_SRC emacs-lisp
 (setq completion-ignored-extensions
-      '(".o" ".elc" "~" ".bin" ".dvi" ".toc" ".aux" ".ps" ".blg" ".bbl" ".idx"))
+      '(".o" ".elc" "~" ".bin" ".dvi" ".toc" ".aux" ".ps" ".blg" ".bbl" ".idx" ".pyc"))
 #+END_SRC
+
 ** Miscellaneous editing options
 *** Disabled warnings
 
 #+BEGIN_SRC emacs-lisp
 (put 'downcase-region 'disabled nil)
 #+END_SRC
+
 *** Don't kill scratch
 
 #+BEGIN_SRC emacs-lisp
@@ -218,16 +242,19 @@ Ignore these files because we're unlikely to open them in Emacs.
       ad-do-it))
 )
 #+END_SRC
+
 *** Default directory
 
 #+BEGIN_SRC emacs-lisp
 (setq default-directory "~/")
 #+END_SRC
+
 *** Change "yes or no" to "y or n"
 
 #+BEGIN_SRC emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
+
 *** Feedback
 
 Don't flash at me.
@@ -241,6 +268,7 @@ Don't truncate lines in the message log.
 #+BEGIN_SRC emacs-lisp
 (setq message-log-max t)
 #+END_SRC
+
 ** Keys
 
 *** Unbindings
@@ -254,11 +282,15 @@ Out of the box, I find these distasteful.
 (global-unset-key (kbd "<C-previous>"))
 (global-unset-key (kbd "C-z"))
 #+END_SRC
+
 *** Bindings
 
 These are globally useful things.
 
 #+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<M-up>") 'move-text-up)
+(global-set-key (kbd "<M-down>") 'move-text-down)
+
 (global-set-key (kbd "C-x C-M-f") 'find-file-at-point)
 
 (global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
@@ -284,6 +316,7 @@ Run an eshell from anywhere.
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-M-s") 'eshell)
 #+END_SRC
+
 * Helper functions
 
 Here's a bunch of minimal, globally-useful functions.
@@ -296,6 +329,7 @@ Here's a bunch of minimal, globally-useful functions.
   (byte-recompile-directory "~/emacs" 0)
 )
 #+END_SRC
+
 ** =insert-current-timestamp=
 
 Insert the current timestamp in Year-month-day format.
@@ -307,6 +341,7 @@ Insert the current timestamp in Year-month-day format.
   (insert (format-time-string "%Y-%m-%d"))
 )
 #+END_SRC
+
 ** =insert-signature=
 
 Insert a textual signature into a file.
@@ -319,6 +354,7 @@ Insert a textual signature into a file.
   (insert-current-timestamp)
 )
 #+END_SRC
+
 ** =insert-file-name=
 
 Ask/browse for a filename and insert it into the buffer at the point.
@@ -331,6 +367,7 @@ With a prefix argument, insert only the non-directory part."
   (when relativep (setq file (file-name-nondirectory file)))
   (insert file))
 #+END_SRC
+
 ** =insert-current-directory-name=
 
 Insert the name of the current directory.
@@ -342,6 +379,7 @@ Insert the name of the current directory.
   (insert (file-name-directory (buffer-file-name)))
 )
 #+END_SRC
+
 ** =rename-file-and-buffer=
 
 I've stolen this from Steve Yegge. It renames the current file and buffer.
@@ -364,6 +402,7 @@ I've stolen this from Steve Yegge. It renames the current file and buffer.
           ))))
 )
 #+END_SRC
+
 ** =reload-buffer=
 
 This reverts a buffer without confirmation.
@@ -373,6 +412,7 @@ This reverts a buffer without confirmation.
   (interactive)
   (revert-buffer t t))
 #+END_SRC
+
 ** =string-strip-chars=
 
 Take a string and strip out all the characters from a second string.
@@ -390,7 +430,6 @@ Take a string and strip out all the characters from a second string.
       (setq strip (substring strip 1))))
   string)
 #+END_SRC
-
 ** =brettw/resize-window=
 
 This resizes the current window to the "correct" size.
@@ -404,6 +443,7 @@ This resizes the current window to the "correct" size.
     )
   )
 #+END_SRC
+
 ** =brettw/widescreen=
 
 Resize the current window to double the normal width.
@@ -433,19 +473,7 @@ We typically want this during startup, so let's call it now.
 #+BEGIN_SRC emacs-lisp
 (brettw/resize-window)
 #+END_SRC
-** =count-words=
 
-#+BEGIN_SRC emacs-lisp
-(defun count-words ()
-  (interactive)
-  (message "%d words"
-           (if (use-region-p)
-               (how-many "\\<\\w*\\>" (region-beginning) (region-end))
-             (how-many "\\<\\w*\\>" (buffer-end -1) (buffer-end 1))
-             )
-           )
-)
-#+END_SRC
 ** =duplicate-line-or-region=
 
 #+BEGIN_SRC emacs-lisp
@@ -471,6 +499,7 @@ With negative N, comment out original line and use the absolute value."
         (forward-line 1)
         (forward-char pos)))))
 #+END_SRC
+
 ** =smart-beginning-of-line=
 
 I stole this from [[http://stackoverflow.com/a/145359]]
@@ -488,6 +517,17 @@ If point was already at that position, move point to beginning of line."
          (beginning-of-line))))
 #+END_SRC
 
+** =align-repeat=
+
+#+BEGIN_SRC emacs-lisp
+(defun align-repeat (start end regexp)
+    "Repeat alignment with respect to 
+     the given regular expression."
+    (interactive "r\nsAlign regexp: ")
+    (align-regexp start end 
+        (concat "\\(\\s-*\\)" regexp) 1 1 t))
+#+END_SRC
+
 * Text editing
 ** General options
 
@@ -495,6 +535,11 @@ Sentences should only have a single space at the end.
 
 #+BEGIN_SRC emacs-lisp
 (setq sentence-end-double-space nil)
+#+END_SRC
+** Spellcheck
+
+#+BEGIN_SRC emacs-lisp
+(setq-default ispell-program-name "C:/Program Files (x86)/Aspell/bin/aspell.exe")
 #+END_SRC
 
 * Diary and calendar
@@ -507,6 +552,7 @@ My diary is at =~/diary/main.txt=, and anything in the =/diary/= directory is al
 (setq diary-file "~/diary/main.txt")
 (add-to-list 'auto-mode-alist `(,(expand-file-name "~/org/diary/") . diary-mode))
 #+END_SRC
+
 ** General settings
 
 #+BEGIN_SRC emacs-lisp
@@ -516,6 +562,7 @@ My diary is at =~/diary/main.txt=, and anything in the =/diary/= directory is al
 (add-hook 'diary-list-entries-hook 'diary-include-other-diary-files)
 (add-hook 'diary-mark-entries-hook 'diary-mark-included-diary-files)
 #+END_SRC
+
 * Org
 
 ** Modules
@@ -539,6 +586,7 @@ We require the mighty org-babel module.
 #+BEGIN_SRC emacs-lisp
 (require 'ob)
 #+END_SRC
+
 ** General settings
 
 These are a few miscellaneous settings to make things work how I like them.
@@ -552,8 +600,12 @@ These are a few miscellaneous settings to make things work how I like them.
       org-startup-with-inline-images nil
       org-startup-folded nil
 
+      org-export-copy-to-kill-ring nil
+
       org-refile 'time
       org-log-reschedule 'time
+
+      org-completion-use-ido t
 
       org-use-speed-commands t
 )
@@ -564,6 +616,7 @@ These are a few miscellaneous settings to make things work how I like them.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'org-structure-template-alist '("C" "#+BEGIN_COMMENT\n\n#+END_COMMENT" "<!--\n\n-->"))
 #+END_SRC
+
 
 *** Faces
 
@@ -613,6 +666,7 @@ Now the actual settings:
         ("CANCELLED" . "saddle brown"))
 )
 #+END_SRC
+
 ** Functions
 
 Many of these functions are taken from [[http://orgmode.org/worg/index.html][Worg]].
@@ -639,6 +693,7 @@ This will repair broken SCHEDULED and DEADLINE markup.
              (recursive-edit))
          (message "All subtrees checked."))))))
 #+END_SRC
+
 *** Mark a headline done when all its checkboxes are checked
 
 #+BEGIN_SRC emacs-lisp
@@ -663,6 +718,7 @@ This will repair broken SCHEDULED and DEADLINE markup.
                   (org-todo 'done)
                 (org-todo 'todo)))))))
 #+END_SRC
+
 *** Jump to journal
 
 #+BEGIN_SRC emacs-lisp
@@ -671,6 +727,7 @@ This will repair broken SCHEDULED and DEADLINE markup.
   (find-file brettw/org-journal-file)
 )
 #+END_SRC
+
 *** Evaluate time range
 
 #+BEGIN_SRC emacs-lisp
@@ -690,6 +747,7 @@ This will repair broken SCHEDULED and DEADLINE markup.
         (insert "--")
         (org-evaluate-time-range to-buffer)))))
 #+END_SRC
+
 ** Files and directories
 
 We typically work out of the =~/org/= directory for the universal stuff.
@@ -700,6 +758,7 @@ We typically work out of the =~/org/= directory for the universal stuff.
 (setq org-agenda-files (list "~/org/" "~/"))
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 #+END_SRC
+
 ** Global keyboard shortcuts
 
 So ~org-mode~ can be accessed from anywhere!
@@ -711,6 +770,7 @@ So ~org-mode~ can be accessed from anywhere!
 (global-set-key (kbd "\C-c c") 'org-capture)
 (global-set-key (kbd "C-M-j") 'brettw/jump-to-journal)
 #+END_SRC
+
 ** Babel
 
 *** Languages
@@ -726,9 +786,11 @@ We'll usually only work on my favourite languages.
    (emacs-lisp . t)
    (latex . t)
    (python . t)
+   (sh . t)
    )
 )
 #+END_SRC
+
 *** Settings
 
 I'd prefer zero indentation.
@@ -736,6 +798,13 @@ I'd prefer zero indentation.
 #+BEGIN_SRC emacs-lisp
 (setq org-edit-src-content-indentation 0)
 #+END_SRC
+
+I also like to live dangerously (don't ask me if I want to evaluate org-babel code)
+
+#+BEGIN_SRC emacs-lisp
+(setq org-confirm-babel-evaluate nil)
+#+END_SRC
+
 ** Hyperlinks
 
 *** Settings
@@ -751,6 +820,7 @@ I'd prefer zero indentation.
                              (wl . wl-other-frame))
 )
 #+END_SRC
+
 *** Quicklinks
 :PROPERTIES:
 :ID:       23a1353e-326a-49d3-93d3-8f2a127d5871
@@ -764,12 +834,14 @@ I'd prefer zero indentation.
         )
 )
 #+END_SRC
+
 ** Contacts
 
 #+BEGIN_SRC emacs-lisp
 ;  (require 'org-contacts)
 ;  (add-to-list 'org-contacts-files (expand-file-name "~/org/contacts.org"))
 #+END_SRC
+
 ** Agenda
 
 *** Settings
@@ -782,6 +854,7 @@ I'd prefer zero indentation.
       org-agenda-skip-scheduled-if-done t
 )
 #+END_SRC
+
 *** On load up
 
 Show the agenda straight after Emacs initialization.
@@ -790,6 +863,7 @@ Show the agenda straight after Emacs initialization.
 (add-hook 'after-init-hook 'org-agenda-to-appt)
 (add-hook 'after-init-hook 'org-agenda-list)
 #+END_SRC
+
 ** To-do
 
 *** Settings
@@ -801,8 +875,9 @@ Show the agenda straight after Emacs initialization.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(setq org-todo-keywords (list "TODO(t)" "STARTED(s)" "WAITING(w!)" "|" "DONE(d)" "CANCELLED(c@)"))
+(setq org-todo-keywords (list "REWARD(r)" "TODO(t)" "STARTED(s)" "WAITING(w!)" "|" "DONE(d)" "CANCELLED(c@)"))
 #+END_SRC
+
 ** =org2blog=
 
 Make sure we autoload the required stuff.
@@ -829,6 +904,39 @@ Set the source code syntax.
 (setq org2blog/wp-sourcecode-default-params "")
 #+END_SRC
 
+** =org-gamify=
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path (expand-file-name "~/libraries/org-gamify/") )
+(require 'org-gamify)
+
+(define-gamify-currency gold
+         :name "gold"
+         :category "Money"
+         :min 0 :enforce-min block)
+
+(define-gamify-currency karma
+  :name "karma"
+  :category "Experience"
+  :min 0 :enforce-min truncate)
+
+(define-gamify-currency xp
+  :name "XP"
+  :category "Experience"
+  :min 0 :enforce-min truncate)
+
+; Add to agenda
+(push '("r" "Rewards"
+        todo "REWARD"
+        ((org-agenda-time-grid nil)
+         (org-agenda-dim-blocked-tasks 'invisible)
+         (org-agenda-todo-ignore-scheduled nil)
+         (org-agenda-todo-ignore-deadlines nil)
+         ))
+      org-agenda-custom-commands)
+
+#+END_SRC
+
 
 ** Capture
 
@@ -842,7 +950,7 @@ I capture bugs, todo and dev journal entries for my main project.
         ("T" "TDA To-Do" entry (file "e:/Projects/theDayAfter/doc/org/todo.org")
          "* TODO %i%? :tda:\n%t\n" :empty-lines 1)
         ("B" "TDA Bug" entry (file "e:/Projects/theDayAfter/doc/org/bugs.org")
-         "* TODO %i%? :tda:bug:\n%t\n\n" :empty-lines 1)
+         (file "~/org/template/tdabug.org") :empty-lines 1)
         ("J" "TDA Dev Journal" entry (file+datetree "e:/Projects/thedayafter/doc/org/devjournal.org")
          "* %i%? :tda:\n%t\n" :empty-lines 1)
         ("m" "Meeting" entry (file+datetree+prompt "~/org/meetings.org")
@@ -852,6 +960,7 @@ I capture bugs, todo and dev journal entries for my main project.
         )
 )
 #+END_SRC
+
 ** Hooks
 
 Global org hooks
@@ -872,6 +981,7 @@ Specific org-list hooks:
 (eval-after-load 'org-list
   '(add-hook 'org-checkbox-statistics-hook (function brettw/checkbox-list-complete)))
 #+END_SRC
+
 * Programming
 
 ** General options
@@ -885,6 +995,7 @@ Basic CEDET setup (based on the new 23.2+ merged CEDET/Emacs setup).
 (require 'semantic/sb)
 (semantic-mode 1)
 #+END_SRC
+
 *** Tabs and indents
 
 Tab width is always, always, always 4, and indents are only spaces.
@@ -893,6 +1004,7 @@ Tab width is always, always, always 4, and indents are only spaces.
 (setq tab-width 4)
 (set-default 'indent-tabs-mode nil)
 #+END_SRC
+
 *** Compilation
 
 When a compile finishes correctly, we automatically close the compilation window.
@@ -909,6 +1021,7 @@ When a compile finishes correctly, we automatically close the compilation window
 
 (setq compilation-scroll-output t)
 #+END_SRC
+
 *** Keys
 
 #+BEGIN_SRC emacs-lisp
@@ -920,14 +1033,16 @@ When a compile finishes correctly, we automatically close the compilation window
                                  (local-set-key (kbd "<C-return>") 'complete-symbol)
 ))
 
-(add-hook 'python-mode-hook '( lambda ()
-                                 (local-set-key (kbd "<S-f5>") 'compile)
-                                 (local-set-key (kbd "<f5>") 'recompile)
-                                 (local-set-key (kbd "RET") 'reindent-then-newline-and-indent)
-                                 (local-set-key (kbd "s-o") 'ff-find-other-file)
-                                 (local-set-key (kbd "<C-return>") 'complete-symbol)
-))
 #+END_SRC
+
+** LaTeX
+
+#+BEGIN_SRC emacs-lisp
+(load "auctex.el" nil t t)
+(add-to-list 'auto-mode-alist '("\\.tex?\\'" . latex-mode))
+#+END_SRC
+
+
 ** Lisp
 ** HTML
 
@@ -941,6 +1056,7 @@ When a compile finishes correctly, we automatically close the compilation window
 
 (add-hook 'web-mode-hook 'brettw/web-mode-hook)
 #+END_SRC
+
 ** Python
 
 *** Filenames
@@ -951,6 +1067,7 @@ Use python mode for SCons files.
 (setq auto-mode-alist (cons '("SConstruct" . python-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("SConscript" . python-mode) auto-mode-alist))
 #+END_SRC
+
 *** Hook
 
 When we "compile" in Python, we typically mean to invoke SCons (because we are usually editing SCons files!)
@@ -958,11 +1075,16 @@ When we "compile" in Python, we typically mean to invoke SCons (because we are u
 #+BEGIN_SRC emacs-lisp
 (defun brettw/my-python-hook ()
   (setq compile-command "scons.py -D")
+  (local-set-key (kbd "<S-f5>") 'compile)
+  (local-set-key (kbd "<f5>") 'recompile)
   (local-set-key (kbd "RET") 'newline-and-indent)
+  (local-set-key (kbd "s-o") 'ff-find-other-file)
+  (local-set-key (kbd "<C-return>") 'complete-symbol)
 )
 
 (add-hook 'python-mode-hook 'brettw/my-python-hook)
 #+END_SRC
+
 ** C++
 
 *** Filenames
@@ -973,6 +1095,7 @@ CUDA is C++, so make Emacs aware of it.
 (add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
 #+END_SRC
+
 *** Style
 
 This is my C/C++ style.
@@ -1004,6 +1127,7 @@ This is my C/C++ style.
 
 (c-add-style "brettw" brettw/my-c-style)
 #+END_SRC
+
 *** Hooks
 
 Set a bunch of my defaults.
@@ -1018,9 +1142,22 @@ Set a bunch of my defaults.
 (add-hook 'c-mode-common-hook 'brettw/my-c-mode-common-hook)
 (add-hook 'c++-mode-hook 'brettw/my-c-mode-common-hook)
 #+END_SRC
+
 ** Projects
 
 I put project-specific settings here (especially =semantic-add-system-include= settings)
+
+** Octave
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+#+END_SRC
+
+** The Day After
+
+#+BEGIN_SRC emacs-lisp
+(require 'tdascript)
+#+END_SRC
 
 * Utilities
 
@@ -1029,10 +1166,12 @@ I put project-specific settings here (especially =semantic-add-system-include= s
 =twittering-mode= is pretty awesome. That'll keep.
 
 #+BEGIN_SRC emacs-lisp
-(setq twittering-use-master-password t)
-(setq twittering-icon-mode t)
-(setq twittering-timer-interval 300)
+(setq twittering-use-master-password t
+      twittering-icon-mode t
+      twittering-timer-interval 300
+      twittering-use-icon-storage t)
 #+END_SRC
+
 
 ** Webjump
 
@@ -1055,6 +1194,8 @@ Webjump is neat and gives us very quick access to search.
                        [simple-query "google.com" "www.google.com.au/search?q=" ""])
                       ("StackOverflow" .
                        [simple-query "stackoverflow.com" "stackoverflow.com/search?q=" ""])
+                      ("Wikipedia" .
+                       [simple-query "https://en.wikipedia.org/" "https://en.wikipedia.org/wiki/Special:Search/" ""])
 
                       )
 

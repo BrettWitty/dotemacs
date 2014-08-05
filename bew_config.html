@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Brett Witty's Emacs configuration</title>
-<!-- 2014-03-04 Tue 22:19 -->
+<!-- 2014-08-05 Tue 19:29 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Brett Witty" />
@@ -218,14 +218,15 @@ for the JavaScript code in this tag.
 <li><a href="#sec-5-10-1">5.10.1. Startup</a></li>
 </ul>
 </li>
-<li><a href="#sec-5-11">5.11. <code>count-words</code></a></li>
-<li><a href="#sec-5-12">5.12. <code>duplicate-line-or-region</code></a></li>
-<li><a href="#sec-5-13">5.13. <code>smart-beginning-of-line</code></a></li>
+<li><a href="#sec-5-11">5.11. <code>duplicate-line-or-region</code></a></li>
+<li><a href="#sec-5-12">5.12. <code>smart-beginning-of-line</code></a></li>
+<li><a href="#sec-5-13">5.13. <code>align-repeat</code></a></li>
 </ul>
 </li>
 <li><a href="#sec-6">6. Text editing</a>
 <ul>
 <li><a href="#sec-6-1">6.1. General options</a></li>
+<li><a href="#sec-6-2">6.2. Spellcheck</a></li>
 </ul>
 </li>
 <li><a href="#sec-7">7. Diary and calendar</a>
@@ -282,8 +283,9 @@ for the JavaScript code in this tag.
 <li><a href="#sec-8-11-1">8.11.1. Customization</a></li>
 </ul>
 </li>
-<li><a href="#sec-8-12">8.12. Capture</a></li>
-<li><a href="#sec-8-13">8.13. Hooks</a></li>
+<li><a href="#sec-8-12">8.12. <code>org-gamify</code></a></li>
+<li><a href="#sec-8-13">8.13. Capture</a></li>
+<li><a href="#sec-8-14">8.14. Hooks</a></li>
 </ul>
 </li>
 <li><a href="#sec-9">9. Programming</a>
@@ -296,22 +298,25 @@ for the JavaScript code in this tag.
 <li><a href="#sec-9-1-4">9.1.4. Keys</a></li>
 </ul>
 </li>
-<li><a href="#sec-9-2">9.2. Lisp</a></li>
-<li><a href="#sec-9-3">9.3. HTML</a></li>
-<li><a href="#sec-9-4">9.4. Python</a>
-<ul>
-<li><a href="#sec-9-4-1">9.4.1. Filenames</a></li>
-<li><a href="#sec-9-4-2">9.4.2. Hook</a></li>
-</ul>
-</li>
-<li><a href="#sec-9-5">9.5. C++</a>
+<li><a href="#sec-9-2">9.2. LaTeX</a></li>
+<li><a href="#sec-9-3">9.3. Lisp</a></li>
+<li><a href="#sec-9-4">9.4. HTML</a></li>
+<li><a href="#sec-9-5">9.5. Python</a>
 <ul>
 <li><a href="#sec-9-5-1">9.5.1. Filenames</a></li>
-<li><a href="#sec-9-5-2">9.5.2. Style</a></li>
-<li><a href="#sec-9-5-3">9.5.3. Hooks</a></li>
+<li><a href="#sec-9-5-2">9.5.2. Hook</a></li>
 </ul>
 </li>
-<li><a href="#sec-9-6">9.6. Projects</a></li>
+<li><a href="#sec-9-6">9.6. C++</a>
+<ul>
+<li><a href="#sec-9-6-1">9.6.1. Filenames</a></li>
+<li><a href="#sec-9-6-2">9.6.2. Style</a></li>
+<li><a href="#sec-9-6-3">9.6.3. Hooks</a></li>
+</ul>
+</li>
+<li><a href="#sec-9-7">9.7. Projects</a></li>
+<li><a href="#sec-9-8">9.8. Octave</a></li>
+<li><a href="#sec-9-9">9.9. The Day After</a></li>
 </ul>
 </li>
 <li><a href="#sec-10">10. Utilities</a>
@@ -345,8 +350,8 @@ To load this, run <code>(org-babel-load-file "~/bew_config.org")</code>.
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq user-full-name "Brett Witty"
-      user-mail-address "brettwitty@brettwitty.net")
+<pre class="src src-emacs-lisp">(setq user-full-name <span style="color: #008000;">"Brett Witty"</span>
+      user-mail-address <span style="color: #008000;">"brettwitty@brettwitty.net"</span>)
 </pre>
 </div>
 </div>
@@ -365,11 +370,11 @@ These are my standard add-on library paths
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(add-to-list 'load-path (expand-file-name "~/"))
-(add-to-list 'load-path (expand-file-name "~/libraries/"))
-(add-to-list 'load-path "~/elisp")
-(add-to-list 'load-path "~/libraries/")
-(require 'color-theme)
+<pre class="src src-emacs-lisp">(add-to-list 'load-path (expand-file-name <span style="color: #008000;">"~/"</span>))
+(add-to-list 'load-path (expand-file-name <span style="color: #008000;">"~/libraries/"</span>))
+(add-to-list 'load-path <span style="color: #008000;">"~/elisp"</span>)
+(add-to-list 'load-path <span style="color: #008000;">"~/libraries/"</span>)
+(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">color-theme</span>)
 </pre>
 </div>
 </div>
@@ -399,7 +404,7 @@ It's better to just chuck everything into this file, but sometimes Customize is 
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq custom-file "~/bew_custom.el")
+<pre class="src src-emacs-lisp">(setq custom-file <span style="color: #008000;">"~/bew_custom.el"</span>)
 (load-file custom-file)
 </pre>
 </div>
@@ -415,8 +420,8 @@ It's better to just chuck everything into this file, but sometimes Customize is 
 <div class="outline-text-3" id="text-4-1">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defvar brettw/default-screen-width 120)
-(defvar brettw/default-screen-height 70)
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defvar</span> <span style="color: #BA36A5;">brettw/default-screen-width</span> 120)
+(<span style="color: #0000FF;">defvar</span> <span style="color: #BA36A5;">brettw/default-screen-height</span> 70)
 </pre>
 </div>
 </div>
@@ -440,6 +445,7 @@ We like these global modes.
 (transient-mark-mode t)
 (recentf-mode t)
 (global-ede-mode t)
+(hl-line-mode t)
 (ido-mode t)
 </pre>
 </div>
@@ -449,8 +455,8 @@ YASnippet needs some of its own customization.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(require 'yasnippet)
-(setq yas/snippet-dirs '("~/snippets" "~/libraries/yasnippet/snippets/" ))
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">yasnippet</span>)
+<span style="color: #8D8D84; font-style: italic;">;</span><span style="color: #8D8D84; font-style: italic;">(setq yas/snippet-dirs '("~/snippets" "~/libraries/yasnippet/snippets/" ))</span>
 (yas/global-mode 1)
 </pre>
 </div>
@@ -463,7 +469,7 @@ YASnippet needs some of its own customization.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(add-to-list 'package-archives
-  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  '(<span style="color: #008000;">"melpa"</span> . <span style="color: #008000;">"http://melpa.milkbox.net/packages/"</span>) t)
 </pre>
 </div>
 </div>
@@ -497,7 +503,8 @@ Use my custom color theme.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(load-theme 'ample t)
+<pre class="src src-emacs-lisp"><span style="color: #8D8D84; font-style: italic;">;;</span><span style="color: #8D8D84; font-style: italic;">(load-theme 'tangotango t)</span>
+(load-theme 'leuven t)
 </pre>
 </div>
 </div>
@@ -564,7 +571,7 @@ Use the shiny autopair module.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(require 'autopair)
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">autopair</span>)
 (autopair-global-mode 1)
 </pre>
 </div>
@@ -613,7 +620,7 @@ We want to control and minimize Emacs backups.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq backup-directory-alist `(("." . "~/backup/")))
+<pre class="src src-emacs-lisp">(setq backup-directory-alist `((<span style="color: #008000;">"."</span> . <span style="color: #008000;">"~/backup/"</span>)))
 (setq backup-by-copying t
       delete-old-versions t
       kept-new-versions 6
@@ -634,13 +641,13 @@ Set up the recent files.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq recentf-menu-path nil
-      recentf-menu-title "Recent files"
+      recentf-menu-title <span style="color: #008000;">"Recent files"</span>
       recentf-max-saved-items 100)
 
-(add-to-list 'recentf-exclude "\\.ido\\.last\\'")
-(add-to-list 'recentf-exclude ".*\\.el\\'")
-(add-to-list 'recentf-exclude "archive-contents\\'")
-(add-to-list 'recentf-exclude "checksums\\.dat\\'")
+(add-to-list 'recentf-exclude <span style="color: #008000;">"\\.ido\\.last\\'"</span>)
+(add-to-list 'recentf-exclude <span style="color: #008000;">".*\\.el\\'"</span>)
+(add-to-list 'recentf-exclude <span style="color: #008000;">"archive-contents\\'"</span>)
+(add-to-list 'recentf-exclude <span style="color: #008000;">"checksums\\.dat\\'"</span>)
 </pre>
 </div>
 </div>
@@ -668,8 +675,8 @@ We customize help just a tad.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(add-hook 'minibuffer-exit-hook
-          '(lambda ()
-             (let ((buffer "*Completions*"))
+          '(<span style="color: #0000FF;">lambda</span> ()
+             (<span style="color: #0000FF;">let</span> ((buffer <span style="color: #008000;">"*Completions*"</span>))
                (and (get-buffer buffer)
                     (kill-buffer buffer)))
 ))
@@ -691,7 +698,7 @@ Ignore these files because we're unlikely to open them in Emacs.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq completion-ignored-extensions
-      '(".o" ".elc" "~" ".bin" ".dvi" ".toc" ".aux" ".ps" ".blg" ".bbl" ".idx"))
+      '(<span style="color: #008000;">".o"</span> <span style="color: #008000;">".elc"</span> <span style="color: #008000;">"~"</span> <span style="color: #008000;">".bin"</span> <span style="color: #008000;">".dvi"</span> <span style="color: #008000;">".toc"</span> <span style="color: #008000;">".aux"</span> <span style="color: #008000;">".ps"</span> <span style="color: #008000;">".blg"</span> <span style="color: #008000;">".bbl"</span> <span style="color: #008000;">".idx"</span> <span style="color: #008000;">".pyc"</span>))
 </pre>
 </div>
 </div>
@@ -717,9 +724,9 @@ Ignore these files because we're unlikely to open them in Emacs.
 <div class="outline-text-4" id="text-4-12-2">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defadvice kill-buffer (around kill-buffer-around-advice activate)
-  (let ((buffer-to-kill (ad-get-arg 0)))
-    (if (equal buffer-to-kill "*scratch*")
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defadvice</span> <span style="color: #006699;">kill-buffer</span> (around kill-buffer-around-advice activate)
+  (<span style="color: #0000FF;">let</span> ((buffer-to-kill (ad-get-arg 0)))
+    (<span style="color: #0000FF;">if</span> (equal buffer-to-kill <span style="color: #008000;">"*scratch*"</span>)
         (bury-buffer)
       ad-do-it))
 )
@@ -733,7 +740,7 @@ Ignore these files because we're unlikely to open them in Emacs.
 <div class="outline-text-4" id="text-4-12-3">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq default-directory "~/")
+<pre class="src src-emacs-lisp">(setq default-directory <span style="color: #008000;">"~/"</span>)
 </pre>
 </div>
 </div>
@@ -788,11 +795,11 @@ Out of the box, I find these distasteful.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(global-unset-key (kbd "C-x C-n"))
-(global-unset-key (kbd "C-_"))
-(global-unset-key (kbd "&lt;C-next&gt;"))
-(global-unset-key (kbd "&lt;C-previous&gt;"))
-(global-unset-key (kbd "C-z"))
+<pre class="src src-emacs-lisp">(global-unset-key (kbd <span style="color: #008000;">"C-x C-n"</span>))
+(global-unset-key (kbd <span style="color: #008000;">"C-_"</span>))
+(global-unset-key (kbd <span style="color: #008000;">"&lt;C-next&gt;"</span>))
+(global-unset-key (kbd <span style="color: #008000;">"&lt;C-previous&gt;"</span>))
+(global-unset-key (kbd <span style="color: #008000;">"C-z"</span>))
 </pre>
 </div>
 </div>
@@ -807,15 +814,18 @@ These are globally useful things.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(global-set-key (kbd "C-x C-M-f") 'find-file-at-point)
+<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="color: #008000;">"&lt;M-up&gt;"</span>) 'move-text-up)
+(global-set-key (kbd <span style="color: #008000;">"&lt;M-down&gt;"</span>) 'move-text-down)
 
-(global-set-key (kbd "&lt;C-kp-add&gt;") 'text-scale-increase)
-(global-set-key (kbd "&lt;C-kp-subtract&gt;") 'text-scale-decrease)
+(global-set-key (kbd <span style="color: #008000;">"C-x C-M-f"</span>) 'find-file-at-point)
 
-(global-set-key (kbd "C-`") 'brettw/widescreen)
-(global-set-key (kbd "C-c d") 'brettw/duplicate-line-or-region)
+(global-set-key (kbd <span style="color: #008000;">"&lt;C-kp-add&gt;"</span>) 'text-scale-increase)
+(global-set-key (kbd <span style="color: #008000;">"&lt;C-kp-subtract&gt;"</span>) 'text-scale-decrease)
 
-(global-set-key (kbd "&lt;home&gt;") 'smart-beginning-of-line)
+(global-set-key (kbd <span style="color: #008000;">"C-`"</span>) 'brettw/widescreen)
+(global-set-key (kbd <span style="color: #008000;">"C-c d"</span>) 'brettw/duplicate-line-or-region)
+
+(global-set-key (kbd <span style="color: #008000;">"&lt;home&gt;"</span>) 'smart-beginning-of-line)
 </pre>
 </div>
 
@@ -824,10 +834,10 @@ I use these on Linux systems, but can't on Windows.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(global-set-key (kbd "&lt;s-up&gt;") 'windmove-up)
-(global-set-key (kbd "&lt;s-down&gt;") 'windmove-down)
-(global-set-key (kbd "&lt;s-left&gt;") 'windmove-left)
-(global-set-key (kbd "&lt;s-right&gt;") 'windmove-right)
+<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="color: #008000;">"&lt;s-up&gt;"</span>) 'windmove-up)
+(global-set-key (kbd <span style="color: #008000;">"&lt;s-down&gt;"</span>) 'windmove-down)
+(global-set-key (kbd <span style="color: #008000;">"&lt;s-left&gt;"</span>) 'windmove-left)
+(global-set-key (kbd <span style="color: #008000;">"&lt;s-right&gt;"</span>) 'windmove-right)
 </pre>
 </div>
 
@@ -838,7 +848,7 @@ Run an eshell from anywhere.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(global-set-key (kbd "C-M-s") 'eshell)
+<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="color: #008000;">"C-M-s"</span>) 'eshell)
 </pre>
 </div>
 </div>
@@ -859,9 +869,9 @@ Here's a bunch of minimal, globally-useful functions.
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun brettw/byte-recompile ()
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/byte-recompile</span> ()
   (interactive)
-  (byte-recompile-directory "~/emacs" 0)
+  (byte-recompile-directory <span style="color: #008000;">"~/emacs"</span> 0)
 )
 </pre>
 </div>
@@ -877,10 +887,10 @@ Insert the current timestamp in Year-month-day format.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun insert-current-timestamp ()
-  "Spit out the current time in Y-m-d format."
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">insert-current-timestamp</span> ()
+  <span style="color: #036A07;">"Spit out the current time in Y-m-d format."</span>
   (interactive)
-  (insert (format-time-string "%Y-%m-%d"))
+  (insert (format-time-string <span style="color: #008000;">"%Y-%m-%d"</span>))
 )
 </pre>
 </div>
@@ -896,10 +906,10 @@ Insert a textual signature into a file.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun insert-signature ()
-  "Spit out my name, email and current time."
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">insert-signature</span> ()
+  <span style="color: #036A07;">"Spit out my name, email and current time."</span>
   (interactive)
-  (insert "-- " user-full-name " (" user-mail-address ")  ")
+  (insert <span style="color: #008000;">"-- "</span> user-full-name <span style="color: #008000;">" ("</span> user-mail-address <span style="color: #008000;">")  "</span>)
   (insert-current-timestamp)
 )
 </pre>
@@ -916,11 +926,11 @@ Ask/browse for a filename and insert it into the buffer at the point.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun insert-file-name (file &amp;optional relativep)
-  "Read file name and insert it at point.
-With a prefix argument, insert only the non-directory part."
-  (interactive "fFile: \nP")
-  (when relativep (setq file (file-name-nondirectory file)))
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">insert-file-name</span> (file <span style="color: #6434A3;">&amp;optional</span> relativep)
+  <span style="color: #036A07;">"Read file name and insert it at point.</span>
+<span style="color: #036A07;">With a prefix argument, insert only the non-directory part."</span>
+  (interactive <span style="color: #008000;">"fFile: \nP"</span>)
+  (<span style="color: #0000FF;">when</span> relativep (setq file (file-name-nondirectory file)))
   (insert file))
 </pre>
 </div>
@@ -936,8 +946,8 @@ Insert the name of the current directory.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun insert-current-directory-name ()
-  "Insert the name of the current directory."
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">insert-current-directory-name</span> ()
+  <span style="color: #036A07;">"Insert the name of the current directory."</span>
   (interactive)
   (insert (file-name-directory (buffer-file-name)))
 )
@@ -955,16 +965,16 @@ I've stolen this from Steve Yegge. It renames the current file and buffer.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun rename-file-and-buffer (new-name)
-  "Rename both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">rename-file-and-buffer</span> (new-name)
+  <span style="color: #036A07;">"Rename both current buffer and file it's visiting to NEW-NAME."</span>
+  (interactive <span style="color: #008000;">"sNew name: "</span>)
+  (<span style="color: #0000FF;">let</span> ((name (buffer-name))
         (filename (buffer-file-name)))
-    (if (not filename)
-        (message "Buffer '%s' is not visiting a file!" name)
-      (if (get-buffer new-name)
-          (message "A buffer named '%s' already exists!" new-name)
-        (progn
+    (<span style="color: #0000FF;">if</span> (not filename)
+        (message <span style="color: #008000;">"Buffer '%s' is not visiting a file!"</span> name)
+      (<span style="color: #0000FF;">if</span> (get-buffer new-name)
+          (message <span style="color: #008000;">"A buffer named '%s' already exists!"</span> new-name)
+        (<span style="color: #0000FF;">progn</span>
           (rename-file name new-name 1)
           (rename-buffer new-name)
           (set-visited-file-name new-name)
@@ -984,8 +994,8 @@ This reverts a buffer without confirmation.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun reload-buffer ()
-  "revert-buffer without confirmation."
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">reload-buffer</span> ()
+  <span style="color: #036A07;">"revert-buffer without confirmation."</span>
   (interactive)
   (revert-buffer t t))
 </pre>
@@ -1002,12 +1012,12 @@ Take a string and strip out all the characters from a second string.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun string-strip-chars (string strip)
-  "Take STRING and remove characters in STRIP."
-  (while (&gt; (length strip) 0)
-    (let ((pos 0))
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">string-strip-chars</span> (string strip)
+  <span style="color: #036A07;">"Take STRING and remove characters in STRIP."</span>
+  (<span style="color: #0000FF;">while</span> (&gt; (length strip) 0)
+    (<span style="color: #0000FF;">let</span> ((pos 0))
       (setq pos (string-match (substring strip 0 1) string pos))
-      (while (not (eq pos nil))
+      (<span style="color: #0000FF;">while</span> (not (eq pos nil))
         (setq string (concat (substring string 0 pos)
                              (substring string (+ pos 1))))
         (setq pos (string-match (substring strip 0 1) string pos)))
@@ -1026,10 +1036,10 @@ This resizes the current window to the "correct" size.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun brettw/resize-window ()
-  "Resize the frame to defaults."
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/resize-window</span> ()
+  <span style="color: #036A07;">"Resize the frame to defaults."</span>
   (interactive)
-  (if (window-system)
+  (<span style="color: #0000FF;">if</span> (window-system)
       (set-frame-size (selected-frame) brettw/default-screen-width brettw/default-screen-height)
     )
   )
@@ -1047,15 +1057,15 @@ Resize the current window to double the normal width.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun brettw/widescreen ()
-  "Resize the frame to defaults."
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/widescreen</span> ()
+  <span style="color: #036A07;">"Resize the frame to defaults."</span>
   (interactive)
-  (if (= (frame-width) brettw/default-screen-width)
-      (progn
+  (<span style="color: #0000FF;">if</span> (= (frame-width) brettw/default-screen-width)
+      (<span style="color: #0000FF;">progn</span>
         (set-frame-size (selected-frame) (* 2 brettw/default-screen-width) brettw/default-screen-height)
         (split-window-horizontally)
         )
-    (progn 
+    (<span style="color: #0000FF;">progn</span> 
       (set-frame-size (selected-frame) brettw/default-screen-width brettw/default-screen-height)
       (delete-other-windows)
       )
@@ -1083,47 +1093,28 @@ We typically want this during startup, so let's call it now.
 </div>
 
 <div id="outline-container-sec-5-11" class="outline-3">
-<h3 id="sec-5-11"><span class="section-number-3">5.11</span> <code>count-words</code></h3>
+<h3 id="sec-5-11"><span class="section-number-3">5.11</span> <code>duplicate-line-or-region</code></h3>
 <div class="outline-text-3" id="text-5-11">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun count-words ()
-  (interactive)
-  (message "%d words"
-           (if (use-region-p)
-               (how-many "\\&lt;\\w*\\&gt;" (region-beginning) (region-end))
-             (how-many "\\&lt;\\w*\\&gt;" (buffer-end -1) (buffer-end 1))
-             )
-           )
-)
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-5-12" class="outline-3">
-<h3 id="sec-5-12"><span class="section-number-3">5.12</span> <code>duplicate-line-or-region</code></h3>
-<div class="outline-text-3" id="text-5-12">
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(defun brettw/duplicate-line-or-region (&amp;optional n)
-  "Duplicate current line, or region if active.
-With argument N, make N copies.
-With negative N, comment out original line and use the absolute value."
-  (interactive "*p")
-  (let ((use-region (use-region-p)))
-    (save-excursion
-      (let ((text (if use-region
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/duplicate-line-or-region</span> (<span style="color: #6434A3;">&amp;optional</span> n)
+  <span style="color: #036A07;">"Duplicate current line, or region if active.</span>
+<span style="color: #036A07;">With argument N, make N copies.</span>
+<span style="color: #036A07;">With negative N, comment out original line and use the absolute value."</span>
+  (interactive <span style="color: #008000;">"*p"</span>)
+  (<span style="color: #0000FF;">let</span> ((use-region (use-region-p)))
+    (<span style="color: #0000FF;">save-excursion</span>
+      (<span style="color: #0000FF;">let</span> ((text (<span style="color: #0000FF;">if</span> use-region
                       (buffer-substring (region-beginning) (region-end))
-                    (prog1 (thing-at-point 'line)
+                    (<span style="color: #0000FF;">prog1</span> (thing-at-point 'line)
                       (end-of-line)
-                      (if (&lt; 0 (forward-line 1))
+                      (<span style="color: #0000FF;">if</span> (&lt; 0 (forward-line 1))
                           (newline))))))
-        (dotimes (i (abs (or n 1)))
+        (<span style="color: #0000FF;">dotimes</span> (i (abs (or n 1)))
           (insert text))))
-    (if use-region nil
-      (let ((pos (- (point) (line-beginning-position))))
-        (if (&gt; 0 n)
+    (<span style="color: #0000FF;">if</span> use-region nil
+      (<span style="color: #0000FF;">let</span> ((pos (- (point) (line-beginning-position))))
+        (<span style="color: #0000FF;">if</span> (&gt; 0 n)
             (comment-region (line-beginning-position) (line-end-position)))
         (forward-line 1)
         (forward-char pos)))))
@@ -1132,22 +1123,22 @@ With negative N, comment out original line and use the absolute value."
 </div>
 </div>
 
-<div id="outline-container-sec-5-13" class="outline-3">
-<h3 id="sec-5-13"><span class="section-number-3">5.13</span> <code>smart-beginning-of-line</code></h3>
-<div class="outline-text-3" id="text-5-13">
+<div id="outline-container-sec-5-12" class="outline-3">
+<h3 id="sec-5-12"><span class="section-number-3">5.12</span> <code>smart-beginning-of-line</code></h3>
+<div class="outline-text-3" id="text-5-12">
 <p>
 I stole this from <a href="http://stackoverflow.com/a/145359">http://stackoverflow.com/a/145359</a>
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun smart-beginning-of-line ()
-  "Move point to first non-whitespace character or beginning-of-line.
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">smart-beginning-of-line</span> ()
+  <span style="color: #036A07;">"Move point to first non-whitespace character or beginning-of-line.</span>
 
-Move point to the first non-whitespace character on this line.
-If point was already at that position, move point to beginning of line."
-  (interactive "^")
-  (let ((oldpos (point)))
+<span style="color: #036A07;">Move point to the first non-whitespace character on this line.</span>
+<span style="color: #036A07;">If point was already at that position, move point to beginning of line."</span>
+  (interactive <span style="color: #008000;">"^"</span>)
+  (<span style="color: #0000FF;">let</span> ((oldpos (point)))
     (back-to-indentation)
     (and (= oldpos (point))
          (beginning-of-line))))
@@ -1155,7 +1146,24 @@ If point was already at that position, move point to beginning of line."
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-5-13" class="outline-3">
+<h3 id="sec-5-13"><span class="section-number-3">5.13</span> <code>align-repeat</code></h3>
+<div class="outline-text-3" id="text-5-13">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">align-repeat</span> (start end regexp)
+    <span style="color: #036A07;">"Repeat alignment with respect to </span>
+<span style="color: #036A07;">     the given regular expression."</span>
+    (interactive <span style="color: #008000;">"r\nsAlign regexp: "</span>)
+    (align-regexp start end 
+        (concat <span style="color: #008000;">"</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">(</span><span style="color: #008000;">\\s-*</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">)</span><span style="color: #008000;">"</span> regexp) 1 1 t))
+</pre>
 </div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-sec-6" class="outline-2">
 <h2 id="sec-6"><span class="section-number-2">6</span> Text editing</h2>
 <div class="outline-text-2" id="text-6">
@@ -1173,7 +1181,18 @@ Sentences should only have a single space at the end.
 </div>
 </div>
 </div>
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> Spellcheck</h3>
+<div class="outline-text-3" id="text-6-2">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq-default ispell-program-name <span style="color: #008000;">"C:/Program Files (x86)/Aspell/bin/aspell.exe"</span>)
+</pre>
 </div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-sec-7" class="outline-2">
 <h2 id="sec-7"><span class="section-number-2">7</span> Diary and calendar</h2>
 <div class="outline-text-2" id="text-7">
@@ -1186,8 +1205,8 @@ My diary is at <code>~/diary/main.txt</code>, and anything in the <code>/diary/<
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq diary-file "~/diary/main.txt")
-(add-to-list 'auto-mode-alist `(,(expand-file-name "~/org/diary/") . diary-mode))
+<pre class="src src-emacs-lisp">(setq diary-file <span style="color: #008000;">"~/diary/main.txt"</span>)
+(add-to-list 'auto-mode-alist `(,(expand-file-name <span style="color: #008000;">"~/org/diary/"</span>) . diary-mode))
 </pre>
 </div>
 </div>
@@ -1237,7 +1256,7 @@ We require the mighty org-babel module.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(require 'ob)
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">ob</span>)
 </pre>
 </div>
 </div>
@@ -1260,8 +1279,12 @@ These are a few miscellaneous settings to make things work how I like them.
       org-startup-with-inline-images nil
       org-startup-folded nil
 
+      org-export-copy-to-kill-ring nil
+
       org-refile 'time
       org-log-reschedule 'time
+
+      org-completion-use-ido t
 
       org-use-speed-commands t
 )
@@ -1274,46 +1297,48 @@ These are a few miscellaneous settings to make things work how I like them.
 <div class="outline-text-4" id="text-8-2-1">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(add-to-list 'org-structure-template-alist '("C" "#+BEGIN_COMMENT\n\n#+END_COMMENT" "&lt;!--\n\n--&gt;"))
+<pre class="src src-emacs-lisp">(add-to-list 'org-structure-template-alist '(<span style="color: #008000;">"C"</span> <span style="color: #008000;">"#+BEGIN_COMMENT\n\n#+END_COMMENT"</span> <span style="color: #008000;">"&lt;!--\n\n--&gt;"</span>))
 </pre>
 </div>
 </div>
 </div>
+
+
 <div id="outline-container-sec-8-2-2" class="outline-4">
 <h4 id="sec-8-2-2"><span class="section-number-4">8.2.2</span> Faces</h4>
 <div class="outline-text-4" id="text-8-2-2">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(eval-after-load 'org-faces
- '(progn
-    (defcustom org-todo-keyword-faces nil
-      "Faces for specific TODO keywords.
-This is a list of cons cells, with TODO keywords in the car and
-faces in the cdr.  The face can be a symbol, a color, or a
-property list of attributes, like (:foreground \"blue\" :weight
-bold :underline t)."
-      :group 'org-faces
-      :group 'org-todo
-      :type '(repeat
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">eval-after-load</span> 'org-faces
+ '(<span style="color: #0000FF;">progn</span>
+    (<span style="color: #0000FF;">defcustom</span> <span style="color: #BA36A5;">org-todo-keyword-faces</span> nil
+      <span style="color: #036A07;">"Faces for specific TODO keywords.</span>
+<span style="color: #036A07;">This is a list of cons cells, with TODO keywords in the car and</span>
+<span style="color: #036A07;">faces in the cdr.  The face can be a symbol, a color, or a</span>
+<span style="color: #036A07;">property list of attributes, like (:foreground \"blue\" :weight</span>
+<span style="color: #036A07;">bold :underline t)."</span>
+      <span style="color: #006FE0;">:group</span> 'org-faces
+      <span style="color: #006FE0;">:group</span> 'org-todo
+      <span style="color: #006FE0;">:type</span> '(repeat
               (cons
-               (string :tag "Keyword")
-               (choice color (sexp :tag "Face")))))))
+               (string <span style="color: #006FE0;">:tag</span> <span style="color: #008000;">"Keyword"</span>)
+               (choice color (sexp <span style="color: #006FE0;">:tag</span> <span style="color: #008000;">"Face"</span>)))))))
 
-(eval-after-load 'org
- '(progn
-    (defun org-get-todo-face-from-color (color)
-      "Returns a specification for a face that inherits from org-todo
- face and has the given color as foreground. Returns nil if
- color is nil."
-      (when color
-        `(:inherit org-warning :foreground ,color)))
+(<span style="color: #0000FF;">eval-after-load</span> 'org
+ '(<span style="color: #0000FF;">progn</span>
+    (<span style="color: #0000FF;">defun</span> <span style="color: #006699;">org-get-todo-face-from-color</span> (color)
+      <span style="color: #036A07;">"Returns a specification for a face that inherits from org-todo</span>
+<span style="color: #036A07;"> face and has the given color as foreground. Returns nil if</span>
+<span style="color: #036A07;"> color is nil."</span>
+      (<span style="color: #0000FF;">when</span> color
+        `(<span style="color: #006FE0;">:inherit</span> org-warning <span style="color: #006FE0;">:foreground</span> ,color)))
 
-    (defun org-get-todo-face (kwd)
-      "Get the right face for a TODO keyword KWD.
-If KWD is a number, get the corresponding match group."
-      (if (numberp kwd) (setq kwd (match-string kwd)))
-      (or (let ((face (cdr (assoc kwd org-todo-keyword-faces))))
-            (if (stringp face)
+    (<span style="color: #0000FF;">defun</span> <span style="color: #006699;">org-get-todo-face</span> (kwd)
+      <span style="color: #036A07;">"Get the right face for a TODO keyword KWD.</span>
+<span style="color: #036A07;">If KWD is a number, get the corresponding match group."</span>
+      (<span style="color: #0000FF;">if</span> (numberp kwd) (setq kwd (match-string kwd)))
+      (or (<span style="color: #0000FF;">let</span> ((face (cdr (assoc kwd org-todo-keyword-faces))))
+            (<span style="color: #0000FF;">if</span> (stringp face)
                 (org-get-todo-face-from-color face)
               face))
           (and (member kwd org-done-keywords) 'org-done)
@@ -1328,9 +1353,9 @@ Now the actual settings:
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq org-todo-keyword-faces
-      '(("STARTED" . "dark orange")
-        ("WAITING" . "red4")
-        ("CANCELLED" . "saddle brown"))
+      '((<span style="color: #008000;">"STARTED"</span> . <span style="color: #008000;">"dark orange"</span>)
+        (<span style="color: #008000;">"WAITING"</span> . <span style="color: #008000;">"red4"</span>)
+        (<span style="color: #008000;">"CANCELLED"</span> . <span style="color: #008000;">"saddle brown"</span>))
 )
 </pre>
 </div>
@@ -1355,22 +1380,22 @@ This will repair broken SCHEDULED and DEADLINE markup.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun org-check-misformatted-subtree ()
-  "Check misformatted entries in the current buffer."
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">org-check-misformatted-subtree</span> ()
+  <span style="color: #036A07;">"Check misformatted entries in the current buffer."</span>
   (interactive)
   (show-all)
   (org-map-entries
-   (lambda ()
-     (when (and (move-beginning-of-line 2)
+   (<span style="color: #0000FF;">lambda</span> ()
+     (<span style="color: #0000FF;">when</span> (and (move-beginning-of-line 2)
                 (not (looking-at org-heading-regexp)))
-       (if (or (and (org-get-scheduled-time (point))
-                    (not (looking-at (concat "^.*" org-scheduled-regexp))))
+       (<span style="color: #0000FF;">if</span> (or (and (org-get-scheduled-time (point))
+                    (not (looking-at (concat <span style="color: #008000;">"^.*"</span> org-scheduled-regexp))))
                (and (org-get-deadline-time (point))
-                    (not (looking-at (concat "^.*" org-deadline-regexp)))))
-           (when (y-or-n-p "Fix this subtree? ")
-             (message "Call the function again when you're done fixing this subtree.")
+                    (not (looking-at (concat <span style="color: #008000;">"^.*"</span> org-deadline-regexp)))))
+           (<span style="color: #0000FF;">when</span> (y-or-n-p <span style="color: #008000;">"Fix this subtree? "</span>)
+             (message <span style="color: #008000;">"Call the function again when you're done fixing this subtree."</span>)
              (recursive-edit))
-         (message "All subtrees checked."))))))
+         (message <span style="color: #008000;">"All subtrees checked."</span>))))))
 </pre>
 </div>
 </div>
@@ -1381,23 +1406,23 @@ This will repair broken SCHEDULED and DEADLINE markup.
 <div class="outline-text-4" id="text-8-3-2">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(eval-after-load 'org-list
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">eval-after-load</span> 'org-list
   '(add-hook 'org-checkbox-statistics-hook (function brettw/checkbox-list-complete)))
 
-(defun brettw/checkbox-list-complete ()
-  (save-excursion
+(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/checkbox-list-complete</span> ()
+  (<span style="color: #0000FF;">save-excursion</span>
     (org-back-to-heading t)
-    (let ((beg (point)) end)
+    (<span style="color: #0000FF;">let</span> ((beg (point)) end)
       (end-of-line)
       (setq end (point))
       (goto-char beg)
-      (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]" end t)
-            (if (match-end 1)
-                (if (equal (match-string 1) "100%")
-                    ;; all done - do the state change
+      (<span style="color: #0000FF;">if</span> (re-search-forward <span style="color: #008000;">"\\[</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">(</span><span style="color: #008000;">[0-9]*%</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">)</span><span style="color: #008000;">\\]</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">\\[</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">(</span><span style="color: #008000;">[0-9]*</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">)</span><span style="color: #008000;">/</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">(</span><span style="color: #008000;">[0-9]*</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">)</span><span style="color: #008000;">\\]"</span> end t)
+            (<span style="color: #0000FF;">if</span> (match-end 1)
+                (<span style="color: #0000FF;">if</span> (equal (match-string 1) <span style="color: #008000;">"100%"</span>)
+                    <span style="color: #8D8D84; font-style: italic;">;; </span><span style="color: #8D8D84; font-style: italic;">all done - do the state change</span>
                     (org-todo 'done)
                   (org-todo 'todo))
-              (if (and (&gt; (match-end 2) (match-beginning 2))
+              (<span style="color: #0000FF;">if</span> (and (&gt; (match-end 2) (match-beginning 2))
                        (equal (match-string 2) (match-string 3)))
                   (org-todo 'done)
                 (org-todo 'todo)))))))
@@ -1411,7 +1436,7 @@ This will repair broken SCHEDULED and DEADLINE markup.
 <div class="outline-text-4" id="text-8-3-3">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun brettw/jump-to-journal ()
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/jump-to-journal</span> ()
   (interactive)
   (find-file brettw/org-journal-file)
 )
@@ -1425,20 +1450,20 @@ This will repair broken SCHEDULED and DEADLINE markup.
 <div class="outline-text-4" id="text-8-3-4">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun brettw/org-evaluate-time-range (&amp;optional to-buffer)
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/org-evaluate-time-range</span> (<span style="color: #6434A3;">&amp;optional</span> to-buffer)
   (interactive)
-  (if (org-at-date-range-p t)
+  (<span style="color: #0000FF;">if</span> (org-at-date-range-p t)
       (org-evaluate-time-range to-buffer)
-    (let ((headline (buffer-substring (point-at-bol) (point-at-eol))))
-      (with-temp-buffer
+    (<span style="color: #0000FF;">let</span> ((headline (buffer-substring (point-at-bol) (point-at-eol))))
+      (<span style="color: #0000FF;">with-temp-buffer</span>
         (insert headline)
         (goto-char (point-at-bol))
         (re-search-forward org-ts-regexp (point-at-eol) t)
-        (if (not (org-at-timestamp-p t))
-            (error "No timestamp here"))
+        (<span style="color: #0000FF;">if</span> (not (org-at-timestamp-p t))
+            (<span style="color: #ff0000; font-weight: bold;">error</span> <span style="color: #008000;">"No timestamp here"</span>))
         (goto-char (match-beginning 0))
         (org-insert-time-stamp (current-time) nil nil)
-        (insert "--")
+        (insert <span style="color: #008000;">"--"</span>)
         (org-evaluate-time-range to-buffer)))))
 </pre>
 </div>
@@ -1455,10 +1480,10 @@ We typically work out of the <code>~/org/</code> directory for the universal stu
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq org-directory "~/org")
-(setq brettw/org-journal-file "~/org/journal.org")
-(setq org-agenda-files (list "~/org/" "~/"))
-(setq org-default-notes-file (concat org-directory "/notes.org"))
+<pre class="src src-emacs-lisp">(setq org-directory <span style="color: #008000;">"~/org"</span>)
+(setq brettw/org-journal-file <span style="color: #008000;">"~/org/journal.org"</span>)
+(setq org-agenda-files (list <span style="color: #008000;">"~/org/"</span> <span style="color: #008000;">"~/"</span>))
+(setq org-default-notes-file (concat org-directory <span style="color: #008000;">"/notes.org"</span>))
 </pre>
 </div>
 </div>
@@ -1473,11 +1498,11 @@ So <code>org-mode</code> can be accessed from anywhere!
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(global-set-key (kbd "\C-c l") 'org-store-link)
-(global-set-key (kbd "\C-c a") 'org-agenda)
-(global-set-key (kbd "\C-c b") 'org-iswitchb)
-(global-set-key (kbd "\C-c c") 'org-capture)
-(global-set-key (kbd "C-M-j") 'brettw/jump-to-journal)
+<pre class="src src-emacs-lisp">(global-set-key (kbd <span style="color: #008000;">"\C-c l"</span>) 'org-store-link)
+(global-set-key (kbd <span style="color: #008000;">"\C-c a"</span>) 'org-agenda)
+(global-set-key (kbd <span style="color: #008000;">"\C-c b"</span>) 'org-iswitchb)
+(global-set-key (kbd <span style="color: #008000;">"\C-c c"</span>) 'org-capture)
+(global-set-key (kbd <span style="color: #008000;">"C-M-j"</span>) 'brettw/jump-to-journal)
 </pre>
 </div>
 </div>
@@ -1503,6 +1528,7 @@ We'll usually only work on my favourite languages.
    (emacs-lisp . t)
    (latex . t)
    (python . t)
+   (sh . t)
    )
 )
 </pre>
@@ -1520,6 +1546,16 @@ I'd prefer zero indentation.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq org-edit-src-content-indentation 0)
+</pre>
+</div>
+
+<p>
+I also like to live dangerously (don't ask me if I want to evaluate org-babel code)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq org-confirm-babel-evaluate nil)
 </pre>
 </div>
 </div>
@@ -1556,8 +1592,8 @@ I'd prefer zero indentation.
 
 <pre class="src src-emacs-lisp">(setq org-link-abbrev-alist
       '(
-        ("wikipedia" . "http://en.wikipedia.org/index.php?search=%h")
-        ("contact" . "file:~/org/contacts.org::%s")
+        (<span style="color: #008000;">"wikipedia"</span> . <span style="color: #008000;">"http://en.wikipedia.org/index.php?search=%h"</span>)
+        (<span style="color: #008000;">"contact"</span> . <span style="color: #008000;">"file:~/org/contacts.org::%s"</span>)
         )
 )
 </pre>
@@ -1571,8 +1607,8 @@ I'd prefer zero indentation.
 <div class="outline-text-3" id="text-8-8">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">;  (require 'org-contacts)
-;  (add-to-list 'org-contacts-files (expand-file-name "~/org/contacts.org"))
+<pre class="src src-emacs-lisp"><span style="color: #8D8D84; font-style: italic;">;  </span><span style="color: #8D8D84; font-style: italic;">(require 'org-contacts)</span>
+<span style="color: #8D8D84; font-style: italic;">;  </span><span style="color: #8D8D84; font-style: italic;">(add-to-list 'org-contacts-files (expand-file-name "~/org/contacts.org"))</span>
 </pre>
 </div>
 </div>
@@ -1630,7 +1666,7 @@ Show the agenda straight after Emacs initialization.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq org-todo-keywords (list "TODO(t)" "STARTED(s)" "WAITING(w!)" "|" "DONE(d)" "CANCELLED(c@)"))
+<pre class="src src-emacs-lisp">(setq org-todo-keywords (list <span style="color: #008000;">"REWARD(r)"</span> <span style="color: #008000;">"TODO(t)"</span> <span style="color: #008000;">"STARTED(s)"</span> <span style="color: #008000;">"WAITING(w!)"</span> <span style="color: #008000;">"|"</span> <span style="color: #008000;">"DONE(d)"</span> <span style="color: #008000;">"CANCELLED(c@)"</span>))
 </pre>
 </div>
 </div>
@@ -1646,7 +1682,7 @@ Make sure we autoload the required stuff.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(require 'org2blog-autoloads)
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">org2blog-autoloads</span>)
 </pre>
 </div>
 </div>
@@ -1678,7 +1714,7 @@ Set the source code syntax.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq org2blog/wp-use-sourcecode-shortcode t)
-(setq org2blog/wp-sourcecode-default-params "")
+(setq org2blog/wp-sourcecode-default-params <span style="color: #008000;">""</span>)
 </pre>
 </div>
 </div>
@@ -1686,8 +1722,46 @@ Set the source code syntax.
 </div>
 
 <div id="outline-container-sec-8-12" class="outline-3">
-<h3 id="sec-8-12"><span class="section-number-3">8.12</span> Capture</h3>
+<h3 id="sec-8-12"><span class="section-number-3">8.12</span> <code>org-gamify</code></h3>
 <div class="outline-text-3" id="text-8-12">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'load-path (expand-file-name <span style="color: #008000;">"~/libraries/org-gamify/"</span>) )
+(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">org-gamify</span>)
+
+(define-gamify-currency gold
+         <span style="color: #006FE0;">:name</span> <span style="color: #008000;">"gold"</span>
+         <span style="color: #006FE0;">:category</span> <span style="color: #008000;">"Money"</span>
+         <span style="color: #006FE0;">:min</span> 0 <span style="color: #006FE0;">:enforce-min</span> block)
+
+(define-gamify-currency karma
+  <span style="color: #006FE0;">:name</span> <span style="color: #008000;">"karma"</span>
+  <span style="color: #006FE0;">:category</span> <span style="color: #008000;">"Experience"</span>
+  <span style="color: #006FE0;">:min</span> 0 <span style="color: #006FE0;">:enforce-min</span> truncate)
+
+(define-gamify-currency xp
+  <span style="color: #006FE0;">:name</span> <span style="color: #008000;">"XP"</span>
+  <span style="color: #006FE0;">:category</span> <span style="color: #008000;">"Experience"</span>
+  <span style="color: #006FE0;">:min</span> 0 <span style="color: #006FE0;">:enforce-min</span> truncate)
+
+<span style="color: #8D8D84; font-style: italic;">; </span><span style="color: #8D8D84; font-style: italic;">Add to agenda</span>
+(push '(<span style="color: #008000;">"r"</span> <span style="color: #008000;">"Rewards"</span>
+        todo <span style="color: #008000;">"REWARD"</span>
+        ((org-agenda-time-grid nil)
+         (org-agenda-dim-blocked-tasks 'invisible)
+         (org-agenda-todo-ignore-scheduled nil)
+         (org-agenda-todo-ignore-deadlines nil)
+         ))
+      org-agenda-custom-commands)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-8-13" class="outline-3">
+<h3 id="sec-8-13"><span class="section-number-3">8.13</span> Capture</h3>
+<div class="outline-text-3" id="text-8-13">
 <p>
 I capture bugs, todo and dev journal entries for my main project.
 </p>
@@ -1696,18 +1770,18 @@ I capture bugs, todo and dev journal entries for my main project.
 
 <pre class="src src-emacs-lisp">(setq org-capture-templates
       '(
-        ("t" "To-Do" entry (file "~/org/todo.org")
-         "* TODO %?%i %^g\nDEADLINE: %^t\n%t \n\n" :empty-lines 1)
-        ("T" "TDA To-Do" entry (file "e:/Projects/theDayAfter/doc/org/todo.org")
-         "* TODO %i%? :tda:\n%t\n" :empty-lines 1)
-        ("B" "TDA Bug" entry (file "e:/Projects/theDayAfter/doc/org/bugs.org")
-         "* TODO %i%? :tda:bug:\n%t\n\n" :empty-lines 1)
-        ("J" "TDA Dev Journal" entry (file+datetree "e:/Projects/thedayafter/doc/org/devjournal.org")
-         "* %i%? :tda:\n%t\n" :empty-lines 1)
-        ("m" "Meeting" entry (file+datetree+prompt "~/org/meetings.org")
-         "* %?\n %^T\n" :empty-lines 1)
-        ("s" "Spark" entry (file "~/org/spark.org")
-         "* %? %^g\n%u %i\n\n")
+        (<span style="color: #008000;">"t"</span> <span style="color: #008000;">"To-Do"</span> entry (file <span style="color: #008000;">"~/org/todo.org"</span>)
+         <span style="color: #008000;">"* TODO %?%i %^g\nDEADLINE: %^t\n%t \n\n"</span> <span style="color: #006FE0;">:empty-lines</span> 1)
+        (<span style="color: #008000;">"T"</span> <span style="color: #008000;">"TDA To-Do"</span> entry (file <span style="color: #008000;">"e:/Projects/theDayAfter/doc/org/todo.org"</span>)
+         <span style="color: #008000;">"* TODO %i%? :tda:\n%t\n"</span> <span style="color: #006FE0;">:empty-lines</span> 1)
+        (<span style="color: #008000;">"B"</span> <span style="color: #008000;">"TDA Bug"</span> entry (file <span style="color: #008000;">"e:/Projects/theDayAfter/doc/org/bugs.org"</span>)
+         (file <span style="color: #008000;">"~/org/template/tdabug.org"</span>) <span style="color: #006FE0;">:empty-lines</span> 1)
+        (<span style="color: #008000;">"J"</span> <span style="color: #008000;">"TDA Dev Journal"</span> entry (file+datetree <span style="color: #008000;">"e:/Projects/thedayafter/doc/org/devjournal.org"</span>)
+         <span style="color: #008000;">"* %i%? :tda:\n%t\n"</span> <span style="color: #006FE0;">:empty-lines</span> 1)
+        (<span style="color: #008000;">"m"</span> <span style="color: #008000;">"Meeting"</span> entry (file+datetree+prompt <span style="color: #008000;">"~/org/meetings.org"</span>)
+         <span style="color: #008000;">"* %?\n %^T\n"</span> <span style="color: #006FE0;">:empty-lines</span> 1)
+        (<span style="color: #008000;">"s"</span> <span style="color: #008000;">"Spark"</span> entry (file <span style="color: #008000;">"~/org/spark.org"</span>)
+         <span style="color: #008000;">"* %? %^g\n%u %i\n\n"</span>)
         )
 )
 </pre>
@@ -1715,18 +1789,18 @@ I capture bugs, todo and dev journal entries for my main project.
 </div>
 </div>
 
-<div id="outline-container-sec-8-13" class="outline-3">
-<h3 id="sec-8-13"><span class="section-number-3">8.13</span> Hooks</h3>
-<div class="outline-text-3" id="text-8-13">
+<div id="outline-container-sec-8-14" class="outline-3">
+<h3 id="sec-8-14"><span class="section-number-3">8.14</span> Hooks</h3>
+<div class="outline-text-3" id="text-8-14">
 <p>
 Global org hooks
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">  (defun brettw/my-org-mode-hook ()
-    (local-set-key (kbd "\M-n") 'outline-next-visible-heading)
-    (local-set-key (kbd "\M-p") 'outline-previous-visible-heading)
+<pre class="src src-emacs-lisp">  (<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/my-org-mode-hook</span> ()
+    (local-set-key (kbd <span style="color: #008000;">"\M-n"</span>) 'outline-next-visible-heading)
+    (local-set-key (kbd <span style="color: #008000;">"\M-p"</span>) 'outline-previous-visible-heading)
     (visual-line-mode)
   )
 
@@ -1740,7 +1814,7 @@ Specific org-list hooks:
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(eval-after-load 'org-list
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">eval-after-load</span> 'org-list
   '(add-hook 'org-checkbox-statistics-hook (function brettw/checkbox-list-complete)))
 </pre>
 </div>
@@ -1763,8 +1837,8 @@ Basic CEDET setup (based on the new 23.2+ merged CEDET/Emacs setup).
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(require 'cedet)
-(require 'semantic/sb)
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">cedet</span>)
+(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">semantic/sb</span>)
 (semantic-mode 1)
 </pre>
 </div>
@@ -1796,11 +1870,11 @@ When a compile finishes correctly, we automatically close the compilation window
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun compilation-exit-autoclose (status code msg)
-  ;; If M-x compile exists with a 0
-  (when (and (eq status 'exit) (zerop code))
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">compilation-exit-autoclose</span> (status code msg)
+  <span style="color: #8D8D84; font-style: italic;">;; </span><span style="color: #8D8D84; font-style: italic;">If M-x compile exists with a 0</span>
+  (<span style="color: #0000FF;">when</span> (and (eq status 'exit) (zerop code))
     (bury-buffer)
-    (delete-window (get-buffer-window (get-buffer "*compilation*"))))
+    (delete-window (get-buffer-window (get-buffer <span style="color: #008000;">"*compilation*"</span>))))
   (cons msg code))
 
 (setq compilation-exit-message-function 'compilation-exit-autoclose)
@@ -1817,19 +1891,11 @@ When a compile finishes correctly, we automatically close the compilation window
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(add-hook 'c-mode-common-hook '( lambda ()
-                                 (local-set-key (kbd "&lt;S-f5&gt;") 'compile)
-                                 (local-set-key (kbd "&lt;f5&gt;") 'recompile)
-                                 (local-set-key (kbd "RET") 'reindent-then-newline-and-indent)
-                                 (local-set-key (kbd "C-M-o") 'ff-find-other-file)
-                                 (local-set-key (kbd "&lt;C-return&gt;") 'complete-symbol)
-))
-
-(add-hook 'python-mode-hook '( lambda ()
-                                 (local-set-key (kbd "&lt;S-f5&gt;") 'compile)
-                                 (local-set-key (kbd "&lt;f5&gt;") 'recompile)
-                                 (local-set-key (kbd "RET") 'reindent-then-newline-and-indent)
-                                 (local-set-key (kbd "s-o") 'ff-find-other-file)
-                                 (local-set-key (kbd "&lt;C-return&gt;") 'complete-symbol)
+                                 (local-set-key (kbd <span style="color: #008000;">"&lt;S-f5&gt;"</span>) 'compile)
+                                 (local-set-key (kbd <span style="color: #008000;">"&lt;f5&gt;"</span>) 'recompile)
+                                 (local-set-key (kbd <span style="color: #008000;">"RET"</span>) 'reindent-then-newline-and-indent)
+                                 (local-set-key (kbd <span style="color: #008000;">"C-M-o"</span>) 'ff-find-other-file)
+                                 (local-set-key (kbd <span style="color: #008000;">"&lt;C-return&gt;"</span>) 'complete-symbol)
 ))
 </pre>
 </div>
@@ -1838,18 +1904,31 @@ When a compile finishes correctly, we automatically close the compilation window
 </div>
 
 <div id="outline-container-sec-9-2" class="outline-3">
-<h3 id="sec-9-2"><span class="section-number-3">9.2</span> Lisp</h3>
-</div>
-<div id="outline-container-sec-9-3" class="outline-3">
-<h3 id="sec-9-3"><span class="section-number-3">9.3</span> HTML</h3>
-<div class="outline-text-3" id="text-9-3">
+<h3 id="sec-9-2"><span class="section-number-3">9.2</span> LaTeX</h3>
+<div class="outline-text-3" id="text-9-2">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.php?\\'" . web-mode))
-(defun brettw/web-mode-hook () 
-  (local-set-key (kbd "RET") 'newline-and-indent)
+<pre class="src src-emacs-lisp">(load <span style="color: #008000;">"auctex.el"</span> nil t t)
+(add-to-list 'auto-mode-alist '(<span style="color: #008000;">"\\.tex?\\'"</span> . latex-mode))
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3"><span class="section-number-3">9.3</span> Lisp</h3>
+</div>
+<div id="outline-container-sec-9-4" class="outline-3">
+<h3 id="sec-9-4"><span class="section-number-3">9.4</span> HTML</h3>
+<div class="outline-text-3" id="text-9-4">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">web-mode</span>)
+(add-to-list 'auto-mode-alist '(<span style="color: #008000;">"\\.html?\\'"</span> . web-mode))
+(add-to-list 'auto-mode-alist '(<span style="color: #008000;">"\\.php?\\'"</span> . web-mode))
+(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/web-mode-hook</span> () 
+  (local-set-key (kbd <span style="color: #008000;">"RET"</span>) 'newline-and-indent)
 )
 
 (add-hook 'web-mode-hook 'brettw/web-mode-hook)
@@ -1858,37 +1937,41 @@ When a compile finishes correctly, we automatically close the compilation window
 </div>
 </div>
 
-<div id="outline-container-sec-9-4" class="outline-3">
-<h3 id="sec-9-4"><span class="section-number-3">9.4</span> Python</h3>
-<div class="outline-text-3" id="text-9-4">
-</div><div id="outline-container-sec-9-4-1" class="outline-4">
-<h4 id="sec-9-4-1"><span class="section-number-4">9.4.1</span> Filenames</h4>
-<div class="outline-text-4" id="text-9-4-1">
+<div id="outline-container-sec-9-5" class="outline-3">
+<h3 id="sec-9-5"><span class="section-number-3">9.5</span> Python</h3>
+<div class="outline-text-3" id="text-9-5">
+</div><div id="outline-container-sec-9-5-1" class="outline-4">
+<h4 id="sec-9-5-1"><span class="section-number-4">9.5.1</span> Filenames</h4>
+<div class="outline-text-4" id="text-9-5-1">
 <p>
 Use python mode for SCons files.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq auto-mode-alist (cons '("SConstruct" . python-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("SConscript" . python-mode) auto-mode-alist))
+<pre class="src src-emacs-lisp">(setq auto-mode-alist (cons '(<span style="color: #008000;">"SConstruct"</span> . python-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '(<span style="color: #008000;">"SConscript"</span> . python-mode) auto-mode-alist))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-9-4-2" class="outline-4">
-<h4 id="sec-9-4-2"><span class="section-number-4">9.4.2</span> Hook</h4>
-<div class="outline-text-4" id="text-9-4-2">
+<div id="outline-container-sec-9-5-2" class="outline-4">
+<h4 id="sec-9-5-2"><span class="section-number-4">9.5.2</span> Hook</h4>
+<div class="outline-text-4" id="text-9-5-2">
 <p>
 When we "compile" in Python, we typically mean to invoke SCons (because we are usually editing SCons files!)
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun brettw/my-python-hook ()
-  (setq compile-command "scons.py -D")
-  (local-set-key (kbd "RET") 'newline-and-indent)
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/my-python-hook</span> ()
+  (setq compile-command <span style="color: #008000;">"scons.py -D"</span>)
+  (local-set-key (kbd <span style="color: #008000;">"&lt;S-f5&gt;"</span>) 'compile)
+  (local-set-key (kbd <span style="color: #008000;">"&lt;f5&gt;"</span>) 'recompile)
+  (local-set-key (kbd <span style="color: #008000;">"RET"</span>) 'newline-and-indent)
+  (local-set-key (kbd <span style="color: #008000;">"s-o"</span>) 'ff-find-other-file)
+  (local-set-key (kbd <span style="color: #008000;">"&lt;C-return&gt;"</span>) 'complete-symbol)
 )
 
 (add-hook 'python-mode-hook 'brettw/my-python-hook)
@@ -1898,28 +1981,28 @@ When we "compile" in Python, we typically mean to invoke SCons (because we are u
 </div>
 </div>
 
-<div id="outline-container-sec-9-5" class="outline-3">
-<h3 id="sec-9-5"><span class="section-number-3">9.5</span> C++</h3>
-<div class="outline-text-3" id="text-9-5">
-</div><div id="outline-container-sec-9-5-1" class="outline-4">
-<h4 id="sec-9-5-1"><span class="section-number-4">9.5.1</span> Filenames</h4>
-<div class="outline-text-4" id="text-9-5-1">
+<div id="outline-container-sec-9-6" class="outline-3">
+<h3 id="sec-9-6"><span class="section-number-3">9.6</span> C++</h3>
+<div class="outline-text-3" id="text-9-6">
+</div><div id="outline-container-sec-9-6-1" class="outline-4">
+<h4 id="sec-9-6-1"><span class="section-number-4">9.6.1</span> Filenames</h4>
+<div class="outline-text-4" id="text-9-6-1">
 <p>
 CUDA is C++, so make Emacs aware of it.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(add-to-list 'auto-mode-alist '("\\.cu\\'" . c++-mode))
-(add-to-list 'auto-mode-alist '("\\.cuh\\'" . c++-mode))
+<pre class="src src-emacs-lisp">(add-to-list 'auto-mode-alist '(<span style="color: #008000;">"\\.cu\\'"</span> . c++-mode))
+(add-to-list 'auto-mode-alist '(<span style="color: #008000;">"\\.cuh\\'"</span> . c++-mode))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-9-5-2" class="outline-4">
-<h4 id="sec-9-5-2"><span class="section-number-4">9.5.2</span> Style</h4>
-<div class="outline-text-4" id="text-9-5-2">
+<div id="outline-container-sec-9-6-2" class="outline-4">
+<h4 id="sec-9-6-2"><span class="section-number-4">9.6.2</span> Style</h4>
+<div class="outline-text-4" id="text-9-6-2">
 <p>
 This is my C/C++ style.
 </p>
@@ -1929,7 +2012,7 @@ This is my C/C++ style.
 <pre class="src src-emacs-lisp">(setq c-basic-offset 4
       c-doc-comment-style (quote javadoc))
 
-(defconst brettw/my-c-style
+(<span style="color: #0000FF;">defconst</span> <span style="color: #BA36A5;">brettw/my-c-style</span>
   '((c-tab-always-indent         . t)
     (c-hanging-braces-alist      . ((substatement-open after)
                                     (brace-list-open)))
@@ -1948,27 +2031,27 @@ This is my C/C++ style.
                                     (access-label      . -)
                                     (knr-argdecl-intro . -)))
     )
-  "BEW C Programming Style")
+  <span style="color: #036A07;">"BEW C Programming Style"</span>)
 
-(c-add-style "brettw" brettw/my-c-style)
+(c-add-style <span style="color: #008000;">"brettw"</span> brettw/my-c-style)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-9-5-3" class="outline-4">
-<h4 id="sec-9-5-3"><span class="section-number-4">9.5.3</span> Hooks</h4>
-<div class="outline-text-4" id="text-9-5-3">
+<div id="outline-container-sec-9-6-3" class="outline-4">
+<h4 id="sec-9-6-3"><span class="section-number-4">9.6.3</span> Hooks</h4>
+<div class="outline-text-4" id="text-9-6-3">
 <p>
 Set a bunch of my defaults.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun brettw/my-c-mode-common-hook ()
-  (global-set-key (kbd "&lt;M-return&gt;") 'semantic-ia-complete-symbol)
-  (c-set-style "brettw")
-  (setq compile-command "scons.py -D")
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/my-c-mode-common-hook</span> ()
+  (global-set-key (kbd <span style="color: #008000;">"&lt;M-return&gt;"</span>) 'semantic-ia-complete-symbol)
+  (c-set-style <span style="color: #008000;">"brettw"</span>)
+  (setq compile-command <span style="color: #008000;">"scons.py -D"</span>)
   )
 
 (add-hook 'c-mode-common-hook 'brettw/my-c-mode-common-hook)
@@ -1979,15 +2062,38 @@ Set a bunch of my defaults.
 </div>
 </div>
 
-<div id="outline-container-sec-9-6" class="outline-3">
-<h3 id="sec-9-6"><span class="section-number-3">9.6</span> Projects</h3>
-<div class="outline-text-3" id="text-9-6">
+<div id="outline-container-sec-9-7" class="outline-3">
+<h3 id="sec-9-7"><span class="section-number-3">9.7</span> Projects</h3>
+<div class="outline-text-3" id="text-9-7">
 <p>
 I put project-specific settings here (especially <code>semantic-add-system-include</code> settings)
 </p>
 </div>
 </div>
+
+<div id="outline-container-sec-9-8" class="outline-3">
+<h3 id="sec-9-8"><span class="section-number-3">9.8</span> Octave</h3>
+<div class="outline-text-3" id="text-9-8">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'auto-mode-alist '(<span style="color: #008000;">"\\.m\\'"</span> . octave-mode))
+</pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-sec-9-9" class="outline-3">
+<h3 id="sec-9-9"><span class="section-number-3">9.9</span> The Day After</h3>
+<div class="outline-text-3" id="text-9-9">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">tdascript</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-sec-10" class="outline-2">
 <h2 id="sec-10"><span class="section-number-2">10</span> Utilities</h2>
 <div class="outline-text-2" id="text-10">
@@ -2000,13 +2106,16 @@ I put project-specific settings here (especially <code>semantic-add-system-inclu
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq twittering-use-master-password t)
-(setq twittering-icon-mode t)
-(setq twittering-timer-interval 300)
+<pre class="src src-emacs-lisp">(setq twittering-use-master-password t
+      twittering-icon-mode t
+      twittering-timer-interval 300
+      twittering-use-icon-storage t)
 </pre>
 </div>
 </div>
 </div>
+
+
 <div id="outline-container-sec-10-2" class="outline-3">
 <h3 id="sec-10-2"><span class="section-number-3">10.2</span> Webjump</h3>
 <div class="outline-text-3" id="text-10-2">
@@ -2016,22 +2125,24 @@ Webjump is neat and gives us very quick access to search.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(require 'webjump)
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">webjump</span>)
 
 (global-set-key '[f2] 'webjump)
 (setq webjump-sites '(
-                      ("Urban Dictionary" .
-                       [simple-query "www.urbandictionary.com"
-                                     "http://www.urbandictionary.com/define.php?term=" ""])
-                      ("Reddit Search" .
-                       [simple-query "www.reddit.com"
-                                     "http://www.reddit.com/search?q=" ""])
-                      ("Google Image Search" .
-                       [simple-query "images.google.com" "images.google.com/images?hl=en&amp;q=" ""])
-                      ("Google" .
-                       [simple-query "google.com" "www.google.com.au/search?q=" ""])
-                      ("StackOverflow" .
-                       [simple-query "stackoverflow.com" "stackoverflow.com/search?q=" ""])
+                      (<span style="color: #008000;">"Urban Dictionary"</span> .
+                       [simple-query <span style="color: #008000;">"www.urbandictionary.com"</span>
+                                     <span style="color: #008000;">"http://www.urbandictionary.com/define.php?term="</span> <span style="color: #008000;">""</span>])
+                      (<span style="color: #008000;">"Reddit Search"</span> .
+                       [simple-query <span style="color: #008000;">"www.reddit.com"</span>
+                                     <span style="color: #008000;">"http://www.reddit.com/search?q="</span> <span style="color: #008000;">""</span>])
+                      (<span style="color: #008000;">"Google Image Search"</span> .
+                       [simple-query <span style="color: #008000;">"images.google.com"</span> <span style="color: #008000;">"images.google.com/images?hl=en&amp;q="</span> <span style="color: #008000;">""</span>])
+                      (<span style="color: #008000;">"Google"</span> .
+                       [simple-query <span style="color: #008000;">"google.com"</span> <span style="color: #008000;">"www.google.com.au/search?q="</span> <span style="color: #008000;">""</span>])
+                      (<span style="color: #008000;">"StackOverflow"</span> .
+                       [simple-query <span style="color: #008000;">"stackoverflow.com"</span> <span style="color: #008000;">"stackoverflow.com/search?q="</span> <span style="color: #008000;">""</span>])
+                      (<span style="color: #008000;">"Wikipedia"</span> .
+                       [simple-query <span style="color: #008000;">"https://en.wikipedia.org/"</span> <span style="color: #008000;">"https://en.wikipedia.org/wiki/Special:Search/"</span> <span style="color: #008000;">""</span>])
 
                       )
 
@@ -2044,8 +2155,8 @@ Webjump is neat and gives us very quick access to search.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Brett Witty</p>
-<p class="date">Created: 2014-03-04 Tue 22:19</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.5h)</p>
+<p class="date">Created: 2014-08-05 Tue 19:29</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7c)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
