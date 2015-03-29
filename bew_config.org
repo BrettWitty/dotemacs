@@ -153,8 +153,17 @@ Use the shiny autopair module.
 I'd like these Windows keys to work, but they don't.
 
 #+BEGIN_SRC emacs-lisp
-(w32-register-hot-key [A-tab])
-(w32-register-hot-key [s-o])
+(setq w32-pass-lwindow-to-system nil)
+(setq w32-lwindow-modifier 'super) ; Left Windows key
+
+(setq w32-pass-rwindow-to-system nil)
+(setq w32-rwindow-modifier 'super) ; Right Windows key
+
+;(setq w32-pass-apps-to-system nil)
+;(setq w32-apps-modifier 'hyper) ; Menu/App key
+
+;(w32-register-hot-key [A-tab])
+;(w32-register-hot-key [s-o])
 #+END_SRC
 
 *** Mouse settings
@@ -430,6 +439,7 @@ Take a string and strip out all the characters from a second string.
       (setq strip (substring strip 1))))
   string)
 #+END_SRC
+
 ** =brettw/resize-window=
 
 This resizes the current window to the "correct" size.
@@ -579,6 +589,8 @@ My diary is at =~/diary/main.txt=, and anything in the =/diary/= directory is al
                     org-toc
                     )
       )
+(add-to-list 'org-export-backends 'org)
+(add-to-list 'org-export-backends 'md)
 #+END_SRC
 
 We require the mighty org-babel module.
@@ -600,9 +612,12 @@ These are a few miscellaneous settings to make things work how I like them.
       org-startup-with-inline-images nil
       org-startup-folded nil
 
+      org-export-allow-bind-keywords t
+
+      org-attach-store-link-p t
+
       org-export-copy-to-kill-ring nil
 
-      org-refile 'time
       org-log-reschedule 'time
 
       org-completion-use-ido t
@@ -748,6 +763,32 @@ This will repair broken SCHEDULED and DEADLINE markup.
         (org-evaluate-time-range to-buffer)))))
 #+END_SRC
 
+*** Recalculate Effort properties
+
+#+BEGIN_SRC emacs-lisp
+(defun recalculate-effort-property ()
+  "Recalculate the Effort property if it exists."
+  (interactive)
+  (if (org-entry-get (point) "Effort")
+      (save-excursion
+        (save-restriction
+          (org-narrow-to-element)
+          (search-forward ":Effort:")
+          (org-compute-property-at-point)
+          )
+        )
+    )
+)
+#+END_SRC
+
+*** =capture-report-date-file=
+
+#+BEGIN_SRC emacs-lisp
+(defun capture-retro-date-file (path)
+  (expand-file-name (format "retro-%s.org"
+                              (format-time-string "%Y-%m-%d")) path))
+#+END_SRC
+
 ** Files and directories
 
 We typically work out of the =~/org/= directory for the universal stuff.
@@ -860,8 +901,8 @@ I also like to live dangerously (don't ask me if I want to evaluate org-babel co
 Show the agenda straight after Emacs initialization.
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'after-init-hook 'org-agenda-to-appt)
-(add-hook 'after-init-hook 'org-agenda-list)
+;(add-hook 'after-init-hook 'org-agenda-to-appt)
+;(add-hook 'after-init-hook 'org-agenda-list)
 #+END_SRC
 
 ** To-do
@@ -875,7 +916,20 @@ Show the agenda straight after Emacs initialization.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(setq org-todo-keywords (list "REWARD(r)" "TODO(t)" "STARTED(s)" "WAITING(w!)" "|" "DONE(d)" "CANCELLED(c@)"))
+(setq org-todo-keywords (list "TODO(t)" "STARTED(s)" "WAITING(w!)" "|" "DONE(d)" "CANCELLED(c@)"))
+#+END_SRC
+
+** Refile
+
+Basic settings
+#+BEGIN_SRC emacs-lisp
+(setq org-refile 'time
+      org-refile-use-outline-path t)
+#+END_SRC
+
+Our slightly complicated refile targets
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-targets '((nil . (:maxlevel . 3))) )
 #+END_SRC
 
 ** =org2blog=
@@ -904,40 +958,6 @@ Set the source code syntax.
 (setq org2blog/wp-sourcecode-default-params "")
 #+END_SRC
 
-** =org-gamify=
-
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path (expand-file-name "~/libraries/org-gamify/") )
-(require 'org-gamify)
-
-(define-gamify-currency gold
-         :name "gold"
-         :category "Money"
-         :min 0 :enforce-min block)
-
-(define-gamify-currency karma
-  :name "karma"
-  :category "Experience"
-  :min 0 :enforce-min truncate)
-
-(define-gamify-currency xp
-  :name "XP"
-  :category "Experience"
-  :min 0 :enforce-min truncate)
-
-; Add to agenda
-(push '("r" "Rewards"
-        todo "REWARD"
-        ((org-agenda-time-grid nil)
-         (org-agenda-dim-blocked-tasks 'invisible)
-         (org-agenda-todo-ignore-scheduled nil)
-         (org-agenda-todo-ignore-deadlines nil)
-         ))
-      org-agenda-custom-commands)
-
-#+END_SRC
-
-
 ** Capture
 
 I capture bugs, todo and dev journal entries for my main project.
@@ -947,37 +967,29 @@ I capture bugs, todo and dev journal entries for my main project.
       '(
         ("t" "To-Do" entry (file "~/org/todo.org")
          "* TODO %?%i %^g\nDEADLINE: %^t\n%t \n\n" :empty-lines 1)
-        ("T" "TDA To-Do" entry (file "e:/Projects/theDayAfter/doc/org/todo.org")
-         "* TODO %i%? :tda:\n%t\n" :empty-lines 1)
-        ("B" "TDA Bug" entry (file "e:/Projects/theDayAfter/doc/org/bugs.org")
-         (file "~/org/template/tdabug.org") :empty-lines 1)
+        ("T" "TDA Task" entry (id "6d821dba-c5d1-4088-9623-dd7ae8e2196b")
+         (file "e:/Projects/theDayAfter/doc/dev/template/task-template.org") :empty-lines 1 )
+        ("r" "TDA Retrospective" plain (file (capture-retro-date-file "e:/Projects/theDayAfter/doc/dev/retro/"))
+         (file "e:/Projects/theDayAfter/doc/dev/template/retro.org"))
+        ("B" "TDA Bug" entry (id "ff05c4cd-249c-4316-8f1d-c74a32489d03")
+         (file "e:/Projects/theDayAfter/doc/dev/template/bug-template.org") :empty-lines 1)
         ("J" "TDA Dev Journal" entry (file+datetree "e:/Projects/thedayafter/doc/org/devjournal.org")
          "* %i%? :tda:\n%t\n" :empty-lines 1)
-        ("m" "Meeting" entry (file+datetree+prompt "~/org/meetings.org")
-         "* %?\n %^T\n" :empty-lines 1)
-        ("s" "Spark" entry (file "~/org/spark.org")
-         "* %? %^g\n%u %i\n\n")
         )
 )
 #+END_SRC
 
 ** Hooks
 
-Global org hooks
-
 #+BEGIN_SRC emacs-lisp
-  (defun brettw/my-org-mode-hook ()
+(defun brettw/my-org-mode-hook ()
     (local-set-key (kbd "\M-n") 'outline-next-visible-heading)
     (local-set-key (kbd "\M-p") 'outline-previous-visible-heading)
     (visual-line-mode)
   )
 
 (add-hook 'org-mode-hook 'brettw/my-org-mode-hook)
-#+END_SRC
 
-Specific org-list hooks:
-
-#+BEGIN_SRC emacs-lisp
 (eval-after-load 'org-list
   '(add-hook 'org-checkbox-statistics-hook (function brettw/checkbox-list-complete)))
 #+END_SRC
@@ -986,15 +998,39 @@ Specific org-list hooks:
 
 ** General options
 
-*** CEDET
+*** Company mode
 
-Basic CEDET setup (based on the new 23.2+ merged CEDET/Emacs setup).
+Maybe company mode is less fiddly than CEDET.
 
 #+BEGIN_SRC emacs-lisp
-(require 'cedet)
-(require 'semantic/sb)
-(semantic-mode 1)
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+
+(defun check-expansion ()
+  (save-excursion
+    (if (looking-at "\\_>") t
+      (backward-char 1)
+      (if (looking-at "\\.") t
+        (backward-char 1)
+        (if (looking-at "->") t nil)))))
+
+(defun do-yas-expand ()
+  (let ((yas/fallback-behavior 'return-nil))
+    (yas/expand)))
+
+(defun tab-indent-or-complete ()
+  (interactive)
+  (if (minibufferp)
+      (minibuffer-complete)
+    (if (or (not yas/minor-mode)
+            (null (do-yas-expand)))
+        (if (check-expansion)
+            (company-complete-common)
+          (indent-for-tab-command)))))
+
+(global-set-key [tab] 'tab-indent-or-complete)
 #+END_SRC
+
 
 *** Tabs and indents
 
@@ -1041,7 +1077,6 @@ When a compile finishes correctly, we automatically close the compilation window
 (load "auctex.el" nil t t)
 (add-to-list 'auto-mode-alist '("\\.tex?\\'" . latex-mode))
 #+END_SRC
-
 
 ** Lisp
 ** HTML
@@ -1134,7 +1169,7 @@ Set a bunch of my defaults.
 
 #+BEGIN_SRC emacs-lisp
 (defun brettw/my-c-mode-common-hook ()
-  (global-set-key (kbd "<M-return>") 'semantic-ia-complete-symbol)
+  ;(global-set-key (kbd "<M-return>") 'semantic-ia-complete-symbol)
   (c-set-style "brettw")
   (setq compile-command "scons.py -D")
   )
@@ -1194,10 +1229,10 @@ Webjump is neat and gives us very quick access to search.
                        [simple-query "google.com" "www.google.com.au/search?q=" ""])
                       ("StackOverflow" .
                        [simple-query "stackoverflow.com" "stackoverflow.com/search?q=" ""])
+                      ("EmacsOverflow" .
+                       [simple-query "emacs.stackexchange.com" "emacs.stackexchange.com/search?q=" ""])
                       ("Wikipedia" .
                        [simple-query "https://en.wikipedia.org/" "https://en.wikipedia.org/wiki/Special:Search/" ""])
 
-                      )
-
-)
+                      ))
 #+END_SRC
