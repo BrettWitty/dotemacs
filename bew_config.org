@@ -1,6 +1,8 @@
-#+TITLE: Brett Witty's Emacs configuration
+# Created 2015-09-07 Mon 00:02
 #+OPTIONS: toc:4 h:4
 #+OPTIONS: tags:nil
+#+TITLE: Brett Witty's Emacs configuration
+#+AUTHOR: Brett Witty
 #+STARTUP: overview
 #+PROPERTY: tangle yes
 #+EXCLUDE_TAGS: noexport
@@ -40,6 +42,7 @@ Get rid of the startup screen.
 
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-screen t)
+(setq magit-last-seen-setup-instructions "1.4.0")
 #+END_SRC
 
 ** Emacs customize
@@ -269,7 +272,7 @@ Ignore these files because we're unlikely to open them in Emacs.
 Don't flash at me.
 
 #+BEGIN_SRC emacs-lisp
-(setq visible-bell nil)
+(setq visible-bell t)
 #+END_SRC
 
 Don't truncate lines in the message log.
@@ -862,11 +865,33 @@ I also like to live dangerously (don't ask me if I want to evaluate org-babel co
 )
 #+END_SRC
 
-*** Quicklinks
-:PROPERTIES:
-:ID:       23a1353e-326a-49d3-93d3-8f2a127d5871
-:END:
+*** Youtube
 
+Taken from Endless Parentheses:
+#+BEGIN_SRC emacs-lisp
+(defvar youtube-iframe-format
+  ;; You may want to change your width and height.
+  (concat "<iframe width=\"440\""
+          " height=\"335\""
+          " src=\"https://www.youtube.com/embed/%s\""
+          " frameborder=\"0\""
+          " allowfullscreen>%s</iframe>"))
+
+(org-add-link-type
+ "youtube"
+ (lambda (handle)
+   (browse-url
+    (concat "https://www.youtube.com/embed/"
+            handle)))
+ (lambda (path desc backend)
+   (cl-case backend
+     (html (format youtube-iframe-format
+                   path (or desc "")))
+     (latex (format "\href{%s}{%s}"
+                    path (or desc "video"))))))
+#+END_SRC
+
+*** Quicklinks
 #+BEGIN_SRC emacs-lisp
 (setq org-link-abbrev-alist
       '(
@@ -1068,7 +1093,6 @@ When a compile finishes correctly, we automatically close the compilation window
                                  (local-set-key (kbd "C-M-o") 'ff-find-other-file)
                                  (local-set-key (kbd "<C-return>") 'complete-symbol)
 ))
-
 #+END_SRC
 
 ** LaTeX

@@ -3,23 +3,30 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Brett Witty's Emacs configuration</title>
-<!-- 2015-03-29 Sun 20:48 -->
+<!-- 2015-09-07 Mon 00:03 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Brett Witty's Emacs configuration</title>
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Brett Witty" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
   .todo   { font-family: monospace; color: red; }
-  .done   { color: green; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
   .tag    { background-color: #eee; font-family: monospace;
             padding: 2px; font-size: 80%; font-weight: normal; }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
   .underline { text-decoration: underline; }
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
@@ -58,15 +65,14 @@
   caption.t-above { caption-side: top; }
   caption.t-bottom { caption-side: bottom; }
   td, th { vertical-align:top;  }
-  th.right  { text-align: center;  }
-  th.left   { text-align: center;   }
-  th.center { text-align: center; }
-  td.right  { text-align: right;  }
-  td.left   { text-align: left;   }
-  td.center { text-align: center; }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
   dt { font-weight: bold; }
-  .footpara:nth-child(2) { display: inline; }
-  .footpara { display: block; }
+  .footpara { display: inline; }
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
@@ -142,197 +148,198 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Configuration</a></li>
-<li><a href="#sec-2">2. About me</a>
+<li><a href="#orgheadline1">1. Configuration</a></li>
+<li><a href="#orgheadline3">2. About me</a>
 <ul>
-<li><a href="#sec-2-1">2.1. Personal information</a></li>
+<li><a href="#orgheadline2">2.1. Personal information</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3. Startup</a>
+<li><a href="#orgheadline7">3. Startup</a>
 <ul>
-<li><a href="#sec-3-1">3.1. Add my emacs directories</a></li>
-<li><a href="#sec-3-2">3.2. Start up configuration</a></li>
-<li><a href="#sec-3-3">3.3. Emacs customize</a></li>
+<li><a href="#orgheadline4">3.1. Add my emacs directories</a></li>
+<li><a href="#orgheadline5">3.2. Start up configuration</a></li>
+<li><a href="#orgheadline6">3.3. Emacs customize</a></li>
 </ul>
 </li>
-<li><a href="#sec-4">4. Global configuration</a>
+<li><a href="#orgheadline36">4. Global configuration</a>
 <ul>
-<li><a href="#sec-4-1">4.1. BrettW custom settings</a></li>
-<li><a href="#sec-4-2">4.2. Global mode</a></li>
-<li><a href="#sec-4-3">4.3. Packages</a></li>
-<li><a href="#sec-4-4">4.4. Coding systems</a></li>
-<li><a href="#sec-4-5">4.5. Display options</a>
+<li><a href="#orgheadline8">4.1. BrettW custom settings</a></li>
+<li><a href="#orgheadline9">4.2. Global mode</a></li>
+<li><a href="#orgheadline10">4.3. Packages</a></li>
+<li><a href="#orgheadline11">4.4. Coding systems</a></li>
+<li><a href="#orgheadline15">4.5. Display options</a>
 <ul>
-<li><a href="#sec-4-5-1">4.5.1. Color theme</a></li>
-<li><a href="#sec-4-5-2">4.5.2. Window decorations</a></li>
-<li><a href="#sec-4-5-3">4.5.3. Snappier updates</a></li>
+<li><a href="#orgheadline12">4.5.1. Color theme</a></li>
+<li><a href="#orgheadline13">4.5.2. Window decorations</a></li>
+<li><a href="#orgheadline14">4.5.3. Snappier updates</a></li>
 </ul>
 </li>
-<li><a href="#sec-4-6">4.6. Input</a>
+<li><a href="#orgheadline20">4.6. Input</a>
 <ul>
-<li><a href="#sec-4-6-1">4.6.1. Clipboard</a></li>
-<li><a href="#sec-4-6-2">4.6.2. Parentheses</a></li>
-<li><a href="#sec-4-6-3">4.6.3. Keyboard settings</a></li>
-<li><a href="#sec-4-6-4">4.6.4. Mouse settings</a></li>
+<li><a href="#orgheadline16">4.6.1. Clipboard</a></li>
+<li><a href="#orgheadline17">4.6.2. Parentheses</a></li>
+<li><a href="#orgheadline18">4.6.3. Keyboard settings</a></li>
+<li><a href="#orgheadline19">4.6.4. Mouse settings</a></li>
 </ul>
 </li>
-<li><a href="#sec-4-7">4.7. Backups</a></li>
-<li><a href="#sec-4-8">4.8. Recent files</a></li>
-<li><a href="#sec-4-9">4.9. Help</a></li>
-<li><a href="#sec-4-10">4.10. General completion</a></li>
-<li><a href="#sec-4-11">4.11. Filename completion</a>
+<li><a href="#orgheadline21">4.7. Backups</a></li>
+<li><a href="#orgheadline22">4.8. Recent files</a></li>
+<li><a href="#orgheadline23">4.9. Help</a></li>
+<li><a href="#orgheadline24">4.10. General completion</a></li>
+<li><a href="#orgheadline26">4.11. Filename completion</a>
 <ul>
-<li><a href="#sec-4-11-1">4.11.1. Ignored extensions</a></li>
+<li><a href="#orgheadline25">4.11.1. Ignored extensions</a></li>
 </ul>
 </li>
-<li><a href="#sec-4-12">4.12. Miscellaneous editing options</a>
+<li><a href="#orgheadline32">4.12. Miscellaneous editing options</a>
 <ul>
-<li><a href="#sec-4-12-1">4.12.1. Disabled warnings</a></li>
-<li><a href="#sec-4-12-2">4.12.2. Don't kill scratch</a></li>
-<li><a href="#sec-4-12-3">4.12.3. Default directory</a></li>
-<li><a href="#sec-4-12-4">4.12.4. Change "yes or no" to "y or n"</a></li>
-<li><a href="#sec-4-12-5">4.12.5. Feedback</a></li>
+<li><a href="#orgheadline27">4.12.1. Disabled warnings</a></li>
+<li><a href="#orgheadline28">4.12.2. Don't kill scratch</a></li>
+<li><a href="#orgheadline29">4.12.3. Default directory</a></li>
+<li><a href="#orgheadline30">4.12.4. Change "yes or no" to "y or n"</a></li>
+<li><a href="#orgheadline31">4.12.5. Feedback</a></li>
 </ul>
 </li>
-<li><a href="#sec-4-13">4.13. Keys</a>
+<li><a href="#orgheadline35">4.13. Keys</a>
 <ul>
-<li><a href="#sec-4-13-1">4.13.1. Unbindings</a></li>
-<li><a href="#sec-4-13-2">4.13.2. Bindings</a></li>
+<li><a href="#orgheadline33">4.13.1. Unbindings</a></li>
+<li><a href="#orgheadline34">4.13.2. Bindings</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#sec-5">5. Helper functions</a>
+<li><a href="#orgheadline51">5. Helper functions</a>
 <ul>
-<li><a href="#sec-5-1">5.1. Byte-compile emacs-lisp files to speed up Emacs loading</a></li>
-<li><a href="#sec-5-2">5.2. <code>insert-current-timestamp</code></a></li>
-<li><a href="#sec-5-3">5.3. <code>insert-signature</code></a></li>
-<li><a href="#sec-5-4">5.4. <code>insert-file-name</code></a></li>
-<li><a href="#sec-5-5">5.5. <code>insert-current-directory-name</code></a></li>
-<li><a href="#sec-5-6">5.6. <code>rename-file-and-buffer</code></a></li>
-<li><a href="#sec-5-7">5.7. <code>reload-buffer</code></a></li>
-<li><a href="#sec-5-8">5.8. <code>string-strip-chars</code></a></li>
-<li><a href="#sec-5-9">5.9. <code>brettw/resize-window</code></a></li>
-<li><a href="#sec-5-10">5.10. <code>brettw/widescreen</code></a>
+<li><a href="#orgheadline37">5.1. Byte-compile emacs-lisp files to speed up Emacs loading</a></li>
+<li><a href="#orgheadline38">5.2. <code>insert-current-timestamp</code></a></li>
+<li><a href="#orgheadline39">5.3. <code>insert-signature</code></a></li>
+<li><a href="#orgheadline40">5.4. <code>insert-file-name</code></a></li>
+<li><a href="#orgheadline41">5.5. <code>insert-current-directory-name</code></a></li>
+<li><a href="#orgheadline42">5.6. <code>rename-file-and-buffer</code></a></li>
+<li><a href="#orgheadline43">5.7. <code>reload-buffer</code></a></li>
+<li><a href="#orgheadline44">5.8. <code>string-strip-chars</code></a></li>
+<li><a href="#orgheadline45">5.9. <code>brettw/resize-window</code></a></li>
+<li><a href="#orgheadline47">5.10. <code>brettw/widescreen</code></a>
 <ul>
-<li><a href="#sec-5-10-1">5.10.1. Startup</a></li>
+<li><a href="#orgheadline46">5.10.1. Startup</a></li>
 </ul>
 </li>
-<li><a href="#sec-5-11">5.11. <code>duplicate-line-or-region</code></a></li>
-<li><a href="#sec-5-12">5.12. <code>smart-beginning-of-line</code></a></li>
-<li><a href="#sec-5-13">5.13. <code>align-repeat</code></a></li>
+<li><a href="#orgheadline48">5.11. <code>duplicate-line-or-region</code></a></li>
+<li><a href="#orgheadline49">5.12. <code>smart-beginning-of-line</code></a></li>
+<li><a href="#orgheadline50">5.13. <code>align-repeat</code></a></li>
 </ul>
 </li>
-<li><a href="#sec-6">6. Text editing</a>
+<li><a href="#orgheadline54">6. Text editing</a>
 <ul>
-<li><a href="#sec-6-1">6.1. General options</a></li>
-<li><a href="#sec-6-2">6.2. Spellcheck</a></li>
+<li><a href="#orgheadline52">6.1. General options</a></li>
+<li><a href="#orgheadline53">6.2. Spellcheck</a></li>
 </ul>
 </li>
-<li><a href="#sec-7">7. Diary and calendar</a>
+<li><a href="#orgheadline57">7. Diary and calendar</a>
 <ul>
-<li><a href="#sec-7-1">7.1. Diary</a></li>
-<li><a href="#sec-7-2">7.2. General settings</a></li>
+<li><a href="#orgheadline55">7.1. Diary</a></li>
+<li><a href="#orgheadline56">7.2. General settings</a></li>
 </ul>
 </li>
-<li><a href="#sec-8">8. Org</a>
+<li><a href="#orgheadline89">8. Org</a>
 <ul>
-<li><a href="#sec-8-1">8.1. Modules</a></li>
-<li><a href="#sec-8-2">8.2. General settings</a>
+<li><a href="#orgheadline58">8.1. Modules</a></li>
+<li><a href="#orgheadline61">8.2. General settings</a>
 <ul>
-<li><a href="#sec-8-2-1">8.2.1. Comments</a></li>
-<li><a href="#sec-8-2-2">8.2.2. Faces</a></li>
+<li><a href="#orgheadline59">8.2.1. Comments</a></li>
+<li><a href="#orgheadline60">8.2.2. Faces</a></li>
 </ul>
 </li>
-<li><a href="#sec-8-3">8.3. Functions</a>
+<li><a href="#orgheadline68">8.3. Functions</a>
 <ul>
-<li><a href="#sec-8-3-1">8.3.1. Fix broken schedule/deadline markup</a></li>
-<li><a href="#sec-8-3-2">8.3.2. Mark a headline done when all its checkboxes are checked</a></li>
-<li><a href="#sec-8-3-3">8.3.3. Jump to journal</a></li>
-<li><a href="#sec-8-3-4">8.3.4. Evaluate time range</a></li>
-<li><a href="#sec-8-3-5">8.3.5. Recalculate Effort properties</a></li>
-<li><a href="#sec-8-3-6">8.3.6. <code>capture-report-date-file</code></a></li>
+<li><a href="#orgheadline62">8.3.1. Fix broken schedule/deadline markup</a></li>
+<li><a href="#orgheadline63">8.3.2. Mark a headline done when all its checkboxes are checked</a></li>
+<li><a href="#orgheadline64">8.3.3. Jump to journal</a></li>
+<li><a href="#orgheadline65">8.3.4. Evaluate time range</a></li>
+<li><a href="#orgheadline66">8.3.5. Recalculate Effort properties</a></li>
+<li><a href="#orgheadline67">8.3.6. <code>capture-report-date-file</code></a></li>
 </ul>
 </li>
-<li><a href="#sec-8-4">8.4. Files and directories</a></li>
-<li><a href="#sec-8-5">8.5. Global keyboard shortcuts</a></li>
-<li><a href="#sec-8-6">8.6. Babel</a>
+<li><a href="#orgheadline69">8.4. Files and directories</a></li>
+<li><a href="#orgheadline70">8.5. Global keyboard shortcuts</a></li>
+<li><a href="#orgheadline73">8.6. Babel</a>
 <ul>
-<li><a href="#sec-8-6-1">8.6.1. Languages</a></li>
-<li><a href="#sec-8-6-2">8.6.2. Settings</a></li>
+<li><a href="#orgheadline71">8.6.1. Languages</a></li>
+<li><a href="#orgheadline72">8.6.2. Settings</a></li>
 </ul>
 </li>
-<li><a href="#sec-8-7">8.7. Hyperlinks</a>
+<li><a href="#orgheadline77">8.7. Hyperlinks</a>
 <ul>
-<li><a href="#sec-8-7-1">8.7.1. Settings</a></li>
-<li><a href="#sec-8-7-2">8.7.2. Quicklinks</a></li>
+<li><a href="#orgheadline74">8.7.1. Settings</a></li>
+<li><a href="#orgheadline75">8.7.2. Youtube</a></li>
+<li><a href="#orgheadline76">8.7.3. Quicklinks</a></li>
 </ul>
 </li>
-<li><a href="#sec-8-8">8.8. Contacts</a></li>
-<li><a href="#sec-8-9">8.9. Agenda</a>
+<li><a href="#orgheadline78">8.8. Contacts</a></li>
+<li><a href="#orgheadline81">8.9. Agenda</a>
 <ul>
-<li><a href="#sec-8-9-1">8.9.1. Settings</a></li>
-<li><a href="#sec-8-9-2">8.9.2. On load up</a></li>
+<li><a href="#orgheadline79">8.9.1. Settings</a></li>
+<li><a href="#orgheadline80">8.9.2. On load up</a></li>
 </ul>
 </li>
-<li><a href="#sec-8-10">8.10. To-do</a>
+<li><a href="#orgheadline83">8.10. To-do</a>
 <ul>
-<li><a href="#sec-8-10-1">8.10.1. Settings</a></li>
+<li><a href="#orgheadline82">8.10.1. Settings</a></li>
 </ul>
 </li>
-<li><a href="#sec-8-11">8.11. Refile</a></li>
-<li><a href="#sec-8-12">8.12. <code>org2blog</code></a>
+<li><a href="#orgheadline84">8.11. Refile</a></li>
+<li><a href="#orgheadline86">8.12. <code>org2blog</code></a>
 <ul>
-<li><a href="#sec-8-12-1">8.12.1. Customization</a></li>
+<li><a href="#orgheadline85">8.12.1. Customization</a></li>
 </ul>
 </li>
-<li><a href="#sec-8-13">8.13. Capture</a></li>
-<li><a href="#sec-8-14">8.14. Hooks</a></li>
+<li><a href="#orgheadline87">8.13. Capture</a></li>
+<li><a href="#orgheadline88">8.14. Hooks</a></li>
 </ul>
 </li>
-<li><a href="#sec-9">9. Programming</a>
+<li><a href="#orgheadline108">9. Programming</a>
 <ul>
-<li><a href="#sec-9-1">9.1. General options</a>
+<li><a href="#orgheadline94">9.1. General options</a>
 <ul>
-<li><a href="#sec-9-1-1">9.1.1. Company mode</a></li>
-<li><a href="#sec-9-1-2">9.1.2. Tabs and indents</a></li>
-<li><a href="#sec-9-1-3">9.1.3. Compilation</a></li>
-<li><a href="#sec-9-1-4">9.1.4. Keys</a></li>
+<li><a href="#orgheadline90">9.1.1. Company mode</a></li>
+<li><a href="#orgheadline91">9.1.2. Tabs and indents</a></li>
+<li><a href="#orgheadline92">9.1.3. Compilation</a></li>
+<li><a href="#orgheadline93">9.1.4. Keys</a></li>
 </ul>
 </li>
-<li><a href="#sec-9-2">9.2. LaTeX</a></li>
-<li><a href="#sec-9-3">9.3. Lisp</a></li>
-<li><a href="#sec-9-4">9.4. HTML</a></li>
-<li><a href="#sec-9-5">9.5. Python</a>
+<li><a href="#orgheadline95">9.2. LaTeX</a></li>
+<li><a href="#orgheadline96">9.3. Lisp</a></li>
+<li><a href="#orgheadline97">9.4. HTML</a></li>
+<li><a href="#orgheadline100">9.5. Python</a>
 <ul>
-<li><a href="#sec-9-5-1">9.5.1. Filenames</a></li>
-<li><a href="#sec-9-5-2">9.5.2. Hook</a></li>
+<li><a href="#orgheadline98">9.5.1. Filenames</a></li>
+<li><a href="#orgheadline99">9.5.2. Hook</a></li>
 </ul>
 </li>
-<li><a href="#sec-9-6">9.6. C++</a>
+<li><a href="#orgheadline104">9.6. C++</a>
 <ul>
-<li><a href="#sec-9-6-1">9.6.1. Filenames</a></li>
-<li><a href="#sec-9-6-2">9.6.2. Style</a></li>
-<li><a href="#sec-9-6-3">9.6.3. Hooks</a></li>
+<li><a href="#orgheadline101">9.6.1. Filenames</a></li>
+<li><a href="#orgheadline102">9.6.2. Style</a></li>
+<li><a href="#orgheadline103">9.6.3. Hooks</a></li>
 </ul>
 </li>
-<li><a href="#sec-9-7">9.7. Projects</a></li>
-<li><a href="#sec-9-8">9.8. Octave</a></li>
-<li><a href="#sec-9-9">9.9. The Day After</a></li>
+<li><a href="#orgheadline105">9.7. Projects</a></li>
+<li><a href="#orgheadline106">9.8. Octave</a></li>
+<li><a href="#orgheadline107">9.9. The Day After</a></li>
 </ul>
 </li>
-<li><a href="#sec-10">10. Utilities</a>
+<li><a href="#orgheadline111">10. Utilities</a>
 <ul>
-<li><a href="#sec-10-1">10.1. Twitter</a></li>
-<li><a href="#sec-10-2">10.2. Webjump</a></li>
+<li><a href="#orgheadline109">10.1. Twitter</a></li>
+<li><a href="#orgheadline110">10.2. Webjump</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Configuration</h2>
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Configuration</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This is inspired by Sacha Chua's configuration file.
@@ -344,11 +351,11 @@ To load this, run <code>(org-babel-load-file "~/bew_config.org")</code>.
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> About me</h2>
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3"><span class="section-number-2">2</span> About me</h2>
 <div class="outline-text-2" id="text-2">
-</div><div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Personal information</h3>
+</div><div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">2.1</span> Personal information</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
 
@@ -360,11 +367,11 @@ To load this, run <code>(org-babel-load-file "~/bew_config.org")</code>.
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Startup</h2>
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7"><span class="section-number-2">3</span> Startup</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Add my emacs directories</h3>
+</div><div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">3.1</span> Add my emacs directories</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 These are my standard add-on library paths
@@ -382,8 +389,8 @@ These are my standard add-on library paths
 </div>
 </div>
 
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Start up configuration</h3>
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">3.2</span> Start up configuration</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 Get rid of the startup screen.
@@ -392,13 +399,14 @@ Get rid of the startup screen.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq inhibit-startup-screen t)
+(setq magit-last-seen-setup-instructions <span style="color: #008000;">"1.4.0"</span>)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Emacs customize</h3>
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">3.3</span> Emacs customize</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 It's better to just chuck everything into this file, but sometimes Customize is too easy to use.
@@ -414,11 +422,11 @@ It's better to just chuck everything into this file, but sometimes Customize is 
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Global configuration</h2>
+<div id="outline-container-orgheadline36" class="outline-2">
+<h2 id="orgheadline36"><span class="section-number-2">4</span> Global configuration</h2>
 <div class="outline-text-2" id="text-4">
-</div><div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> BrettW custom settings</h3>
+</div><div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">4.1</span> BrettW custom settings</h3>
 <div class="outline-text-3" id="text-4-1">
 <div class="org-src-container">
 
@@ -429,8 +437,8 @@ It's better to just chuck everything into this file, but sometimes Customize is 
 </div>
 </div>
 
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Global mode</h3>
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9"><span class="section-number-3">4.2</span> Global mode</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 We like these global modes.
@@ -458,15 +466,15 @@ YASnippet needs some of its own customization.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(<span style="color: #0000FF;">require</span> '<span style="color: #D0372D;">yasnippet</span>)
-<span style="color: #8D8D84; font-style: italic;">;</span><span style="color: #8D8D84; font-style: italic;">(setq yas/snippet-dirs '("~/snippets" "~/libraries/yasnippet/snippets/" ))</span>
+<span style="color: #8D8D84;">;</span><span style="color: #8D8D84; font-style: italic;">(setq yas/snippet-dirs '("~/snippets" "~/libraries/yasnippet/snippets/" ))</span>
 (yas/global-mode 1)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-4-3" class="outline-3">
-<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Packages</h3>
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">4.3</span> Packages</h3>
 <div class="outline-text-3" id="text-4-3">
 <div class="org-src-container">
 
@@ -477,8 +485,8 @@ YASnippet needs some of its own customization.
 </div>
 </div>
 
-<div id="outline-container-sec-4-4" class="outline-3">
-<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Coding systems</h3>
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">4.4</span> Coding systems</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 We only like UTF-8 because the alternatives are rubbish.
@@ -493,11 +501,11 @@ We only like UTF-8 because the alternatives are rubbish.
 </div>
 </div>
 
-<div id="outline-container-sec-4-5" class="outline-3">
-<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Display options</h3>
+<div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15"><span class="section-number-3">4.5</span> Display options</h3>
 <div class="outline-text-3" id="text-4-5">
-</div><div id="outline-container-sec-4-5-1" class="outline-4">
-<h4 id="sec-4-5-1"><span class="section-number-4">4.5.1</span> Color theme</h4>
+</div><div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">4.5.1</span> Color theme</h4>
 <div class="outline-text-4" id="text-4-5-1">
 <p>
 Use my custom color theme.
@@ -505,15 +513,15 @@ Use my custom color theme.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span style="color: #8D8D84; font-style: italic;">;;</span><span style="color: #8D8D84; font-style: italic;">(load-theme 'tangotango t)</span>
+<pre class="src src-emacs-lisp"><span style="color: #8D8D84;">;;</span><span style="color: #8D8D84; font-style: italic;">(load-theme 'tangotango t)</span>
 (load-theme 'leuven t)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-4-5-2" class="outline-4">
-<h4 id="sec-4-5-2"><span class="section-number-4">4.5.2</span> Window decorations</h4>
+<div id="outline-container-orgheadline13" class="outline-4">
+<h4 id="orgheadline13"><span class="section-number-4">4.5.2</span> Window decorations</h4>
 <div class="outline-text-4" id="text-4-5-2">
 <p>
 Set the window up how we like it.
@@ -532,8 +540,8 @@ Set the window up how we like it.
 </div>
 </div>
 
-<div id="outline-container-sec-4-5-3" class="outline-4">
-<h4 id="sec-4-5-3"><span class="section-number-4">4.5.3</span> Snappier updates</h4>
+<div id="outline-container-orgheadline14" class="outline-4">
+<h4 id="orgheadline14"><span class="section-number-4">4.5.3</span> Snappier updates</h4>
 <div class="outline-text-4" id="text-4-5-3">
 <p>
 This hack apparently makes things snappier.
@@ -547,11 +555,11 @@ This hack apparently makes things snappier.
 </div>
 </div>
 
-<div id="outline-container-sec-4-6" class="outline-3">
-<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Input</h3>
+<div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20"><span class="section-number-3">4.6</span> Input</h3>
 <div class="outline-text-3" id="text-4-6">
-</div><div id="outline-container-sec-4-6-1" class="outline-4">
-<h4 id="sec-4-6-1"><span class="section-number-4">4.6.1</span> Clipboard</h4>
+</div><div id="outline-container-orgheadline16" class="outline-4">
+<h4 id="orgheadline16"><span class="section-number-4">4.6.1</span> Clipboard</h4>
 <div class="outline-text-4" id="text-4-6-1">
 <p>
 Let Emacs play with the clipboard.
@@ -565,8 +573,8 @@ Let Emacs play with the clipboard.
 </div>
 </div>
 
-<div id="outline-container-sec-4-6-2" class="outline-4">
-<h4 id="sec-4-6-2"><span class="section-number-4">4.6.2</span> Parentheses</h4>
+<div id="outline-container-orgheadline17" class="outline-4">
+<h4 id="orgheadline17"><span class="section-number-4">4.6.2</span> Parentheses</h4>
 <div class="outline-text-4" id="text-4-6-2">
 <p>
 Use the shiny autopair module.
@@ -580,8 +588,8 @@ Use the shiny autopair module.
 </div>
 </div>
 
-<div id="outline-container-sec-4-6-3" class="outline-4">
-<h4 id="sec-4-6-3"><span class="section-number-4">4.6.3</span> Keyboard settings</h4>
+<div id="outline-container-orgheadline18" class="outline-4">
+<h4 id="orgheadline18"><span class="section-number-4">4.6.3</span> Keyboard settings</h4>
 <div class="outline-text-4" id="text-4-6-3">
 <p>
 I'd like these Windows keys to work, but they don't.
@@ -590,23 +598,23 @@ I'd like these Windows keys to work, but they don't.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq w32-pass-lwindow-to-system nil)
-(setq w32-lwindow-modifier 'super) <span style="color: #8D8D84; font-style: italic;">; </span><span style="color: #8D8D84; font-style: italic;">Left Windows key</span>
+(setq w32-lwindow-modifier 'super) <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">Left Windows key</span>
 
 (setq w32-pass-rwindow-to-system nil)
-(setq w32-rwindow-modifier 'super) <span style="color: #8D8D84; font-style: italic;">; </span><span style="color: #8D8D84; font-style: italic;">Right Windows key</span>
+(setq w32-rwindow-modifier 'super) <span style="color: #8D8D84;">; </span><span style="color: #8D8D84; font-style: italic;">Right Windows key</span>
 
-<span style="color: #8D8D84; font-style: italic;">;</span><span style="color: #8D8D84; font-style: italic;">(setq w32-pass-apps-to-system nil)</span>
-<span style="color: #8D8D84; font-style: italic;">;</span><span style="color: #8D8D84; font-style: italic;">(setq w32-apps-modifier 'hyper) ; Menu/App key</span>
+<span style="color: #8D8D84;">;</span><span style="color: #8D8D84; font-style: italic;">(setq w32-pass-apps-to-system nil)</span>
+<span style="color: #8D8D84;">;</span><span style="color: #8D8D84; font-style: italic;">(setq w32-apps-modifier 'hyper) ; Menu/App key</span>
 
-<span style="color: #8D8D84; font-style: italic;">;</span><span style="color: #8D8D84; font-style: italic;">(w32-register-hot-key [A-tab])</span>
-<span style="color: #8D8D84; font-style: italic;">;</span><span style="color: #8D8D84; font-style: italic;">(w32-register-hot-key [s-o])</span>
+<span style="color: #8D8D84;">;</span><span style="color: #8D8D84; font-style: italic;">(w32-register-hot-key [A-tab])</span>
+<span style="color: #8D8D84;">;</span><span style="color: #8D8D84; font-style: italic;">(w32-register-hot-key [s-o])</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-4-6-4" class="outline-4">
-<h4 id="sec-4-6-4"><span class="section-number-4">4.6.4</span> Mouse settings</h4>
+<div id="outline-container-orgheadline19" class="outline-4">
+<h4 id="orgheadline19"><span class="section-number-4">4.6.4</span> Mouse settings</h4>
 <div class="outline-text-4" id="text-4-6-4">
 <p>
 Get the right amount of mouse scrolling.
@@ -622,8 +630,8 @@ Get the right amount of mouse scrolling.
 </div>
 </div>
 
-<div id="outline-container-sec-4-7" class="outline-3">
-<h3 id="sec-4-7"><span class="section-number-3">4.7</span> Backups</h3>
+<div id="outline-container-orgheadline21" class="outline-3">
+<h3 id="orgheadline21"><span class="section-number-3">4.7</span> Backups</h3>
 <div class="outline-text-3" id="text-4-7">
 <p>
 We want to control and minimize Emacs backups.
@@ -642,8 +650,8 @@ We want to control and minimize Emacs backups.
 </div>
 </div>
 
-<div id="outline-container-sec-4-8" class="outline-3">
-<h3 id="sec-4-8"><span class="section-number-3">4.8</span> Recent files</h3>
+<div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22"><span class="section-number-3">4.8</span> Recent files</h3>
 <div class="outline-text-3" id="text-4-8">
 <p>
 Set up the recent files.
@@ -664,8 +672,8 @@ Set up the recent files.
 </div>
 </div>
 
-<div id="outline-container-sec-4-9" class="outline-3">
-<h3 id="sec-4-9"><span class="section-number-3">4.9</span> Help</h3>
+<div id="outline-container-orgheadline23" class="outline-3">
+<h3 id="orgheadline23"><span class="section-number-3">4.9</span> Help</h3>
 <div class="outline-text-3" id="text-4-9">
 <p>
 We customize help just a tad.
@@ -680,8 +688,8 @@ We customize help just a tad.
 </div>
 </div>
 
-<div id="outline-container-sec-4-10" class="outline-3">
-<h3 id="sec-4-10"><span class="section-number-3">4.10</span> General completion</h3>
+<div id="outline-container-orgheadline24" class="outline-3">
+<h3 id="orgheadline24"><span class="section-number-3">4.10</span> General completion</h3>
 <div class="outline-text-3" id="text-4-10">
 <div class="org-src-container">
 
@@ -696,11 +704,11 @@ We customize help just a tad.
 </div>
 </div>
 
-<div id="outline-container-sec-4-11" class="outline-3">
-<h3 id="sec-4-11"><span class="section-number-3">4.11</span> Filename completion</h3>
+<div id="outline-container-orgheadline26" class="outline-3">
+<h3 id="orgheadline26"><span class="section-number-3">4.11</span> Filename completion</h3>
 <div class="outline-text-3" id="text-4-11">
-</div><div id="outline-container-sec-4-11-1" class="outline-4">
-<h4 id="sec-4-11-1"><span class="section-number-4">4.11.1</span> Ignored extensions</h4>
+</div><div id="outline-container-orgheadline25" class="outline-4">
+<h4 id="orgheadline25"><span class="section-number-4">4.11.1</span> Ignored extensions</h4>
 <div class="outline-text-4" id="text-4-11-1">
 <p>
 Ignore these files because we're unlikely to open them in Emacs.
@@ -716,11 +724,11 @@ Ignore these files because we're unlikely to open them in Emacs.
 </div>
 </div>
 
-<div id="outline-container-sec-4-12" class="outline-3">
-<h3 id="sec-4-12"><span class="section-number-3">4.12</span> Miscellaneous editing options</h3>
+<div id="outline-container-orgheadline32" class="outline-3">
+<h3 id="orgheadline32"><span class="section-number-3">4.12</span> Miscellaneous editing options</h3>
 <div class="outline-text-3" id="text-4-12">
-</div><div id="outline-container-sec-4-12-1" class="outline-4">
-<h4 id="sec-4-12-1"><span class="section-number-4">4.12.1</span> Disabled warnings</h4>
+</div><div id="outline-container-orgheadline27" class="outline-4">
+<h4 id="orgheadline27"><span class="section-number-4">4.12.1</span> Disabled warnings</h4>
 <div class="outline-text-4" id="text-4-12-1">
 <div class="org-src-container">
 
@@ -730,8 +738,8 @@ Ignore these files because we're unlikely to open them in Emacs.
 </div>
 </div>
 
-<div id="outline-container-sec-4-12-2" class="outline-4">
-<h4 id="sec-4-12-2"><span class="section-number-4">4.12.2</span> Don't kill scratch</h4>
+<div id="outline-container-orgheadline28" class="outline-4">
+<h4 id="orgheadline28"><span class="section-number-4">4.12.2</span> Don't kill scratch</h4>
 <div class="outline-text-4" id="text-4-12-2">
 <div class="org-src-container">
 
@@ -746,8 +754,8 @@ Ignore these files because we're unlikely to open them in Emacs.
 </div>
 </div>
 
-<div id="outline-container-sec-4-12-3" class="outline-4">
-<h4 id="sec-4-12-3"><span class="section-number-4">4.12.3</span> Default directory</h4>
+<div id="outline-container-orgheadline29" class="outline-4">
+<h4 id="orgheadline29"><span class="section-number-4">4.12.3</span> Default directory</h4>
 <div class="outline-text-4" id="text-4-12-3">
 <div class="org-src-container">
 
@@ -757,8 +765,8 @@ Ignore these files because we're unlikely to open them in Emacs.
 </div>
 </div>
 
-<div id="outline-container-sec-4-12-4" class="outline-4">
-<h4 id="sec-4-12-4"><span class="section-number-4">4.12.4</span> Change "yes or no" to "y or n"</h4>
+<div id="outline-container-orgheadline30" class="outline-4">
+<h4 id="orgheadline30"><span class="section-number-4">4.12.4</span> Change "yes or no" to "y or n"</h4>
 <div class="outline-text-4" id="text-4-12-4">
 <div class="org-src-container">
 
@@ -768,8 +776,8 @@ Ignore these files because we're unlikely to open them in Emacs.
 </div>
 </div>
 
-<div id="outline-container-sec-4-12-5" class="outline-4">
-<h4 id="sec-4-12-5"><span class="section-number-4">4.12.5</span> Feedback</h4>
+<div id="outline-container-orgheadline31" class="outline-4">
+<h4 id="orgheadline31"><span class="section-number-4">4.12.5</span> Feedback</h4>
 <div class="outline-text-4" id="text-4-12-5">
 <p>
 Don't flash at me.
@@ -777,7 +785,7 @@ Don't flash at me.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq visible-bell nil)
+<pre class="src src-emacs-lisp">(setq visible-bell t)
 </pre>
 </div>
 
@@ -794,11 +802,11 @@ Don't truncate lines in the message log.
 </div>
 </div>
 
-<div id="outline-container-sec-4-13" class="outline-3">
-<h3 id="sec-4-13"><span class="section-number-3">4.13</span> Keys</h3>
+<div id="outline-container-orgheadline35" class="outline-3">
+<h3 id="orgheadline35"><span class="section-number-3">4.13</span> Keys</h3>
 <div class="outline-text-3" id="text-4-13">
-</div><div id="outline-container-sec-4-13-1" class="outline-4">
-<h4 id="sec-4-13-1"><span class="section-number-4">4.13.1</span> Unbindings</h4>
+</div><div id="outline-container-orgheadline33" class="outline-4">
+<h4 id="orgheadline33"><span class="section-number-4">4.13.1</span> Unbindings</h4>
 <div class="outline-text-4" id="text-4-13-1">
 <p>
 Out of the box, I find these distasteful.
@@ -816,8 +824,8 @@ Out of the box, I find these distasteful.
 </div>
 </div>
 
-<div id="outline-container-sec-4-13-2" class="outline-4">
-<h4 id="sec-4-13-2"><span class="section-number-4">4.13.2</span> Bindings</h4>
+<div id="outline-container-orgheadline34" class="outline-4">
+<h4 id="orgheadline34"><span class="section-number-4">4.13.2</span> Bindings</h4>
 <div class="outline-text-4" id="text-4-13-2">
 <p>
 These are globally useful things.
@@ -867,16 +875,16 @@ Run an eshell from anywhere.
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Helper functions</h2>
+<div id="outline-container-orgheadline51" class="outline-2">
+<h2 id="orgheadline51"><span class="section-number-2">5</span> Helper functions</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Here's a bunch of minimal, globally-useful functions.
 </p>
 </div>
 
-<div id="outline-container-sec-5-1" class="outline-3">
-<h3 id="sec-5-1"><span class="section-number-3">5.1</span> Byte-compile emacs-lisp files to speed up Emacs loading</h3>
+<div id="outline-container-orgheadline37" class="outline-3">
+<h3 id="orgheadline37"><span class="section-number-3">5.1</span> Byte-compile emacs-lisp files to speed up Emacs loading</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 
@@ -889,8 +897,8 @@ Here's a bunch of minimal, globally-useful functions.
 </div>
 </div>
 
-<div id="outline-container-sec-5-2" class="outline-3">
-<h3 id="sec-5-2"><span class="section-number-3">5.2</span> <code>insert-current-timestamp</code></h3>
+<div id="outline-container-orgheadline38" class="outline-3">
+<h3 id="orgheadline38"><span class="section-number-3">5.2</span> <code>insert-current-timestamp</code></h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Insert the current timestamp in Year-month-day format.
@@ -908,8 +916,8 @@ Insert the current timestamp in Year-month-day format.
 </div>
 </div>
 
-<div id="outline-container-sec-5-3" class="outline-3">
-<h3 id="sec-5-3"><span class="section-number-3">5.3</span> <code>insert-signature</code></h3>
+<div id="outline-container-orgheadline39" class="outline-3">
+<h3 id="orgheadline39"><span class="section-number-3">5.3</span> <code>insert-signature</code></h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 Insert a textual signature into a file.
@@ -928,8 +936,8 @@ Insert a textual signature into a file.
 </div>
 </div>
 
-<div id="outline-container-sec-5-4" class="outline-3">
-<h3 id="sec-5-4"><span class="section-number-3">5.4</span> <code>insert-file-name</code></h3>
+<div id="outline-container-orgheadline40" class="outline-3">
+<h3 id="orgheadline40"><span class="section-number-3">5.4</span> <code>insert-file-name</code></h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 Ask/browse for a filename and insert it into the buffer at the point.
@@ -948,8 +956,8 @@ Ask/browse for a filename and insert it into the buffer at the point.
 </div>
 </div>
 
-<div id="outline-container-sec-5-5" class="outline-3">
-<h3 id="sec-5-5"><span class="section-number-3">5.5</span> <code>insert-current-directory-name</code></h3>
+<div id="outline-container-orgheadline41" class="outline-3">
+<h3 id="orgheadline41"><span class="section-number-3">5.5</span> <code>insert-current-directory-name</code></h3>
 <div class="outline-text-3" id="text-5-5">
 <p>
 Insert the name of the current directory.
@@ -967,8 +975,8 @@ Insert the name of the current directory.
 </div>
 </div>
 
-<div id="outline-container-sec-5-6" class="outline-3">
-<h3 id="sec-5-6"><span class="section-number-3">5.6</span> <code>rename-file-and-buffer</code></h3>
+<div id="outline-container-orgheadline42" class="outline-3">
+<h3 id="orgheadline42"><span class="section-number-3">5.6</span> <code>rename-file-and-buffer</code></h3>
 <div class="outline-text-3" id="text-5-6">
 <p>
 I've stolen this from Steve Yegge. It renames the current file and buffer.
@@ -997,8 +1005,8 @@ I've stolen this from Steve Yegge. It renames the current file and buffer.
 </div>
 </div>
 
-<div id="outline-container-sec-5-7" class="outline-3">
-<h3 id="sec-5-7"><span class="section-number-3">5.7</span> <code>reload-buffer</code></h3>
+<div id="outline-container-orgheadline43" class="outline-3">
+<h3 id="orgheadline43"><span class="section-number-3">5.7</span> <code>reload-buffer</code></h3>
 <div class="outline-text-3" id="text-5-7">
 <p>
 This reverts a buffer without confirmation.
@@ -1014,8 +1022,8 @@ This reverts a buffer without confirmation.
 </div>
 </div>
 
-<div id="outline-container-sec-5-8" class="outline-3">
-<h3 id="sec-5-8"><span class="section-number-3">5.8</span> <code>string-strip-chars</code></h3>
+<div id="outline-container-orgheadline44" class="outline-3">
+<h3 id="orgheadline44"><span class="section-number-3">5.8</span> <code>string-strip-chars</code></h3>
 <div class="outline-text-3" id="text-5-8">
 <p>
 Take a string and strip out all the characters from a second string.
@@ -1039,8 +1047,8 @@ Take a string and strip out all the characters from a second string.
 </div>
 </div>
 
-<div id="outline-container-sec-5-9" class="outline-3">
-<h3 id="sec-5-9"><span class="section-number-3">5.9</span> <code>brettw/resize-window</code></h3>
+<div id="outline-container-orgheadline45" class="outline-3">
+<h3 id="orgheadline45"><span class="section-number-3">5.9</span> <code>brettw/resize-window</code></h3>
 <div class="outline-text-3" id="text-5-9">
 <p>
 This resizes the current window to the "correct" size.
@@ -1060,8 +1068,8 @@ This resizes the current window to the "correct" size.
 </div>
 </div>
 
-<div id="outline-container-sec-5-10" class="outline-3">
-<h3 id="sec-5-10"><span class="section-number-3">5.10</span> <code>brettw/widescreen</code></h3>
+<div id="outline-container-orgheadline47" class="outline-3">
+<h3 id="orgheadline47"><span class="section-number-3">5.10</span> <code>brettw/widescreen</code></h3>
 <div class="outline-text-3" id="text-5-10">
 <p>
 Resize the current window to double the normal width.
@@ -1088,8 +1096,8 @@ Resize the current window to double the normal width.
 </div>
 
 
-<div id="outline-container-sec-5-10-1" class="outline-4">
-<h4 id="sec-5-10-1"><span class="section-number-4">5.10.1</span> Startup</h4>
+<div id="outline-container-orgheadline46" class="outline-4">
+<h4 id="orgheadline46"><span class="section-number-4">5.10.1</span> Startup</h4>
 <div class="outline-text-4" id="text-5-10-1">
 <p>
 We typically want this during startup, so let's call it now.
@@ -1104,8 +1112,8 @@ We typically want this during startup, so let's call it now.
 </div>
 </div>
 
-<div id="outline-container-sec-5-11" class="outline-3">
-<h3 id="sec-5-11"><span class="section-number-3">5.11</span> <code>duplicate-line-or-region</code></h3>
+<div id="outline-container-orgheadline48" class="outline-3">
+<h3 id="orgheadline48"><span class="section-number-3">5.11</span> <code>duplicate-line-or-region</code></h3>
 <div class="outline-text-3" id="text-5-11">
 <div class="org-src-container">
 
@@ -1135,8 +1143,8 @@ We typically want this during startup, so let's call it now.
 </div>
 </div>
 
-<div id="outline-container-sec-5-12" class="outline-3">
-<h3 id="sec-5-12"><span class="section-number-3">5.12</span> <code>smart-beginning-of-line</code></h3>
+<div id="outline-container-orgheadline49" class="outline-3">
+<h3 id="orgheadline49"><span class="section-number-3">5.12</span> <code>smart-beginning-of-line</code></h3>
 <div class="outline-text-3" id="text-5-12">
 <p>
 I stole this from <a href="http://stackoverflow.com/a/145359">http://stackoverflow.com/a/145359</a>
@@ -1159,8 +1167,8 @@ I stole this from <a href="http://stackoverflow.com/a/145359">http://stackoverfl
 </div>
 </div>
 
-<div id="outline-container-sec-5-13" class="outline-3">
-<h3 id="sec-5-13"><span class="section-number-3">5.13</span> <code>align-repeat</code></h3>
+<div id="outline-container-orgheadline50" class="outline-3">
+<h3 id="orgheadline50"><span class="section-number-3">5.13</span> <code>align-repeat</code></h3>
 <div class="outline-text-3" id="text-5-13">
 <div class="org-src-container">
 
@@ -1176,11 +1184,11 @@ I stole this from <a href="http://stackoverflow.com/a/145359">http://stackoverfl
 </div>
 </div>
 
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> Text editing</h2>
+<div id="outline-container-orgheadline54" class="outline-2">
+<h2 id="orgheadline54"><span class="section-number-2">6</span> Text editing</h2>
 <div class="outline-text-2" id="text-6">
-</div><div id="outline-container-sec-6-1" class="outline-3">
-<h3 id="sec-6-1"><span class="section-number-3">6.1</span> General options</h3>
+</div><div id="outline-container-orgheadline52" class="outline-3">
+<h3 id="orgheadline52"><span class="section-number-3">6.1</span> General options</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 Sentences should only have a single space at the end.
@@ -1193,8 +1201,8 @@ Sentences should only have a single space at the end.
 </div>
 </div>
 </div>
-<div id="outline-container-sec-6-2" class="outline-3">
-<h3 id="sec-6-2"><span class="section-number-3">6.2</span> Spellcheck</h3>
+<div id="outline-container-orgheadline53" class="outline-3">
+<h3 id="orgheadline53"><span class="section-number-3">6.2</span> Spellcheck</h3>
 <div class="outline-text-3" id="text-6-2">
 <div class="org-src-container">
 
@@ -1205,11 +1213,11 @@ Sentences should only have a single space at the end.
 </div>
 </div>
 
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7"><span class="section-number-2">7</span> Diary and calendar</h2>
+<div id="outline-container-orgheadline57" class="outline-2">
+<h2 id="orgheadline57"><span class="section-number-2">7</span> Diary and calendar</h2>
 <div class="outline-text-2" id="text-7">
-</div><div id="outline-container-sec-7-1" class="outline-3">
-<h3 id="sec-7-1"><span class="section-number-3">7.1</span> Diary</h3>
+</div><div id="outline-container-orgheadline55" class="outline-3">
+<h3 id="orgheadline55"><span class="section-number-3">7.1</span> Diary</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 My diary is at <code>~/diary/main.txt</code>, and anything in the <code>/diary/</code> directory is also diary-related.
@@ -1224,8 +1232,8 @@ My diary is at <code>~/diary/main.txt</code>, and anything in the <code>/diary/<
 </div>
 </div>
 
-<div id="outline-container-sec-7-2" class="outline-3">
-<h3 id="sec-7-2"><span class="section-number-3">7.2</span> General settings</h3>
+<div id="outline-container-orgheadline56" class="outline-3">
+<h3 id="orgheadline56"><span class="section-number-3">7.2</span> General settings</h3>
 <div class="outline-text-3" id="text-7-2">
 <div class="org-src-container">
 
@@ -1240,11 +1248,11 @@ My diary is at <code>~/diary/main.txt</code>, and anything in the <code>/diary/<
 </div>
 </div>
 
-<div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8"><span class="section-number-2">8</span> Org</h2>
+<div id="outline-container-orgheadline89" class="outline-2">
+<h2 id="orgheadline89"><span class="section-number-2">8</span> Org</h2>
 <div class="outline-text-2" id="text-8">
-</div><div id="outline-container-sec-8-1" class="outline-3">
-<h3 id="sec-8-1"><span class="section-number-3">8.1</span> Modules</h3>
+</div><div id="outline-container-orgheadline58" class="outline-3">
+<h3 id="orgheadline58"><span class="section-number-3">8.1</span> Modules</h3>
 <div class="outline-text-3" id="text-8-1">
 <div class="org-src-container">
 
@@ -1276,8 +1284,8 @@ We require the mighty org-babel module.
 </div>
 </div>
 
-<div id="outline-container-sec-8-2" class="outline-3">
-<h3 id="sec-8-2"><span class="section-number-3">8.2</span> General settings</h3>
+<div id="outline-container-orgheadline61" class="outline-3">
+<h3 id="orgheadline61"><span class="section-number-3">8.2</span> General settings</h3>
 <div class="outline-text-3" id="text-8-2">
 <p>
 These are a few miscellaneous settings to make things work how I like them.
@@ -1309,8 +1317,8 @@ These are a few miscellaneous settings to make things work how I like them.
 </div>
 </div>
 
-<div id="outline-container-sec-8-2-1" class="outline-4">
-<h4 id="sec-8-2-1"><span class="section-number-4">8.2.1</span> Comments</h4>
+<div id="outline-container-orgheadline59" class="outline-4">
+<h4 id="orgheadline59"><span class="section-number-4">8.2.1</span> Comments</h4>
 <div class="outline-text-4" id="text-8-2-1">
 <div class="org-src-container">
 
@@ -1321,12 +1329,12 @@ These are a few miscellaneous settings to make things work how I like them.
 </div>
 
 
-<div id="outline-container-sec-8-2-2" class="outline-4">
-<h4 id="sec-8-2-2"><span class="section-number-4">8.2.2</span> Faces</h4>
+<div id="outline-container-orgheadline60" class="outline-4">
+<h4 id="orgheadline60"><span class="section-number-4">8.2.2</span> Faces</h4>
 <div class="outline-text-4" id="text-8-2-2">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">eval-after-load</span> 'org-faces
+<pre class="src src-emacs-lisp">(eval-after-load 'org-faces
  '(<span style="color: #0000FF;">progn</span>
     (<span style="color: #0000FF;">defcustom</span> <span style="color: #BA36A5;">org-todo-keyword-faces</span> nil
       <span style="color: #036A07;">"Faces for specific TODO keywords.</span>
@@ -1341,7 +1349,7 @@ These are a few miscellaneous settings to make things work how I like them.
                (string <span style="color: #006FE0;">:tag</span> <span style="color: #008000;">"Keyword"</span>)
                (choice color (sexp <span style="color: #006FE0;">:tag</span> <span style="color: #008000;">"Face"</span>)))))))
 
-(<span style="color: #0000FF;">eval-after-load</span> 'org
+(eval-after-load 'org
  '(<span style="color: #0000FF;">progn</span>
     (<span style="color: #0000FF;">defun</span> <span style="color: #006699;">org-get-todo-face-from-color</span> (color)
       <span style="color: #036A07;">"Returns a specification for a face that inherits from org-todo</span>
@@ -1380,16 +1388,16 @@ Now the actual settings:
 </div>
 </div>
 
-<div id="outline-container-sec-8-3" class="outline-3">
-<h3 id="sec-8-3"><span class="section-number-3">8.3</span> Functions</h3>
+<div id="outline-container-orgheadline68" class="outline-3">
+<h3 id="orgheadline68"><span class="section-number-3">8.3</span> Functions</h3>
 <div class="outline-text-3" id="text-8-3">
 <p>
 Many of these functions are taken from <a href="http://orgmode.org/worg/index.html">Worg</a>.
 </p>
 </div>
 
-<div id="outline-container-sec-8-3-1" class="outline-4">
-<h4 id="sec-8-3-1"><span class="section-number-4">8.3.1</span> Fix broken schedule/deadline markup</h4>
+<div id="outline-container-orgheadline62" class="outline-4">
+<h4 id="orgheadline62"><span class="section-number-4">8.3.1</span> Fix broken schedule/deadline markup</h4>
 <div class="outline-text-4" id="text-8-3-1">
 <p>
 This will repair broken SCHEDULED and DEADLINE markup.
@@ -1418,12 +1426,12 @@ This will repair broken SCHEDULED and DEADLINE markup.
 </div>
 </div>
 
-<div id="outline-container-sec-8-3-2" class="outline-4">
-<h4 id="sec-8-3-2"><span class="section-number-4">8.3.2</span> Mark a headline done when all its checkboxes are checked</h4>
+<div id="outline-container-orgheadline63" class="outline-4">
+<h4 id="orgheadline63"><span class="section-number-4">8.3.2</span> Mark a headline done when all its checkboxes are checked</h4>
 <div class="outline-text-4" id="text-8-3-2">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">eval-after-load</span> 'org-list
+<pre class="src src-emacs-lisp">(eval-after-load 'org-list
   '(add-hook 'org-checkbox-statistics-hook (function brettw/checkbox-list-complete)))
 
 (<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/checkbox-list-complete</span> ()
@@ -1436,7 +1444,7 @@ This will repair broken SCHEDULED and DEADLINE markup.
       (<span style="color: #0000FF;">if</span> (re-search-forward <span style="color: #008000;">"\\[</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">(</span><span style="color: #008000;">[0-9]*%</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">)</span><span style="color: #008000;">\\]</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">|</span><span style="color: #008000;">\\[</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">(</span><span style="color: #008000;">[0-9]*</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">)</span><span style="color: #008000;">/</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">(</span><span style="color: #008000;">[0-9]*</span><span style="color: #008000; font-weight: bold;">\\</span><span style="color: #008000; font-weight: bold;">)</span><span style="color: #008000;">\\]"</span> end t)
             (<span style="color: #0000FF;">if</span> (match-end 1)
                 (<span style="color: #0000FF;">if</span> (equal (match-string 1) <span style="color: #008000;">"100%"</span>)
-                    <span style="color: #8D8D84; font-style: italic;">;; </span><span style="color: #8D8D84; font-style: italic;">all done - do the state change</span>
+                    <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">all done - do the state change</span>
                     (org-todo 'done)
                   (org-todo 'todo))
               (<span style="color: #0000FF;">if</span> (and (&gt; (match-end 2) (match-beginning 2))
@@ -1448,8 +1456,8 @@ This will repair broken SCHEDULED and DEADLINE markup.
 </div>
 </div>
 
-<div id="outline-container-sec-8-3-3" class="outline-4">
-<h4 id="sec-8-3-3"><span class="section-number-4">8.3.3</span> Jump to journal</h4>
+<div id="outline-container-orgheadline64" class="outline-4">
+<h4 id="orgheadline64"><span class="section-number-4">8.3.3</span> Jump to journal</h4>
 <div class="outline-text-4" id="text-8-3-3">
 <div class="org-src-container">
 
@@ -1462,8 +1470,8 @@ This will repair broken SCHEDULED and DEADLINE markup.
 </div>
 </div>
 
-<div id="outline-container-sec-8-3-4" class="outline-4">
-<h4 id="sec-8-3-4"><span class="section-number-4">8.3.4</span> Evaluate time range</h4>
+<div id="outline-container-orgheadline65" class="outline-4">
+<h4 id="orgheadline65"><span class="section-number-4">8.3.4</span> Evaluate time range</h4>
 <div class="outline-text-4" id="text-8-3-4">
 <div class="org-src-container">
 
@@ -1487,8 +1495,8 @@ This will repair broken SCHEDULED and DEADLINE markup.
 </div>
 </div>
 
-<div id="outline-container-sec-8-3-5" class="outline-4">
-<h4 id="sec-8-3-5"><span class="section-number-4">8.3.5</span> Recalculate Effort properties</h4>
+<div id="outline-container-orgheadline66" class="outline-4">
+<h4 id="orgheadline66"><span class="section-number-4">8.3.5</span> Recalculate Effort properties</h4>
 <div class="outline-text-4" id="text-8-3-5">
 <div class="org-src-container">
 
@@ -1510,8 +1518,8 @@ This will repair broken SCHEDULED and DEADLINE markup.
 </div>
 </div>
 
-<div id="outline-container-sec-8-3-6" class="outline-4">
-<h4 id="sec-8-3-6"><span class="section-number-4">8.3.6</span> <code>capture-report-date-file</code></h4>
+<div id="outline-container-orgheadline67" class="outline-4">
+<h4 id="orgheadline67"><span class="section-number-4">8.3.6</span> <code>capture-report-date-file</code></h4>
 <div class="outline-text-4" id="text-8-3-6">
 <div class="org-src-container">
 
@@ -1524,8 +1532,8 @@ This will repair broken SCHEDULED and DEADLINE markup.
 </div>
 </div>
 
-<div id="outline-container-sec-8-4" class="outline-3">
-<h3 id="sec-8-4"><span class="section-number-3">8.4</span> Files and directories</h3>
+<div id="outline-container-orgheadline69" class="outline-3">
+<h3 id="orgheadline69"><span class="section-number-3">8.4</span> Files and directories</h3>
 <div class="outline-text-3" id="text-8-4">
 <p>
 We typically work out of the <code>~/org/</code> directory for the universal stuff.
@@ -1542,8 +1550,8 @@ We typically work out of the <code>~/org/</code> directory for the universal stu
 </div>
 </div>
 
-<div id="outline-container-sec-8-5" class="outline-3">
-<h3 id="sec-8-5"><span class="section-number-3">8.5</span> Global keyboard shortcuts</h3>
+<div id="outline-container-orgheadline70" class="outline-3">
+<h3 id="orgheadline70"><span class="section-number-3">8.5</span> Global keyboard shortcuts</h3>
 <div class="outline-text-3" id="text-8-5">
 <p>
 So <code>org-mode</code> can be accessed from anywhere!
@@ -1561,11 +1569,11 @@ So <code>org-mode</code> can be accessed from anywhere!
 </div>
 </div>
 
-<div id="outline-container-sec-8-6" class="outline-3">
-<h3 id="sec-8-6"><span class="section-number-3">8.6</span> Babel</h3>
+<div id="outline-container-orgheadline73" class="outline-3">
+<h3 id="orgheadline73"><span class="section-number-3">8.6</span> Babel</h3>
 <div class="outline-text-3" id="text-8-6">
-</div><div id="outline-container-sec-8-6-1" class="outline-4">
-<h4 id="sec-8-6-1"><span class="section-number-4">8.6.1</span> Languages</h4>
+</div><div id="outline-container-orgheadline71" class="outline-4">
+<h4 id="orgheadline71"><span class="section-number-4">8.6.1</span> Languages</h4>
 <div class="outline-text-4" id="text-8-6-1">
 <p>
 We'll usually only work on my favourite languages.
@@ -1589,8 +1597,8 @@ We'll usually only work on my favourite languages.
 </div>
 </div>
 
-<div id="outline-container-sec-8-6-2" class="outline-4">
-<h4 id="sec-8-6-2"><span class="section-number-4">8.6.2</span> Settings</h4>
+<div id="outline-container-orgheadline72" class="outline-4">
+<h4 id="orgheadline72"><span class="section-number-4">8.6.2</span> Settings</h4>
 <div class="outline-text-4" id="text-8-6-2">
 <p>
 I'd prefer zero indentation.
@@ -1615,11 +1623,11 @@ I also like to live dangerously (don't ask me if I want to evaluate org-babel co
 </div>
 </div>
 
-<div id="outline-container-sec-8-7" class="outline-3">
-<h3 id="sec-8-7"><span class="section-number-3">8.7</span> Hyperlinks</h3>
+<div id="outline-container-orgheadline77" class="outline-3">
+<h3 id="orgheadline77"><span class="section-number-3">8.7</span> Hyperlinks</h3>
 <div class="outline-text-3" id="text-8-7">
-</div><div id="outline-container-sec-8-7-1" class="outline-4">
-<h4 id="sec-8-7-1"><span class="section-number-4">8.7.1</span> Settings</h4>
+</div><div id="outline-container-orgheadline74" class="outline-4">
+<h4 id="orgheadline74"><span class="section-number-4">8.7.1</span> Settings</h4>
 <div class="outline-text-4" id="text-8-7-1">
 <div class="org-src-container">
 
@@ -1637,10 +1645,42 @@ I also like to live dangerously (don't ask me if I want to evaluate org-babel co
 </div>
 </div>
 
-<div id="outline-container-sec-8-7-2" class="outline-4">
-<h4 id="sec-8-7-2"><a id="ID-23a1353e-326a-49d3-93d3-8f2a127d5871" name="ID-23a1353e-326a-49d3-93d3-8f2a127d5871"></a><span class="section-number-4">8.7.2</span> Quicklinks</h4>
+<div id="outline-container-orgheadline75" class="outline-4">
+<h4 id="orgheadline75"><span class="section-number-4">8.7.2</span> Youtube</h4>
 <div class="outline-text-4" id="text-8-7-2">
+<p>
+Taken from Endless Parentheses:
+</p>
+<div class="org-src-container">
 
+<pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defvar</span> <span style="color: #BA36A5;">youtube-iframe-format</span>
+  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">You may want to change your width and height.</span>
+  (concat <span style="color: #008000;">"&lt;iframe width=\"440\""</span>
+          <span style="color: #008000;">" height=\"335\""</span>
+          <span style="color: #008000;">" src=\"https://www.youtube.com/embed/%s\""</span>
+          <span style="color: #008000;">" frameborder=\"0\""</span>
+          <span style="color: #008000;">" allowfullscreen&gt;%s&lt;/iframe&gt;"</span>))
+
+(org-add-link-type
+ <span style="color: #008000;">"youtube"</span>
+ (<span style="color: #0000FF;">lambda</span> (handle)
+   (browse-url
+    (concat <span style="color: #008000;">"https://www.youtube.com/embed/"</span>
+            handle)))
+ (<span style="color: #0000FF;">lambda</span> (path desc backend)
+   (<span style="color: #0000FF;">cl-case</span> backend
+     (html (format youtube-iframe-format
+                   path (or desc <span style="color: #008000;">""</span>)))
+     (latex (format <span style="color: #008000;">"\href{%s}{%s}"</span>
+                    path (or desc <span style="color: #008000;">"video"</span>))))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline76" class="outline-4">
+<h4 id="orgheadline76"><span class="section-number-4">8.7.3</span> Quicklinks</h4>
+<div class="outline-text-4" id="text-8-7-3">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq org-link-abbrev-alist
@@ -1655,23 +1695,23 @@ I also like to live dangerously (don't ask me if I want to evaluate org-babel co
 </div>
 </div>
 
-<div id="outline-container-sec-8-8" class="outline-3">
-<h3 id="sec-8-8"><span class="section-number-3">8.8</span> Contacts</h3>
+<div id="outline-container-orgheadline78" class="outline-3">
+<h3 id="orgheadline78"><span class="section-number-3">8.8</span> Contacts</h3>
 <div class="outline-text-3" id="text-8-8">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span style="color: #8D8D84; font-style: italic;">;  </span><span style="color: #8D8D84; font-style: italic;">(require 'org-contacts)</span>
-<span style="color: #8D8D84; font-style: italic;">;  </span><span style="color: #8D8D84; font-style: italic;">(add-to-list 'org-contacts-files (expand-file-name "~/org/contacts.org"))</span>
+<pre class="src src-emacs-lisp"><span style="color: #8D8D84;">;  </span><span style="color: #8D8D84; font-style: italic;">(require 'org-contacts)</span>
+<span style="color: #8D8D84;">;  </span><span style="color: #8D8D84; font-style: italic;">(add-to-list 'org-contacts-files (expand-file-name "~/org/contacts.org"))</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-8-9" class="outline-3">
-<h3 id="sec-8-9"><span class="section-number-3">8.9</span> Agenda</h3>
+<div id="outline-container-orgheadline81" class="outline-3">
+<h3 id="orgheadline81"><span class="section-number-3">8.9</span> Agenda</h3>
 <div class="outline-text-3" id="text-8-9">
-</div><div id="outline-container-sec-8-9-1" class="outline-4">
-<h4 id="sec-8-9-1"><span class="section-number-4">8.9.1</span> Settings</h4>
+</div><div id="outline-container-orgheadline79" class="outline-4">
+<h4 id="orgheadline79"><span class="section-number-4">8.9.1</span> Settings</h4>
 <div class="outline-text-4" id="text-8-9-1">
 <div class="org-src-container">
 
@@ -1686,8 +1726,8 @@ I also like to live dangerously (don't ask me if I want to evaluate org-babel co
 </div>
 </div>
 
-<div id="outline-container-sec-8-9-2" class="outline-4">
-<h4 id="sec-8-9-2"><span class="section-number-4">8.9.2</span> On load up</h4>
+<div id="outline-container-orgheadline80" class="outline-4">
+<h4 id="orgheadline80"><span class="section-number-4">8.9.2</span> On load up</h4>
 <div class="outline-text-4" id="text-8-9-2">
 <p>
 Show the agenda straight after Emacs initialization.
@@ -1695,19 +1735,19 @@ Show the agenda straight after Emacs initialization.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp"><span style="color: #8D8D84; font-style: italic;">;</span><span style="color: #8D8D84; font-style: italic;">(add-hook 'after-init-hook 'org-agenda-to-appt)</span>
-<span style="color: #8D8D84; font-style: italic;">;</span><span style="color: #8D8D84; font-style: italic;">(add-hook 'after-init-hook 'org-agenda-list)</span>
+<pre class="src src-emacs-lisp"><span style="color: #8D8D84;">;</span><span style="color: #8D8D84; font-style: italic;">(add-hook 'after-init-hook 'org-agenda-to-appt)</span>
+<span style="color: #8D8D84;">;</span><span style="color: #8D8D84; font-style: italic;">(add-hook 'after-init-hook 'org-agenda-list)</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-8-10" class="outline-3">
-<h3 id="sec-8-10"><span class="section-number-3">8.10</span> To-do</h3>
+<div id="outline-container-orgheadline83" class="outline-3">
+<h3 id="orgheadline83"><span class="section-number-3">8.10</span> To-do</h3>
 <div class="outline-text-3" id="text-8-10">
-</div><div id="outline-container-sec-8-10-1" class="outline-4">
-<h4 id="sec-8-10-1"><span class="section-number-4">8.10.1</span> Settings</h4>
+</div><div id="outline-container-orgheadline82" class="outline-4">
+<h4 id="orgheadline82"><span class="section-number-4">8.10.1</span> Settings</h4>
 <div class="outline-text-4" id="text-8-10-1">
 <div class="org-src-container">
 
@@ -1726,8 +1766,8 @@ Show the agenda straight after Emacs initialization.
 </div>
 </div>
 
-<div id="outline-container-sec-8-11" class="outline-3">
-<h3 id="sec-8-11"><span class="section-number-3">8.11</span> Refile</h3>
+<div id="outline-container-orgheadline84" class="outline-3">
+<h3 id="orgheadline84"><span class="section-number-3">8.11</span> Refile</h3>
 <div class="outline-text-3" id="text-8-11">
 <p>
 Basic settings
@@ -1750,8 +1790,8 @@ Our slightly complicated refile targets
 </div>
 </div>
 
-<div id="outline-container-sec-8-12" class="outline-3">
-<h3 id="sec-8-12"><span class="section-number-3">8.12</span> <code>org2blog</code></h3>
+<div id="outline-container-orgheadline86" class="outline-3">
+<h3 id="orgheadline86"><span class="section-number-3">8.12</span> <code>org2blog</code></h3>
 <div class="outline-text-3" id="text-8-12">
 <p>
 Make sure we autoload the required stuff.
@@ -1764,8 +1804,8 @@ Make sure we autoload the required stuff.
 </div>
 </div>
 
-<div id="outline-container-sec-8-12-1" class="outline-4">
-<h4 id="sec-8-12-1"><span class="section-number-4">8.12.1</span> Customization</h4>
+<div id="outline-container-orgheadline85" class="outline-4">
+<h4 id="orgheadline85"><span class="section-number-4">8.12.1</span> Customization</h4>
 <div class="outline-text-4" id="text-8-12-1">
 <p>
 We want to make sure before we post anything.
@@ -1798,8 +1838,8 @@ Set the source code syntax.
 </div>
 </div>
 
-<div id="outline-container-sec-8-13" class="outline-3">
-<h3 id="sec-8-13"><span class="section-number-3">8.13</span> Capture</h3>
+<div id="outline-container-orgheadline87" class="outline-3">
+<h3 id="orgheadline87"><span class="section-number-3">8.13</span> Capture</h3>
 <div class="outline-text-3" id="text-8-13">
 <p>
 I capture bugs, todo and dev journal entries for my main project.
@@ -1826,8 +1866,8 @@ I capture bugs, todo and dev journal entries for my main project.
 </div>
 </div>
 
-<div id="outline-container-sec-8-14" class="outline-3">
-<h3 id="sec-8-14"><span class="section-number-3">8.14</span> Hooks</h3>
+<div id="outline-container-orgheadline88" class="outline-3">
+<h3 id="orgheadline88"><span class="section-number-3">8.14</span> Hooks</h3>
 <div class="outline-text-3" id="text-8-14">
 <div class="org-src-container">
 
@@ -1839,7 +1879,7 @@ I capture bugs, todo and dev journal entries for my main project.
 
 (add-hook 'org-mode-hook 'brettw/my-org-mode-hook)
 
-(<span style="color: #0000FF;">eval-after-load</span> 'org-list
+(eval-after-load 'org-list
   '(add-hook 'org-checkbox-statistics-hook (function brettw/checkbox-list-complete)))
 </pre>
 </div>
@@ -1847,14 +1887,14 @@ I capture bugs, todo and dev journal entries for my main project.
 </div>
 </div>
 
-<div id="outline-container-sec-9" class="outline-2">
-<h2 id="sec-9"><span class="section-number-2">9</span> Programming</h2>
+<div id="outline-container-orgheadline108" class="outline-2">
+<h2 id="orgheadline108"><span class="section-number-2">9</span> Programming</h2>
 <div class="outline-text-2" id="text-9">
-</div><div id="outline-container-sec-9-1" class="outline-3">
-<h3 id="sec-9-1"><span class="section-number-3">9.1</span> General options</h3>
+</div><div id="outline-container-orgheadline94" class="outline-3">
+<h3 id="orgheadline94"><span class="section-number-3">9.1</span> General options</h3>
 <div class="outline-text-3" id="text-9-1">
-</div><div id="outline-container-sec-9-1-1" class="outline-4">
-<h4 id="sec-9-1-1"><span class="section-number-4">9.1.1</span> Company mode</h4>
+</div><div id="outline-container-orgheadline90" class="outline-4">
+<h4 id="orgheadline90"><span class="section-number-4">9.1.1</span> Company mode</h4>
 <div class="outline-text-4" id="text-9-1-1">
 <p>
 Maybe company mode is less fiddly than CEDET.
@@ -1894,8 +1934,8 @@ Maybe company mode is less fiddly than CEDET.
 </div>
 
 
-<div id="outline-container-sec-9-1-2" class="outline-4">
-<h4 id="sec-9-1-2"><span class="section-number-4">9.1.2</span> Tabs and indents</h4>
+<div id="outline-container-orgheadline91" class="outline-4">
+<h4 id="orgheadline91"><span class="section-number-4">9.1.2</span> Tabs and indents</h4>
 <div class="outline-text-4" id="text-9-1-2">
 <p>
 Tab width is always, always, always 4, and indents are only spaces.
@@ -1910,8 +1950,8 @@ Tab width is always, always, always 4, and indents are only spaces.
 </div>
 </div>
 
-<div id="outline-container-sec-9-1-3" class="outline-4">
-<h4 id="sec-9-1-3"><span class="section-number-4">9.1.3</span> Compilation</h4>
+<div id="outline-container-orgheadline92" class="outline-4">
+<h4 id="orgheadline92"><span class="section-number-4">9.1.3</span> Compilation</h4>
 <div class="outline-text-4" id="text-9-1-3">
 <p>
 When a compile finishes correctly, we automatically close the compilation window.
@@ -1920,7 +1960,7 @@ When a compile finishes correctly, we automatically close the compilation window
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">compilation-exit-autoclose</span> (status code msg)
-  <span style="color: #8D8D84; font-style: italic;">;; </span><span style="color: #8D8D84; font-style: italic;">If M-x compile exists with a 0</span>
+  <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">If M-x compile exists with a 0</span>
   (<span style="color: #0000FF;">when</span> (and (eq status 'exit) (zerop code))
     (bury-buffer)
     (delete-window (get-buffer-window (get-buffer <span style="color: #008000;">"*compilation*"</span>))))
@@ -1934,8 +1974,8 @@ When a compile finishes correctly, we automatically close the compilation window
 </div>
 </div>
 
-<div id="outline-container-sec-9-1-4" class="outline-4">
-<h4 id="sec-9-1-4"><span class="section-number-4">9.1.4</span> Keys</h4>
+<div id="outline-container-orgheadline93" class="outline-4">
+<h4 id="orgheadline93"><span class="section-number-4">9.1.4</span> Keys</h4>
 <div class="outline-text-4" id="text-9-1-4">
 <div class="org-src-container">
 
@@ -1952,8 +1992,8 @@ When a compile finishes correctly, we automatically close the compilation window
 </div>
 </div>
 
-<div id="outline-container-sec-9-2" class="outline-3">
-<h3 id="sec-9-2"><span class="section-number-3">9.2</span> LaTeX</h3>
+<div id="outline-container-orgheadline95" class="outline-3">
+<h3 id="orgheadline95"><span class="section-number-3">9.2</span> LaTeX</h3>
 <div class="outline-text-3" id="text-9-2">
 <div class="org-src-container">
 
@@ -1964,11 +2004,11 @@ When a compile finishes correctly, we automatically close the compilation window
 </div>
 </div>
 
-<div id="outline-container-sec-9-3" class="outline-3">
-<h3 id="sec-9-3"><span class="section-number-3">9.3</span> Lisp</h3>
+<div id="outline-container-orgheadline96" class="outline-3">
+<h3 id="orgheadline96"><span class="section-number-3">9.3</span> Lisp</h3>
 </div>
-<div id="outline-container-sec-9-4" class="outline-3">
-<h3 id="sec-9-4"><span class="section-number-3">9.4</span> HTML</h3>
+<div id="outline-container-orgheadline97" class="outline-3">
+<h3 id="orgheadline97"><span class="section-number-3">9.4</span> HTML</h3>
 <div class="outline-text-3" id="text-9-4">
 <div class="org-src-container">
 
@@ -1985,11 +2025,11 @@ When a compile finishes correctly, we automatically close the compilation window
 </div>
 </div>
 
-<div id="outline-container-sec-9-5" class="outline-3">
-<h3 id="sec-9-5"><span class="section-number-3">9.5</span> Python</h3>
+<div id="outline-container-orgheadline100" class="outline-3">
+<h3 id="orgheadline100"><span class="section-number-3">9.5</span> Python</h3>
 <div class="outline-text-3" id="text-9-5">
-</div><div id="outline-container-sec-9-5-1" class="outline-4">
-<h4 id="sec-9-5-1"><span class="section-number-4">9.5.1</span> Filenames</h4>
+</div><div id="outline-container-orgheadline98" class="outline-4">
+<h4 id="orgheadline98"><span class="section-number-4">9.5.1</span> Filenames</h4>
 <div class="outline-text-4" id="text-9-5-1">
 <p>
 Use python mode for SCons files.
@@ -2004,8 +2044,8 @@ Use python mode for SCons files.
 </div>
 </div>
 
-<div id="outline-container-sec-9-5-2" class="outline-4">
-<h4 id="sec-9-5-2"><span class="section-number-4">9.5.2</span> Hook</h4>
+<div id="outline-container-orgheadline99" class="outline-4">
+<h4 id="orgheadline99"><span class="section-number-4">9.5.2</span> Hook</h4>
 <div class="outline-text-4" id="text-9-5-2">
 <p>
 When we "compile" in Python, we typically mean to invoke SCons (because we are usually editing SCons files!)
@@ -2029,11 +2069,11 @@ When we "compile" in Python, we typically mean to invoke SCons (because we are u
 </div>
 </div>
 
-<div id="outline-container-sec-9-6" class="outline-3">
-<h3 id="sec-9-6"><span class="section-number-3">9.6</span> C++</h3>
+<div id="outline-container-orgheadline104" class="outline-3">
+<h3 id="orgheadline104"><span class="section-number-3">9.6</span> C++</h3>
 <div class="outline-text-3" id="text-9-6">
-</div><div id="outline-container-sec-9-6-1" class="outline-4">
-<h4 id="sec-9-6-1"><span class="section-number-4">9.6.1</span> Filenames</h4>
+</div><div id="outline-container-orgheadline101" class="outline-4">
+<h4 id="orgheadline101"><span class="section-number-4">9.6.1</span> Filenames</h4>
 <div class="outline-text-4" id="text-9-6-1">
 <p>
 CUDA is C++, so make Emacs aware of it.
@@ -2048,8 +2088,8 @@ CUDA is C++, so make Emacs aware of it.
 </div>
 </div>
 
-<div id="outline-container-sec-9-6-2" class="outline-4">
-<h4 id="sec-9-6-2"><span class="section-number-4">9.6.2</span> Style</h4>
+<div id="outline-container-orgheadline102" class="outline-4">
+<h4 id="orgheadline102"><span class="section-number-4">9.6.2</span> Style</h4>
 <div class="outline-text-4" id="text-9-6-2">
 <p>
 This is my C/C++ style.
@@ -2087,8 +2127,8 @@ This is my C/C++ style.
 </div>
 </div>
 
-<div id="outline-container-sec-9-6-3" class="outline-4">
-<h4 id="sec-9-6-3"><span class="section-number-4">9.6.3</span> Hooks</h4>
+<div id="outline-container-orgheadline103" class="outline-4">
+<h4 id="orgheadline103"><span class="section-number-4">9.6.3</span> Hooks</h4>
 <div class="outline-text-4" id="text-9-6-3">
 <p>
 Set a bunch of my defaults.
@@ -2097,7 +2137,7 @@ Set a bunch of my defaults.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(<span style="color: #0000FF;">defun</span> <span style="color: #006699;">brettw/my-c-mode-common-hook</span> ()
-  <span style="color: #8D8D84; font-style: italic;">;</span><span style="color: #8D8D84; font-style: italic;">(global-set-key (kbd "&lt;M-return&gt;") 'semantic-ia-complete-symbol)</span>
+  <span style="color: #8D8D84;">;</span><span style="color: #8D8D84; font-style: italic;">(global-set-key (kbd "&lt;M-return&gt;") 'semantic-ia-complete-symbol)</span>
   (c-set-style <span style="color: #008000;">"brettw"</span>)
   (setq compile-command <span style="color: #008000;">"scons.py -D"</span>)
   )
@@ -2110,8 +2150,8 @@ Set a bunch of my defaults.
 </div>
 </div>
 
-<div id="outline-container-sec-9-7" class="outline-3">
-<h3 id="sec-9-7"><span class="section-number-3">9.7</span> Projects</h3>
+<div id="outline-container-orgheadline105" class="outline-3">
+<h3 id="orgheadline105"><span class="section-number-3">9.7</span> Projects</h3>
 <div class="outline-text-3" id="text-9-7">
 <p>
 I put project-specific settings here (especially <code>semantic-add-system-include</code> settings)
@@ -2119,8 +2159,8 @@ I put project-specific settings here (especially <code>semantic-add-system-inclu
 </div>
 </div>
 
-<div id="outline-container-sec-9-8" class="outline-3">
-<h3 id="sec-9-8"><span class="section-number-3">9.8</span> Octave</h3>
+<div id="outline-container-orgheadline106" class="outline-3">
+<h3 id="orgheadline106"><span class="section-number-3">9.8</span> Octave</h3>
 <div class="outline-text-3" id="text-9-8">
 <div class="org-src-container">
 
@@ -2130,8 +2170,8 @@ I put project-specific settings here (especially <code>semantic-add-system-inclu
 </div>
 </div>
 
-<div id="outline-container-sec-9-9" class="outline-3">
-<h3 id="sec-9-9"><span class="section-number-3">9.9</span> The Day After</h3>
+<div id="outline-container-orgheadline107" class="outline-3">
+<h3 id="orgheadline107"><span class="section-number-3">9.9</span> The Day After</h3>
 <div class="outline-text-3" id="text-9-9">
 <div class="org-src-container">
 
@@ -2142,11 +2182,11 @@ I put project-specific settings here (especially <code>semantic-add-system-inclu
 </div>
 </div>
 
-<div id="outline-container-sec-10" class="outline-2">
-<h2 id="sec-10"><span class="section-number-2">10</span> Utilities</h2>
+<div id="outline-container-orgheadline111" class="outline-2">
+<h2 id="orgheadline111"><span class="section-number-2">10</span> Utilities</h2>
 <div class="outline-text-2" id="text-10">
-</div><div id="outline-container-sec-10-1" class="outline-3">
-<h3 id="sec-10-1"><span class="section-number-3">10.1</span> Twitter</h3>
+</div><div id="outline-container-orgheadline109" class="outline-3">
+<h3 id="orgheadline109"><span class="section-number-3">10.1</span> Twitter</h3>
 <div class="outline-text-3" id="text-10-1">
 <p>
 <code>twittering-mode</code> is pretty awesome. That'll keep.
@@ -2164,8 +2204,8 @@ I put project-specific settings here (especially <code>semantic-add-system-inclu
 </div>
 
 
-<div id="outline-container-sec-10-2" class="outline-3">
-<h3 id="sec-10-2"><span class="section-number-3">10.2</span> Webjump</h3>
+<div id="outline-container-orgheadline110" class="outline-3">
+<h3 id="orgheadline110"><span class="section-number-3">10.2</span> Webjump</h3>
 <div class="outline-text-3" id="text-10-2">
 <p>
 Webjump is neat and gives us very quick access to search.
@@ -2203,8 +2243,7 @@ Webjump is neat and gives us very quick access to search.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Brett Witty</p>
-<p class="date">Created: 2015-03-29 Sun 20:48</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="date">Created: 2015-09-07 Mon 00:03</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
